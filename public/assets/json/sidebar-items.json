@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Menu",
+        "isTitle": true
+      },
+      {
+        "name": "Dashboard",
+        "route": "dashboard",
+        "icon": "grid-fill"
+      },
+      {
+          "name": "Multi-level Menu",
+          "icon": "three-dots",
+          "submenu": [
+            {
+              "name": "First Level",
+              "submenu": [
+                {
+                  "name": "Second Level",
+                  "route": "dashboard"
+                },
+                {
+                  "name": "Second Level Menu",
+                  "route": "dashboard"
+                }
+              ]
+            },
+            {
+              "name": "Another Menu",
+              "submenu": [
+                {
+                  "name": "Second Level Menu",
+                  "route": "dashboard"
+                }
+              ]
+            }
+          ]
+      }
+]
