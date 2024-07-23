@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_loker');
             $table->unsignedBigInteger('id_alumni');
             $table->string('file');
+            $table->enum('status', ['Menunggu Konfirmasi', 'Diterima', 'Ditolak'])->default('Menunggu Konfirmasi');
             $table->timestamps();
             $table->softDeletes();
 

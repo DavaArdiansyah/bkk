@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('alamat');
             $table->enum('jenis_waktu_pekerjaan', ['Waktu Kerja Standar (Full-Time)', 'Waktu Kerja Paruh Waktu (Part-Time)', 'Waktu Kerja Fleksibel (Flexible Hours)', 'Shift Kerja (Shift Work)', 'Waktu Kerja Bergilir (Rotating Shifts)', 'Waktu Kerja Jarak Jauh (Remote Work)', 'Waktu Kerja Kontrak (Contract Work)', 'Waktu Kerja Proyek (Project-Based Work)', 'Waktu Kerja Tidak Teratur (Irregular Hours)', 'Waktu Kerja Sementara (Temporary Work)']);
             $table->text('deskripsi');
-            $table->enum('status', ['Menunggu Konfirmasi', 'Dipublikasi', 'Ditolak']);
+            $table->enum('status', ['Menunggu Konfirmasi', 'Dipublikasi', 'Ditolak'])->default('Menunggu Konfirmasi');
             $table->timestamps();
             $table->softDeletes();
 

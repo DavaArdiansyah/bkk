@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('bidang_studi');
             $table->year('tahun_awal');
             $table->year('tahun_akhir');
-            $table->float('nilai');
-            $table->text('pengalaman_organisasi');
-            $table->text('deskripsi');
+            $table->float('nilai')->nullable();
+            $table->text('pengalaman_organisasi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
