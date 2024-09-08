@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pengguna', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['Admin', 'Perusahaan', 'Alumni']);
+        Schema::create('aktivitas_users', function (Blueprint $table) {
+            $table->id('id_aktivitas_users');
+            $table->string('username');
+            $table->string('keterangan');
             $table->timestamps();
-            $table->softDeletes();
+
+            $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengguna');
+        Schema::dropIfExists('aktivitas_users');
     }
 };

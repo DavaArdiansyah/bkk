@@ -11,21 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alumni', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('id_pengguna');
-            $table->string('nis')->unique();
+        Schema::create('data_alumni', function (Blueprint $table) {
+            $table->string('nik')->primary();
+            $table->string('username');
             $table->string('nama');
+            $table->enum('jenis_kelamin', ['Laki Laki', 'Perempuan']);
             $table->enum('jurusan', ['AK', 'BR', 'DKV', 'MLOG', 'MP', 'RPL', 'TKJ']);
             $table->year('tahun_lulus');
             $table->text('alamat')->nullable();
-            $table->text('keahlian')->nullable();
-            $table->string('foto')->nullable();
+            $table->string('kontak')->nullable();
+            $table->string('keahlian')->nullable();
+            $table->string('url_foto')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-
-            $table->foreign('id_pengguna')->references('id')->on('pengguna')->onDelete('cascade');
+            
+            $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alumni');
+        Schema::dropIfExists('data_alumni');
     }
 };
