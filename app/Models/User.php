@@ -48,11 +48,15 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function aktivitasUser () : HasMany {
-        return $this->hasMany(AktivitasUser::class);
+    public function aktivitas () : HasMany {
+        return $this->hasMany(Aktivitas::class);
     }
 
-    public function dataAlumni () : HasOne {
-        return $this->hasOne(DataAlumni::class);
+    public function alumni () : HasOne {
+        return $this->hasOne(Alumni::class);
+    }
+
+    public function perusahaan () : HasOne {
+        return $this->hasOne(Perusahaan::class);
     }
 }

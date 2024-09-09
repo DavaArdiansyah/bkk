@@ -21,9 +21,9 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('kontak')->nullable();
             $table->string('keahlian')->nullable();
-            $table->string('url_foto')->nullable();
+            $table->string('nama_file_foto')->nullable();
             $table->text('deskripsi')->nullable();
-            
+
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
