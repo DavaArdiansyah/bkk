@@ -13,7 +13,7 @@ class Kerja extends Model
     protected $table = 'pengalaman_kerja';
     protected $primaryKey = 'id_pengalaman_kerja';
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     public $timestamps = false;
     protected $guarded = [];
 

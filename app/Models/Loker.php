@@ -13,7 +13,7 @@ class Loker extends Model
     protected $table = 'lowongan_pekerjaan';
     protected $primaryKey = 'id_lowongan_pekerjaan';
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     const CREATED_AT = false;
     const UPDATED_AT = 'waktu';
     protected $guarded = [];

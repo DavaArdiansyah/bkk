@@ -13,7 +13,7 @@ class PendidikanNonFormal extends Model
     protected $table = 'riwayat_pendidikan_non_formal';
     protected $primaryKey = 'id_riwayat_pendidikan_non_formal';
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     public $timestamps = false;
     protected $guarded = [];
 

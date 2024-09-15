@@ -14,7 +14,7 @@ class Perusahaan extends Model
     protected $table = 'data_perusahaan';
     protected $primaryKey = 'id_data_perusahaan';
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     public $timestamps = false;
     protected $guarded = [];
 

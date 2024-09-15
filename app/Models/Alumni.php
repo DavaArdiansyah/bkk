@@ -14,7 +14,7 @@ class Alumni extends Model
     protected $table = 'data_alumni';
     protected $primaryKey = 'nik';
     protected $keyType = 'string';
-    protected $incrementing = false;
+    public $incrementing = false;
     public $timestamps = false;
     protected $guarded = [];
 
