@@ -14,7 +14,7 @@ class Loker extends Model
     protected $primaryKey = 'id_lowongan_pekerjaan';
     protected $keyType = 'string';
     public $incrementing = false;
-    const CREATED_AT = false;
+    const CREATED_AT = null;
     const UPDATED_AT = 'waktu';
     protected $guarded = [];
     protected $cast = [

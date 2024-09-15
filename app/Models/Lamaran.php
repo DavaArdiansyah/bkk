@@ -12,7 +12,7 @@ class Lamaran extends Model
 
     protected $table = 'lamaran';
     protected $primaryKey = 'id_lamaran';
-    const CREATED_AT = false;
+    const CREATED_AT = null;
     const UPDATED_AT = 'waktu';
     protected $guarded = [];
 

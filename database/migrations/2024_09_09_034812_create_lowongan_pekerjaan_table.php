@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('jabatan');
             $table->enum('jenis_waktu_pekerjaan', ['Waktu Kerja Standar (Full-Time)', 'Waktu Kerja Paruh Waktu (Part-Time)', 'Waktu Kerja Fleksibel (Flexible Hours)', 'Shift Kerja (Shift Work)', 'Waktu Kerja Bergilir (Rotating Shifts)', 'Waktu Kerja Jarak Jauh (Remote Work)', 'Waktu Kerja Kontrak (Contract Work)', 'Waktu Kerja Proyek (Project-Based Work)', 'Waktu Kerja Tidak Teratur (Irregular Hours)', 'Waktu Kerja Sementara (Temporary Work)']);
             $table->text('deskripsi');
-            $table->timestamps('tanggal_akhir');
+            $table->timestamp('tanggal_akhir');
             $table->enum('status', ['Tertunda', 'Dipublikasi', 'Tidak Dipublikasi'])->default('Tertunda');
-            $table->timestamps();
+            $table->timestamp('waktu');
 
             $table->foreign('id_data_perusahaan')->references('id_data_perusahaan')->on('data_perusahaan')->onUpdate('cascade');
         });

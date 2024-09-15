@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_lowongan_pekerjaan');
             $table->string('nik');
             $table->enum('status', ['Terkirim', 'Lolos Ketahap Selanjutnya', 'Diterima', 'Ditolak'])->default('Terkirim');
-            $table->timestamps();
+            $table->timestamp('waktu');
 
             $table->foreign('id_lowongan_pekerjaan')->references('id_lowongan_pekerjaan')->on('lowongan_pekerjaan')->onUpdate('cascade');
             $table->foreign('nik')->references('nik')->on('data_alumni')->onUpdate('cascade');

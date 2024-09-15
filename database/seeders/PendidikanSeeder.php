@@ -21,7 +21,7 @@ class PendidikanSeeder extends Seeder
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
             'tahun_awal' => 2019,
             'tahun_akhir' => 2022,
-            'Saya adalah lulusan covid-19',
+            'deskripsi' => 'Saya adalah lulusan covid-19',
         ]);
 
         PendidikanNonFormal::create([

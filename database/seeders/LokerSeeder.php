@@ -19,7 +19,7 @@ class LokerSeeder extends Seeder
             'jabatan' => 'Software Engineer',
             'jenis_waktu_pekerjaan' => 'Waktu Kerja Jarak Jauh (Remote Work)',
             'deskripsi' => 'Deskripsi software engineer',
-            'tanggal_akhir' => '2024-08-06 00:00:00',
+            'tanggal_akhir' => '2024-08-06',
             'status' => 'Dipublikasi',
         ]);
     }

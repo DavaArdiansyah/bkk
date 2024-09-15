@@ -12,7 +12,7 @@ class Aktivitas extends Model
     protected $table = 'aktivitas_users';
     protected $primaryKey = 'id_aktivitas_users';
     const CREATED_AT = 'waktu';
-    const UPDATED_AT = false;
+    const UPDATED_AT = null;
     protected $guarded = [];
 
     public function user () :BelongsTo {

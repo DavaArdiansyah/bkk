@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_aktivitas_users');
             $table->string('username');
             $table->string('keterangan');
-            $table->timestamps();
+            $table->timestamp('waktu');
 
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });

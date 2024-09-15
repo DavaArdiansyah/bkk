@@ -22,18 +22,19 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'username' => 'perusahaan@gmail.com',
+            'username' => 'perusahaan@mail.com',
             'password' => 'perusahaan',
             'role' => 'Perusahaan',
         ]);
 
         Perusahaan::create([
             'id_data_perusahaan' => 'P000001',
-            'username' => 'perusahaan@gmail.com',
+            'username' => 'perusahaan@mail.com',
             'nama' => 'Perusahaan',
             'bidang_usaha' => 'Bidang Teknologi, Informasi, dan Komunikasi',
             'no_telepon' => '123456789',
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
+            'nama_file_logo' => 'perusahaan.jpg',
             'status' => 'Aktif',
         ]);
 
@@ -45,7 +46,7 @@ class UserSeeder extends Seeder
 
         Alumni::create([
             'nik' => '2206510420',
-            'username' => 'dava123',
+            'username' => 'dava@mail.com',
             'nama' => 'Dava Ardiansyah Hidayat',
             'jurusan' => 'RPL',
             'jenis_kelamin' => 'Laki Laki',
