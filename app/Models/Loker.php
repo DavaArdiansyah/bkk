@@ -16,7 +16,7 @@ class Loker extends Model
     protected $incrementing = false;
     const CREATED_AT = false;
     const UPDATED_AT = 'waktu';
-    protected $guard = [];
+    protected $guarded = [];
     protected $cast = [
         'tanggal_akhir' => 'datetime',
     ];

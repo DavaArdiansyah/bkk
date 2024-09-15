@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string('id_riwayat_pendidikan_non_formal')->primary();
             $table->string('nik');
             $table->string('nama_lembaga');
-            $table->text('alamat');
             $table->string('nama_kursus');
+            $table->text('alamat');
             $table->date('tanggal');
 
             $table->foreign('nik')->references('nik')->on('data_alumni')->onDelete('cascade');

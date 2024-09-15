@@ -16,7 +16,7 @@ class Alumni extends Model
     protected $keyType = 'string';
     protected $incrementing = false;
     public $timestamps = false;
-    protected $guard = [];
+    protected $guarded = [];
 
     public function user () :BelongsTo {
         return $this->belongsTo(User::class, 'username');

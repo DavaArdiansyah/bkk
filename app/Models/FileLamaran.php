@@ -12,7 +12,7 @@ class FileLamaran extends Model
 
     protected $table = 'file_lamaran';
     public $timestamps = false;
-    protected $guard = [];
+    protected $guarded = [];
 
     public function lamaran () : BelongsTo {
         return $this->belongsTo(Lamaran::class, 'id_lamaran');

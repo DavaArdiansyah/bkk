@@ -15,7 +15,7 @@ class Kerja extends Model
     protected $keyType = 'string';
     protected $incrementing = false;
     public $timestamps = false;
-    protected $guard = [];
+    protected $guarded = [];
 
     public static function boot()
     {

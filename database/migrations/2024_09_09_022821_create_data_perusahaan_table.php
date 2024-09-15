@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('no_telepon');
             $table->text('alamat');
             $table->string('nama_file_logo');
-            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Tidak Aktif');
 
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
