@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::prefix('auth')->group(function () {
+    Route::get('login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
+    Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+});
+
 Route::get('/', function () {
-    return view('dashboard');
+    if (Auth::check()) {
+        return view('dashboard');
+    } return redirect()->route('login');
 })->name('dashboard');
