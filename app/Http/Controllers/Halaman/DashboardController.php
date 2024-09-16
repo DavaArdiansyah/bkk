@@ -19,6 +19,13 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
+    public function index(Request $request)
+    {
+        $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
+        $data = $this->admin($tahun);
+        return view('dashboard.admin', compact(['tahun', 'data']));
+    }
+
     public function admin($tahun)
     {
         $alumni = Alumni::all();
@@ -63,12 +70,5 @@ class DashboardController extends Controller
             'tidakKerja' => $tidakKerja,
             'chart' => $chart,
         ];
-    }
-
-    public function index(Request $request)
-    {
-        $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
-        $data = $this->admin($tahun);
-        return view('dashboard.admin', compact(['tahun', 'data']));
     }
 }

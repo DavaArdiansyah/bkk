@@ -33,4 +33,8 @@ class Alumni extends Model
     public function kerja () : HasMany {
         return $this->hasMany(Kerja::class);
     }
+
+    public function lamaran () : HasMany {
+        return $this->hasMany(Lamaran::class, 'nik');
+    }
 }

@@ -21,3 +21,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
+
+Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function () {
+    Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
+});

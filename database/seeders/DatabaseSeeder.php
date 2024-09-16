@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             PendidikanSeeder::class,
             KerjaSeeder::class,
             LokerSeeder::class,
+            LamaranSeeder::class,
             AktivitasSeeder::class
         ]);
     }
