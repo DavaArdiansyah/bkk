@@ -32,7 +32,7 @@ class PendidikanFormal extends Model
         });
     }
 
-    public function data_alumni () : BelongsTo {
+    public function alumni () : BelongsTo {
         return $this->belongsTo(Alumni::class, 'nik');
     }
 }
