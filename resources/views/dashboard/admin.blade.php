@@ -2,7 +2,7 @@
 @php $fileRoute = 'dashboard'; @endphp
 @extends('layouts.master')
 @section('assets')
-    @vite(['resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/views/dashboard/admin.js'])
 @endsection
 @section('content')
     @apexchartsScripts
