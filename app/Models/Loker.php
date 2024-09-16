@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Loker extends Model
 {
@@ -38,5 +39,9 @@ class Loker extends Model
 
     public function perusahaan () : BelongsTo {
         return $this->belongsTo(Perusahaan::class, 'id_data_perusahaan');
+    }
+
+    public function lamaran () : HasMany {
+        return $this->hasMany(Lamaran::class, 'id_lowongan_pekerjaan');
     }
 }
