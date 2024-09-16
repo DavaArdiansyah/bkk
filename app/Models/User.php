@@ -49,14 +49,14 @@ class User extends Authenticatable
     ];
 
     public function aktivitas () : HasMany {
-        return $this->hasMany(Aktivitas::class);
+        return $this->hasMany(Aktivitas::class, 'username');
     }
 
     public function alumni () : HasOne {
-        return $this->hasOne(Alumni::class);
+        return $this->hasOne(Alumni::class, 'username');
     }
 
     public function perusahaan () : HasOne {
-        return $this->hasOne(Perusahaan::class);
+        return $this->hasOne(Perusahaan::class, 'username');
     }
 }
