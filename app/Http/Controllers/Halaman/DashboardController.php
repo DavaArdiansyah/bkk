@@ -45,10 +45,8 @@ class DashboardController extends Controller
 
             $pekerja = Loker::where('id_data_perusahaan', $pr->id_data_perusahaan)
                 ->whereHas('lamaran', function ($query) use ($tahun) {
-                    $query->where('status', 'Diterima')
-                        ->whereYear('waktu', $tahun);
-                })
-                ->count();
+                    $query->where('status', 'Diterima')->whereYear('waktu', $tahun);
+                })->count();
 
             $jumlahPekerja[] = $pekerja;
         }
@@ -60,15 +58,17 @@ class DashboardController extends Controller
             ->setLabels($namaPerusahaan)
             ->setDataset('Jumlah Alumni Yang Bekerja', 'bar', $jumlahPekerja);
 
-        return $chart;
+        return $data = [
+            'kerja' => $kerja,
+            'tidakKerja' => $tidakKerja,
+            'chart' => $chart,
+        ];
     }
 
     public function index(Request $request)
     {
         $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
-
-        $chart = $this->admin($tahun);
-
-        return view('dashboard.admin', compact('chart'));
+        $data = $this->admin($tahun);
+        return view('dashboard.admin', compact(['tahun', 'data']));
     }
 }

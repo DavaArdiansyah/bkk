@@ -5,6 +5,7 @@
     @vite(['resources/js/components/sweetalert2/master.js'])
 @endsection
 @section('content')
+    @apexchartsScripts
     <section class="row">
         <div class="col-12">
             <div class="card">
@@ -25,7 +26,7 @@
                         </div>
                         <div class="col-10 mt-1">
                             <h6 class="text-muted font-semibold">Alumni Yang Bekerja</h6>
-                            <h6 class="font-extrabold mb-0">{{ $kerja }}</h6>
+                            <h6 class="font-extrabold mb-0">{{ $data['kerja'] }}</h6>
                         </div>
                     </div>
                 </div>
@@ -42,7 +43,7 @@
                         </div>
                         <div class="col-10 mt-1">
                             <h6 class="text-muted font-semibold">Alumni Yang Tidak Bekerja</h6>
-                            <h6 class="font-extrabold mb-0">{{ $tidakKerja }}</h6>
+                            <h6 class="font-extrabold mb-0">{{ $data['tidakKerja'] }}</h6>
                         </div>
                     </div>
                 </div>
@@ -71,11 +72,11 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {!! $chart->container() !!}
+                    {!! $data['chart']->container() !!}
                 </div>
             </div>
             <!-- Akhir Grafik Garis -->
         </div>
     </section>
-
+    {!! $data['chart']->script() !!}
 @endsection
