@@ -48,8 +48,9 @@
             "route": "admin.akun-pengguna.index"
         },
         {
-            "name": "Ajuan Info Loker",
-            "icon": "newspaper"
+            "name": "Info Lowongan",
+            "icon": "newspaper",
+            "route": "admin.info-lowongan.index"
         },
         {
             "name": "Profil",

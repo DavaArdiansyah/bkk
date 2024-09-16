@@ -2,7 +2,7 @@
 @php $sidebarItemName = 'Akun Pengguna'; $fileRoute = 'admin.akun-pengguna.index'; @endphp
 @section('title', 'Edit Akun Pengguna')
 @section('assets')
-    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/parsley.js'])
+    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/components/parsley.js'])
 @endsection
 @section('content')
 <section class="edit">

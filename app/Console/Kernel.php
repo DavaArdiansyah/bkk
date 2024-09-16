@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Models\Loker;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +14,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            while (true) {
+                Loker::where('tanggal_akhir', '<', Carbon::now())
+                    ->where('status', 'Dipublikasi')
+                    ->update(['status' => 'Tidak Dipublikasi']);
+                sleep(1);
+            }
+        })->everyMinute();
     }
 
     /**
