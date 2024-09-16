@@ -23,15 +23,19 @@ class Alumni extends Model
     }
 
     public function pendidikanFormal () : HasMany {
-        return $this->hasMany(PendidikanFormal::class);
+        return $this->hasMany(PendidikanFormal::class, 'nik');
     }
 
     public function pendidikanNonFormal () : HasMany {
-        return $this->hasMany(PendidikanNonFormal::class);
+        return $this->hasMany(PendidikanNonFormal::class, 'nik');
     }
 
     public function kerja () : HasMany {
-        return $this->hasMany(Kerja::class);
+        return $this->hasMany(Kerja::class, 'nik');
+    }
+
+    public function lamaran () : HasMany {
+        return $this->hasMany(Lamaran::class, 'nik');
     }
 
     public function lamaran () : HasMany {
