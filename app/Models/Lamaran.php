@@ -20,7 +20,7 @@ class Lamaran extends Model
         return $this->belongsTo(Perusahaan::class, 'id_data_perusahaan');
     }
 
-    public function lowonganPekerjaan () : BelongsTo {
+    public function loker () : BelongsTo {
         return $this->belongsTo(Loker::class, 'id_lowongan_pekerjaan');
     }
 

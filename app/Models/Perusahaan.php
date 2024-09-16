@@ -38,6 +38,6 @@ class Perusahaan extends Model
     }
 
     public function loker () : HasMany {
-        return $this->hasMany(Loker::class);
+        return $this->hasMany(Loker::class, 'id_data_perusahaan');
     }
 }
