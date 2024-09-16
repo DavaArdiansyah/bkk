@@ -54,7 +54,8 @@
         },
         {
             "name": "Profil",
-            "icon": "person-circle"
+            "icon": "person-circle",
+            "route": "profil"
         }
     ]
 }

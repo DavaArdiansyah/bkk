@@ -21,9 +21,10 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
+Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'index'])->name('profil');
 
 Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function () {
     Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
     Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
-    Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker']);
+    Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
