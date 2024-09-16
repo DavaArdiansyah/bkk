@@ -1,39 +1,57 @@
-[
-    {
-        "name": "Menu",
-        "isTitle": true
-      },
-      {
-        "name": "Dashboard",
-        "route": "dashboard",
-        "icon": "grid-fill"
-      },
-      {
-          "name": "Multi-level Menu",
-          "icon": "three-dots",
-          "submenu": [
-            {
-              "name": "First Level",
-              "submenu": [
+{
+    "Admin BKK": [
+        {
+            "name": "Menu",
+            "isTitle": true
+        },
+        {
+            "name": "Dashboard",
+            "icon": "grid-fill",
+            "route": "dashboard"
+        },
+        {
+            "name": "Laporan",
+            "icon": "file-earmark-pdf-fill"
+        },
+        {
+            "name": "Data Pengguna",
+            "icon": "file-earmark-person-fill",
+            "submenu": [
                 {
-                  "name": "Second Level",
-                  "route": "dashboard"
+                    "name": "Alumni",
+                    "submenu": [
+                        {
+                            "name": "Impor Data"
+                        },
+                        {
+                            "name": "Tampil Data"
+                        }
+                    ]
                 },
                 {
-                  "name": "Second Level Menu",
-                  "route": "dashboard"
+                    "name": "Perusahaan",
+                    "submenu": [
+                        {
+                            "name": "Tambah Data"
+                        },
+                        {
+                            "name": "Tampil Data"
+                        }
+                    ]
                 }
-              ]
-            },
-            {
-              "name": "Another Menu",
-              "submenu": [
-                {
-                  "name": "Second Level Menu",
-                  "route": "dashboard"
-                }
-              ]
-            }
-          ]
-      }
-]
+            ]
+        },
+        {
+            "name": "Akun Pengguna",
+            "icon": "person-fill"
+        },
+        {
+            "name": "Ajuan Info Loker",
+            "icon": "newspaper"
+        },
+        {
+            "name": "Profil",
+            "icon": "person-circle"
+        }
+    ]
+}

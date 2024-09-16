@@ -20,8 +20,4 @@ Route::prefix('auth')->group(function () {
     Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        return view('dashboard');
-    } return redirect()->route('login');
-})->name('dashboard');
+Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
