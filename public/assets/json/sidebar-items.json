@@ -22,10 +22,12 @@
                     "name": "Alumni",
                     "submenu": [
                         {
-                            "name": "Impor Data"
+                            "name": "Impor Data",
+                            "route": "admin.data-alumni.import"
                         },
                         {
-                            "name": "Tampil Data"
+                            "name": "Tampil Data",
+                            "route": "admin.data-alumni.index"
                         }
                     ]
                 },

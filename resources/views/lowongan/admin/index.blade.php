@@ -13,12 +13,12 @@
                 <thead>
                     <tr>
                         <th class="text-start"></th>
-                        <th class="text-start">Nama Perusahaan</th>
-                        <th class="text-start">Posisi</th>
-                        <th class="text-start">Status Publikasi</th>
-                        <th class="text-start">Batas Lowongan</th>
-                        <th class="text-start">Aksi</th>
-                        <th class="text-start">Waktu Pengajuan</th>
+                        <th class="text-start">NAMA PERUSAHAAN</th>
+                        <th class="text-start">POSISI</th>
+                        <th class="text-start">STATUS PUBLIKASI</th>
+                        <th class="text-start">BATAS LOWONGAN</th>
+                        <th class="text-start">AKSI</th>
+                        <th class="text-start">WAKTU PENGAJUAN</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -15,8 +15,11 @@ import "datatables.net-responsive";
 import "datatables.net-responsive-bs5";
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#ajuan-lowongan").DataTable({
-        order: [6, "desc"],
+    $("#data-alumni").DataTable({
+        order: [
+            [5, "desc"],
+            [4, "asc"],
+        ],
         responsive: true,
         layout: {
             top1: {
@@ -32,8 +35,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 searchPanes: {
                     show: true, //filter show true
                 },
-                targets: [1, 2, 3], //target kolom index 1, 2 dan 3
+                targets: [3, 4, 5], //target kolom index 3, 4 dan 5
             },
         ],
+        buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
 });

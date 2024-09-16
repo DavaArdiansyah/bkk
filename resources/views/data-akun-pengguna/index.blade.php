@@ -13,9 +13,9 @@
                     <thead>
                         <tr>
                             <th class="text-start"></th>
-                            <th class="text-start">Username</th>
-                            <th class="text-start">Role</th>
-                            <th class="text-start">Aksi</th>
+                            <th class="text-start">USERNAME</th>
+                            <th class="text-start">ROLE</th>
+                            <th class="text-start">AKSI</th>
                         </tr>
                     </thead>
                     <tbody>

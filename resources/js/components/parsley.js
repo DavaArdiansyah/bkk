@@ -19,7 +19,7 @@ $.extend(window.Parsley.options, {
 });
 
 // Custom validation handling for Parsley
-Parsley.addValidator('passwordMatch', {
+window.Parsley.addValidator('passwordMatch', {
   validateString: function (value, requirement, instance) {
     var password = $(requirement).val();
     return value === password;
@@ -30,11 +30,12 @@ Parsley.addValidator('passwordMatch', {
   }
 });
 
-Parsley.on("field:validated", function (el) {
-  var elNode = $(el)[0];
+// Custom error message handling
+window.Parsley.on("field:validated", function () {
+  var elNode = this; // Use `this` to refer to the validated element
 
-  // Check if the element is invalid
-  if (elNode && !elNode.isValid()) {
+  // Check if the element has any validation errors
+  if (elNode.validationResult !== true) {
     var fieldNode = $(elNode.element);
     var formGroupNode = fieldNode.closest(".form-group");
     var lblNode = formGroupNode.find(".form-label:first");

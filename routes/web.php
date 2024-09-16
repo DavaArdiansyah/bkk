@@ -20,11 +20,16 @@ Route::prefix('auth')->group(function () {
     Route::post('logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });
 
+Route::prefix('tmp')->name('tmp.')->group(function () {
+    Route::post('files', [App\Http\Controllers\TmpController::class, 'files'])->name('files');
+});
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
 Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'index'])->name('profil');
 
 Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function () {
     Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
+    Route::get('data-alumni/import', [App\Http\Controllers\DataAlumniController::class, 'import'])->name('data-alumni.import');
+    Route::resource('data-alumni', App\Http\Controllers\DataAlumniController::class)->parameters(['data-alumni' => 'alumni']);
     Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
     Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
