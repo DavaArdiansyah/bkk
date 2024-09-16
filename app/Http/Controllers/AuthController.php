@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,10 @@ class AuthController extends Controller
 
     public function login (Request $request) {
         $user = User::find($request->input('username'));
+        $perusahaan = Perusahaan::where('username', $user->username)->first();
+        if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
+            return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+        }
         if (!$user) {
             return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
         }

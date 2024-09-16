@@ -15,7 +15,7 @@
                         <x-input type="email" name="username" label="Username" placeholder="Username" value="{{$user->username}}" class="mandatory" required="true"/>
                     </div>
                     <div class="col-md-6 col-12">
-                        <x-input type="password" name="password-baru" label="Password Baru" placeholder="Password Baru"/>
+                        <x-input type="password" name="password-baru" label="Password Baru" placeholder="Password Baru" min="8"/>
                     </div>
                     <div class="col-md-6 col-12">
                         <x-input type="password" name="konfirmasi-password" label="Konfirmasi Password" placeholder="Konfirmasi Password" match="password-baru"/>

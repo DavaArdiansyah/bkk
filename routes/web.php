@@ -22,14 +22,21 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('tmp')->name('tmp.')->group(function () {
     Route::post('files', [App\Http\Controllers\TmpController::class, 'files'])->name('files');
+    Route::post('images', [App\Http\Controllers\TmpController::class, 'images'])->name('images');
 });
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
 Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'index'])->name('profil');
 
+Route::get('/get-kota/{provinsiId}', [App\Http\Controllers\WilayahController::class, 'kota']);
+Route::get('/get-kecamatan/{kotaId}', [App\Http\Controllers\WilayahController::class, 'kecamatan']);
+Route::get('/get-kelurahan/{kecamatanId}', [App\Http\Controllers\WilayahController::class, 'kelurahan']);
+
 Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function () {
     Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
     Route::get('data-alumni/import', [App\Http\Controllers\DataAlumniController::class, 'import'])->name('data-alumni.import');
-    Route::resource('data-alumni', App\Http\Controllers\DataAlumniController::class)->parameters(['data-alumni' => 'alumni']);
+    Route::resource('data-alumni', App\Http\Controllers\DataAlumniController::class)->parameters(['data-alumni' => 'alumni'])->except('show', 'destroy');
+    Route::resource('data-perusahaan', App\Http\Controllers\DataPerusahaanController::class)->parameters(['data-perusahaan' => 'perusahaan']);
+    Route::post('data-alumni/akun', [App\Http\Controllers\DataPerusahaanController::class, 'akun'])->name('data-perusahaan.akun.create');
     Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
     Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });

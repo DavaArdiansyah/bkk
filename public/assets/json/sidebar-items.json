@@ -35,10 +35,12 @@
                     "name": "Perusahaan",
                     "submenu": [
                         {
-                            "name": "Tambah Data"
+                            "name": "Tambah Data",
+                            "route": "admin.data-perusahaan.create"
                         },
                         {
-                            "name": "Tampil Data"
+                            "name": "Tampil Data",
+                            "route": "admin.data-perusahaan.index"
                         }
                     ]
                 }

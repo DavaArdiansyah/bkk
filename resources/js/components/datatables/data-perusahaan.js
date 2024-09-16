@@ -15,10 +15,10 @@ import "datatables.net-responsive";
 import "datatables.net-responsive-bs5";
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#akun-pengguna").DataTable({
+    $("#data-perusahaan").DataTable({
         order: [
-            [2, "desc"],
             [1, "asc"],
+            [2, "asc"],
         ],
         responsive: true,
         layout: {
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 searchPanes: {
                     show: true, //filter show true
                 },
-                targets: [2], //target kolom index 2
+                targets: [2, 6], //target kolom index 2 dan 6
             },
         ],
     });
