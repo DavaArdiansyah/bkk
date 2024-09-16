@@ -23,24 +23,14 @@ class LaporanController extends Controller
         $namaFile = $request->input('data') . '_periode_' . $periode;
 
         if ($request->input('type-file')) {
-            switch ($request->input('type-file')) {
-                case 'pdf':
-                    $title = 'Laporan Detail Alumni Bekerja';
-                    $pdf = Pdf::loadView('partials.laporan', [
-                        'title' => $title,
-                        'periode' => $periode,
-                        'data' => $data
-                    ]);
-                    return $pdf->download("{$namaFile}.pdf");
-
-                case 'csv':
-                    return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.csv", ExportType::CSV);
-
-                case 'xlsx':
-                    return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.xlsx", ExportType::XLSX);
-
-                default:
-                    return redirect()->back()->withErrors('Type file tidak valid.');
+            if ($request->input('type-file') == 'pdf') {
+                $title = 'Laporan Detail Alumni Bekerja';
+                $pdf = Pdf::loadView('partials.laporan', ['title' => $title, 'periode' => $periode, 'data' => $data]);
+                return $pdf->download("{$namaFile}.pdf");
+            } elseif ($request->input('type-file') == 'csv') {
+                return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.csv", ExportType::CSV);
+            } elseif ($request->input('type-file') == 'xlsx') {
+                return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.xlsx", ExportType::XLSX);
             }
         }
 

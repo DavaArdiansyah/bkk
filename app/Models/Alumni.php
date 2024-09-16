@@ -37,8 +37,4 @@ class Alumni extends Model
     public function lamaran () : HasMany {
         return $this->hasMany(Lamaran::class, 'nik');
     }
-
-    public function lamaran () : HasMany {
-        return $this->hasMany(Lamaran::class, 'nik');
-    }
 }
