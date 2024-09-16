@@ -24,4 +24,5 @@ Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'
 
 Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function () {
     Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
+    Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
 });

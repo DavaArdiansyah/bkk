@@ -166,7 +166,7 @@
                 <th>No</th>
                 <th>NIK</th>
                 <th>NAMA LENGKAP</th>
-                <th>JABATAN</th>
+                <th>NAMA PERUSAHAAN</th>
             </tr>
         </thead>
         <tbody>
@@ -175,7 +175,7 @@
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $dt['nik'] }}</td>
                     <td>{{ $dt['nama'] }}</td>
-                    <td>{{ $dt['jabatan'] }}</td>
+                    <td>{{ $dt['nama-perusahaan'] }}</td>
                 </tr>
             @endforeach
         </tbody>

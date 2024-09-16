@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                <div class="row py-3 justify-content-end">
+                    <div class="row py-3 justify-content-end">
                         <div class="col-12 col-md-6 text-end">
                             <form id="export-form" action="{{ route('admin.laporan') }}" method="GET">
                                 <input type="hidden" name="waktu" value="{{ $periode }}">
@@ -73,7 +73,34 @@
                         $headers = ['NIK', 'Nama Lengkap', 'Nama Perusahaan'];
                     @endphp --}}
 
-                    <x-table id="detail-alumni-bekerja" :headers="['NIK', 'Nama Lengkap', 'Nama Perusahaan']" :rows="$data" />
+                    {{-- <x-table id="detail-alumni-bekerja" :labels="['NIK', 'NAMA LENGKAP', 'NAMA PERUSAHAAN']" :keys="['nik', 'nama', 'nama-perusahaan']" :rows="$data" /> --}}
+                    <table class="table table-striped nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:5%">NO</th>
+                                <th class="text-start">NIK</th>
+                                <th class="text-start">NAMA ALUMNI</th>
+                                <th class="text-start">NAMA PERUSAHAAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($data)
+                                @foreach ($data as $dt)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-start">{{ $dt['nik'] }}</td>
+                                        <td class="text-start">{{ $dt['nama'] }}</td>
+                                        <td class="text-start">{{ $dt['nama-perusahaan'] }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan="4" class="text-center">Tidak ada data yang ditampilkan.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+
                     {{-- @include('partials.laporan.detail-alumni-bekerja') --}}
                 </div>
                 <div class="info-loker-content">

@@ -79,13 +79,13 @@ class LaporanController extends Controller
                 }
             }
 
-            $jabatan = implode(', ', $perusahaan);
+            $namaPerusahaan = implode(', ', $perusahaan);
 
-            if (!empty($jabatan)) {
+            if (!empty($namaPerusahaan)) {
                 $data[] = [
                     'nik' => $al->nik,
                     'nama' => $al->nama,
-                    'jabatan' => $jabatan,
+                    'nama-perusahaan' => $namaPerusahaan,
                 ];
             }
         }

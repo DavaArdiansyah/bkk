@@ -44,7 +44,8 @@
         },
         {
             "name": "Akun Pengguna",
-            "icon": "person-fill"
+            "icon": "person-fill",
+            "route": "admin.akun-pengguna.index"
         },
         {
             "name": "Ajuan Info Loker",
