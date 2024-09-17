@@ -6,6 +6,12 @@
 @endsection
 @section('content')
     @apexchartsScripts
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+    </nav>
+
     <section class="row">
         <div class="col-12">
             <div class="card">
@@ -16,10 +22,10 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Bekerja" icon="person-fill" data="{{$data['kerja']}}" />
+            <x-statistics title="Alumni Yang Bekerja" icon="person-fill" data="{{ $data['kerja'] }}" />
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Tidak Bekerja" icon="building" data="{{$data['tidakKerja']}}" />
+            <x-statistics title="Alumni Yang Tidak Bekerja" icon="building" data="{{ $data['tidakKerja'] }}" />
         </div>
         <div class="col-12">
             <!-- Grafik Garis -->

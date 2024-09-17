@@ -11,21 +11,29 @@
     @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/images.js', 'resources/js/bidang-usaha.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('admin.data-perusahaan.index')}}">Data Perusahaan</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+        </ol>
+    </nav>
+
     <section class="tambah">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.data-perusahaan.akun.create') }}" method="POST"
-                    enctype="multipart/form-data" data-parsley-validate>
+                <form action="{{ route('admin.data-perusahaan.akun.create') }}" method="POST" enctype="multipart/form-data"
+                    data-parsley-validate>
                     @csrf
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group mandatory">
                                 <label class="form-label">Logo</label>
-                                <input type="file" class="filepond" name="file" required/>
+                                <input type="file" class="filepond" name="file" required />
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="nama" label="Nama Perusahaan" placeholder="Nama Perusahaan" class="mandatory" required="true"/>
+                            <x-input type="text" name="nama" label="Nama Perusahaan" placeholder="Nama Perusahaan"
+                                class="mandatory" required="true" />
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group mandatory">
@@ -50,10 +58,12 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="no-telepon" label="No Telepon" placeholder="No Telepon" class="mandatory" required="true"/>
+                            <x-input type="text" name="no-telepon" label="No Telepon" placeholder="No Telepon"
+                                class="mandatory" required="true" />
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="alamat" label="Alamat Lengkap" placeholder="Alamat Lengkap" class="mandatory" required="true"/>
+                            <x-input type="text" name="alamat" label="Alamat Lengkap" placeholder="Alamat Lengkap"
+                                class="mandatory" required="true" />
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group mandatory">

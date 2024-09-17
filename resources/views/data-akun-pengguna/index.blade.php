@@ -1,10 +1,19 @@
 @extends('layouts.master')
-@php $sidebarItemName = 'Akun Pengguna'; $fileRoute = 'admin.akun-pengguna.index'; @endphp
+@php
+    $sidebarItemName = 'Akun Pengguna';
+    $fileRoute = 'admin.akun-pengguna.index';
+@endphp
 @section('title', 'Akun Pengguna')
 @section('assets')
     @vite(['resources/js/components/datatables/akun-pengguna.js', 'resources/js/components/sweetalert2/master.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Data Akun Pengguna</li>
+        </ol>
+    </nav>
+
     <section>
         <div class="card">
             <div class="card-body">
@@ -22,14 +31,16 @@
                         @foreach ($users as $us)
                             <tr>
                                 <td class="text-start"></td>
-                                <td class="text-start">{{$us->username}}</td>
-                                <td class="text-start">{{$us->role}}</td>
+                                <td class="text-start">{{ $us->username }}</td>
+                                <td class="text-start">{{ $us->role }}</td>
                                 <td class="text-start">
                                     <div class="btn-group d-flex justify-content-center" role="group" aria-label="Aksi">
-                                        <a href="{{ route('admin.akun-pengguna.show', $us->username) }}" class="btn btn-primary m-1">
+                                        <a href="{{ route('admin.akun-pengguna.show', $us->username) }}"
+                                            class="btn btn-primary m-1">
                                             <i class="bi bi-activity me-1"></i>Pemantauan
                                         </a>
-                                        <a href="{{ route('admin.akun-pengguna.edit', $us->username) }}" class="btn btn-warning m-1">
+                                        <a href="{{ route('admin.akun-pengguna.edit', $us->username) }}"
+                                            class="btn btn-warning m-1">
                                             <i class="bi bi-pencil me-1"></i>Edit
                                         </a>
                                     </div>

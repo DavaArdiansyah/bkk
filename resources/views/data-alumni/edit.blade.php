@@ -5,23 +5,30 @@
     $fileRoute = 'admin.data-alumni.index';
 @endphp
 
-@section('title', 'Edit Data Alumni')
+@section('title', 'Data Alumni')
 @section('assets')
     @vite(['resources/js/components/parsley.js', 'resources/js/components/sweetalert2/master.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('admin.data-alumni.index')}}">Data Alumni</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </nav>
     <section class="edit">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.data-alumni.update', $alumni->nik) }}" method="POST"
-                    data-parsley-validate>
+                <form action="{{ route('admin.data-alumni.update', $alumni->nik) }}" method="POST" data-parsley-validate>
                     @csrf @method('PUT')
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="nik" label="NIK" placeholder="NIK" value="{{$alumni->nik}}" class="mandatory" required="true"/>
+                            <x-input type="text" name="nik" label="NIK" placeholder="NIK"
+                                value="{{ $alumni->nik }}" class="mandatory" required="true" />
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="nama" label="Nama Lengkap" placeholder="Nama Lengkap" value="{{$alumni->nama}}" class="mandatory" required="true"/>
+                            <x-input type="text" name="nama" label="Nama Lengkap" placeholder="Nama Lengkap"
+                                value="{{ $alumni->nama }}" class="mandatory" required="true" />
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group mandatory">
@@ -52,7 +59,8 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="text" name="tahun-lulus" label="Tahun Lulus" placeholder="Tahun Lulus" value="{{$alumni->tahun_lulus}}" class="mandatory" required="true"/>
+                            <x-input type="text" name="tahun-lulus" label="Tahun Lulus" placeholder="Tahun Lulus"
+                                value="{{ $alumni->tahun_lulus }}" class="mandatory" required="true" />
                         </div>
                     </div>
                     <div class="row">

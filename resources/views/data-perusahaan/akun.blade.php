@@ -9,6 +9,14 @@
     @vite('resources/js/components/parsley.js')
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('admin.data-perusahaan.index')}}">Data Perusahaan</a></li>
+            <li class="breadcrumb-item"><a href="{{route ('admin.data-perusahaan.create')}}">Tambah</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Akun</li>
+        </ol>
+    </nav>
+
     <section class="tambah">
         <div class="card">
             <div class="card-body">
@@ -21,10 +29,12 @@
                     <input type="hidden" name="logo" value="{{ $request['nama-file-logo'] }}">
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            <x-input type="email" name="username" label="EMAIL" placeholder="EMAIL" class="mandatory" required="true"/>
+                            <x-input type="email" name="username" label="EMAIL" placeholder="EMAIL" class="mandatory"
+                                required="true" />
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="password" name="password" label="Password" placeholder="Password" class="mandatory" required="true" min="8"/>
+                            <x-input type="password" name="password" label="Password" placeholder="Password"
+                                class="mandatory" required="true" min="8" />
                         </div>
                     </div>
                     <div class="row">

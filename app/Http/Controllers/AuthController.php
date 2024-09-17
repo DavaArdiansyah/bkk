@@ -22,9 +22,11 @@ class AuthController extends Controller
 
     public function login (Request $request) {
         $user = User::find($request->input('username'));
-        $perusahaan = Perusahaan::where('username', $user->username)->first();
-        if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+        if ($user->perusahaan?->id_data_perusahaan) {
+            $perusahaan = Perusahaan::find($user->perusahaan->id_data_perusahaan);
+            if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
+                return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+            }
         }
         if (!$user) {
             return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);

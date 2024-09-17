@@ -9,6 +9,12 @@
     @vite('resources/js/components/datatables/data-alumni.js')
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Data Alumni</li>
+        </ol>
+    </nav>
+
     <section>
         <div class="card">
             <div class="card-body">
