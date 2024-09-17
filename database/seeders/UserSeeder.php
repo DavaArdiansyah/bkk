@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
         ]);
 
         Alumni::create([
-            'nik' => '2206510420',
+            'nik' => '2206510431',
             'username' => 'dava@mail.com',
             'nama' => 'Dava Ardiansyah Hidayat',
             'jurusan' => 'RPL',
