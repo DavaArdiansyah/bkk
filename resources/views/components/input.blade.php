@@ -11,7 +11,7 @@
         @if(isset($placeholder)) placeholder="{{ $placeholder }}" @endif
         @if(isset($required) && $required) data-parsley-required="true" @endif
         @if(isset($min)) data-parsley-minlength="{{ $min }}" @endif
-        @if(isset($matchPassword)) data-parsley-password-match="#{{ $matchPassword }}" @endif
+        @if(isset($match)) data-parsley-password-match="#{{ $match }}" @endif
         {{ $attributes->except('class') }}
     >
 </div>

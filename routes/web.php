@@ -26,6 +26,10 @@ Route::prefix('tmp')->name('tmp.')->group(function () {
 });
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
 Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'index'])->name('profil');
+Route::prefix('profil')->name('profil.')->group(function () {
+    Route::get('edit/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'edit'])->name('edit');
+    Route::put('update/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'update'])->name('update');
+});
 
 Route::get('/get-kota/{provinsiId}', [App\Http\Controllers\WilayahController::class, 'kota']);
 Route::get('/get-kecamatan/{kotaId}', [App\Http\Controllers\WilayahController::class, 'kecamatan']);
@@ -44,4 +48,9 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
 Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
     Route::resource('cari-lowongan', App\Http\Controllers\Halaman\CariLowonganController::class)->parameters(['cari-lowongan' => 'loker'])->only('index', 'show');
     Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class);
+    Route::prefix('profil')->name('profil.')->group(function () {
+        Route::resource('riwayat-pendidikan-formal', App\Http\Controllers\Profil\PendidikanFormalController::class)->parameters(['riwayat-pendidikan-formal' => 'pendidikanFormal'])->except('index', 'show');
+        Route::resource('riwayat-pendidikan-non-formal', App\Http\Controllers\Profil\PendidikanNonFormalController::class)->parameters(['riwayat-pendidikan-non-formal' => 'pendidikanNonFormal'])->except('index', 'show');
+        Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja']);
+    });
 });
