@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nama_file_logo');
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Tidak Aktif');
 
-            $table->foreign('username')->references('username')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
         });
     }
 

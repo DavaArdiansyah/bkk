@@ -22,7 +22,7 @@ return new class extends Migration
             $table->year('tahun_akhir');
             $table->text('deskripsi');
 
-            $table->foreign('nik')->references('nik')->on('data_alumni')->onDelete('cascade');
+            $table->foreign('nik')->references('nik')->on('data_alumni')->onUpdate('cascade');
         });
     }
 
