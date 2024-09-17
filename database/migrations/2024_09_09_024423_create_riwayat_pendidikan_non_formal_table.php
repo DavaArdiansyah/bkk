@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama_lembaga');
             $table->string('nama_kursus');
             $table->text('alamat');
-            $table->date('tanggal');
+            $table->timestamp('tanggal');
 
             $table->foreign('nik')->references('nik')->on('data_alumni')->onUpdate('cascade');
         });

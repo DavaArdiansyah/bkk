@@ -16,7 +16,7 @@ class PendidikanSeeder extends Seeder
     {
         PendidikanFormal::create([
             'id_riwayat_pendidikan_formal' => 'RP000001',
-            'nik' => '2206510420',
+            'nik' => '2206510431',
             'nama_sekolah' => 'SMPN 41 bandung',
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
             'tahun_awal' => 2019,
@@ -26,7 +26,7 @@ class PendidikanSeeder extends Seeder
 
         PendidikanNonFormal::create([
             'id_riwayat_pendidikan_non_formal' => 'RPNF000001',
-            'nik' => '2206510420',
+            'nik' => '2206510431',
             'nama_lembaga' => 'Nama lembaga kursus',
             'nama_kursus' => 'Nama kursus',
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
