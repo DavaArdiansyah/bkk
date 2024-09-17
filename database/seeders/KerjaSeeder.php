@@ -15,7 +15,7 @@ class KerjaSeeder extends Seeder
     {
         Kerja::create([
             'id_pengalaman_kerja' => 'PK000001',
-            'nik' => '2206510420',
+            'nik' => '2206510431',
             'jabatan' => 'Software Engineer',
             'jenis_waktu_pekerjaan' => 'Waktu Kerja Jarak Jauh (Remote Work)',
             'nama_perusahaan' => 'Perusahaan',
