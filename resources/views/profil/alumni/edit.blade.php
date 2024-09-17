@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Informasi Utama')
+@section('title', 'Profil')
 @php
     $fileRoute = 'profil';
 @endphp
@@ -8,6 +8,12 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('profil')}}">Profil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Informasi Utama</li>
+        </ol>
+    </nav>
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -23,18 +29,21 @@
         </div>
         <div class="card-body">
             <p>Silakan isi/perbaharui informasi utama di bawah ini:</p>
-            <form class="form" action="{{route ('profil.update', $user->username)}}" method="POST" data-parsley-validate>
+            <form class="form" action="{{ route('profil.update', $user->username) }}" method="POST"
+                data-parsley-validate>
                 @csrf @method('PUT')
-                    <div id="data-provinsi" class="d-none">{{isset($alamat['provinsi']) ? $alamat['provinsi'] : ''}}</div>
-                    <div id="data-kota" class="d-none">{{isset($alamat['kota']) ? $alamat['kota'] : ''}}</div>
-                    <div id="data-kecamatan" class="d-none">{{isset($alamat['kecamatan']) ? $alamat['kecamatan'] : ''}}</div>
-                    <div id="data-kelurahan" class="d-none">{{isset ($alamat['kelurahan']) ? $alamat['kelurahan'] : ''}}</div>
+                <div id="data-provinsi" class="d-none">{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : '' }}</div>
+                <div id="data-kota" class="d-none">{{ isset($alamat['kota']) ? $alamat['kota'] : '' }}</div>
+                <div id="data-kecamatan" class="d-none">{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : '' }}</div>
+                <div id="data-kelurahan" class="d-none">{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : '' }}</div>
                 <div class="row">
                     <div class="mb-3 col-md-6 col-12">
-                        <x-input type="text" name="username" label="Username" placeholder="Username" value="{{$user->username}}" class="mandatory" required="true"/>
+                        <x-input type="text" name="username" label="Username" placeholder="Username"
+                            value="{{ $user->username }}" class="mandatory" required="true" />
                     </div>
                     <div class="col-md-6 col-12">
-                        <x-input type="text" name="alamat-lengkap" label="Alamat Lengkap" placeholder="Alamat Lengkap" value="{{$alamat['alamat-lengkap']}}" class="mandatory" required="true"/>
+                        <x-input type="text" name="alamat-lengkap" label="Alamat Lengkap" placeholder="Alamat Lengkap"
+                            value="{{ $alamat['alamat-lengkap'] ?? '' }}" class="mandatory" required="true" />
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
@@ -42,7 +51,7 @@
                             <select name="provinsi" id="provinsi" class="form-select" data-parsley-required="true">
                                 <option selected disabled>Pilih Provinsi</option>
                                 @foreach ($provinsi as $pr)
-                                <option value="{{$pr['id']}}">{{ ucwords(strtolower($pr['name'])) }}</option>
+                                    <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -58,7 +67,8 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan" class="form-select" data-parsley-required="true" disabled>
+                            <select name="kecamatan" id="kecamatan" class="form-select" data-parsley-required="true"
+                                disabled>
                                 <option selected disabled>Pilih Kecamatan</option>
                             </select>
                         </div>
@@ -66,22 +76,32 @@
                     <div class="col-md-6 col-12 mb-3">
                         <div class="form-group">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
-                            <select name="kelurahan" id="kelurahan" class="form-select" data-parsley-required="true" disabled>
+                            <select name="kelurahan" id="kelurahan" class="form-select" data-parsley-required="true"
+                                disabled>
                                 <option selected disabled>Pilih Kelurahan</option>
                             </select>
                         </div>
                     </div>
                     <div class="mb-3 col-12">
-                        <x-input type="text" name="kontak" label="No Yang Dapat Dihubungi" placeholder="No Yang Dapat Dihubungi" value="{{$user->alumni->kontak}}" class="mandatory" required="true"/>
+                        <x-input type="text" name="kontak" label="No Yang Dapat Dihubungi"
+                            placeholder="No Yang Dapat Dihubungi" value="{{ $user->alumni->kontak }}" class="mandatory"
+                            required="true" />
+                    </div>
+                    <div class="mb-3 col-12 form-group">
+                        <label for="deskripsi" class="form-label">Deskripsi Singkat</label>
+                        <textarea class="form-control" id="deskripsi" rows="5" data-parsley-required="true" name="deskripsi">{{ isset($user) ? $user->alumni->deskripsi : '' }}</textarea>
                     </div>
                     <div class="mb-3 col-12">
-                        <x-input type="password" name="password-saat-ini" label="Password Saat Ini" placeholder="Password Saat Ini"/>
+                        <x-input type="password" name="password-saat-ini" label="Password Saat Ini"
+                            placeholder="Password Saat Ini" />
                     </div>
                     <div class="mb-3 col-12">
-                        <x-input type="password" name="password-baru" label="Password Baru" placeholder="Password Baru" min="8"/>
+                        <x-input type="password" name="password-baru" label="Password Baru" placeholder="Password Baru"
+                            min="8" />
                     </div>
                     <div class="mb-3 col-12">
-                        <x-input type="password" name="konfirmasi-password" label="Konfirmasi Password" placeholder="Konfirmasi Password" match="password-baru"/>
+                        <x-input type="password" name="konfirmasi-password" label="Konfirmasi Password"
+                            placeholder="Konfirmasi Password" match="password-baru" />
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>

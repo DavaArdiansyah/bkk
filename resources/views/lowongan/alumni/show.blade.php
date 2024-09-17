@@ -2,7 +2,7 @@
 @section('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
-@section('title', 'Detail Info Lowongan')
+@section('title', 'Cari Lowongan')
 @php
     $fileRoute = 'dashboard';
 @endphp
@@ -12,6 +12,12 @@
 @endsection
 
 @section('content')
-<x-detail-lowongan :data="$loker" />
-    {{-- @include('partials.detail-lowongan') --}}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('dashboard')}}">Cari Lowongan</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Detail</li>
+        </ol>
+    </nav>
+
+    <x-detail-lowongan :data="$loker" />
 @endsection

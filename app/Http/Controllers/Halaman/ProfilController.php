@@ -65,6 +65,7 @@ class ProfilController extends Controller
         }
         $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
         $user->alumni->kontak = $request->input('kontak');
+        $user->alumni->deskripsi = $request->input('deskripsi');
 
         $username = $request->input('username');
         $password = $request->input('password-baru');

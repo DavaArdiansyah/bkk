@@ -8,6 +8,12 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Lamaran Saya</li>
+        </ol>
+    </nav>
+
     <div class="card">
         <div class="card-body">
             <!-- table lamaran  -->
@@ -51,7 +57,8 @@
                             @endif
 
                             {{-- Modal Pesan Perusahaan --}}
-                            <x-modal.pesan id="{{$lm->id_lamaran}}" title="Pesan Perusahaan" pesan="{{$lm->pesan}}"/>
+                            <x-modal.pesan id="{{ $lm->id_lamaran }}" title="Pesan Perusahaan"
+                                pesan="{{ $lm->pesan }}" />
                         </tr>
                     @endforeach
                 </tbody>

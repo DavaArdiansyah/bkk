@@ -27,9 +27,9 @@
             </header>
 
             <section>
-                <div class="page-heading">
+                {{-- <div class="page-heading">
                     <h3>@yield('title')</h3>
-                </div>
+                </div> --}}
                 <div class="page-content">
                     @yield('content')
                 </div>

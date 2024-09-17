@@ -10,6 +10,12 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Profil</li>
+        </ol>
+    </nav>
+
     <!-- Section 1: Profil Information -->
     <div class="card">
         <div class="card-body">
@@ -62,7 +68,7 @@
                 <div class="col-8 col-md-8">
                     <a href="{{ route('alumni.profil.riwayat-pendidikan-formal.create') }}"
                         class="btn btn-link text-decoration-none">
-                        <h5 class="font-weight-bold mb-0">Riwayat Pendidikan</h5>
+                        <h5 class="font-weight-bold mb-0">Riwayat Pendidikan Formal</h5>
                     </a>
                 </div>
                 <div class="col-2 col-md-3 text-end">

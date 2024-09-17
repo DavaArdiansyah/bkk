@@ -1,13 +1,19 @@
 @extends('layouts.master')
 @section('meta')
 <meta name="csrf-token" content="{{ csrf_token() }}">@endsection
-@section('title', 'Dashboard')
-<?php $fileRoute = 'dashboard'; ?>
+@section('title', 'Cari Lowongan')
+@php $fileRoute = 'dashboard'; @endphp
 @section('assets')
     @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/pdf.js'])
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Cari Lowongan</li>
+        </ol>
+    </nav>
+
     <div class="row mb-3">
         <div class="col">
             <form class="d-flex" action="{{ route('alumni.cari-lowongan.index') }}" method="GET">

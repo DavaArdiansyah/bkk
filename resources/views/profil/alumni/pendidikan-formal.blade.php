@@ -1,11 +1,5 @@
 @extends('layouts.master')
-
-@if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
-@section('title', 'Edit Data Riwayat Pendidikan Formal')
-@else
-@section('title', 'Tambah Data Riwayat Pendidikan Formal')
-@endif
-
+@section('title', 'Profil')
 @php
     $fileRoute = 'profil';
 @endphp
@@ -15,6 +9,13 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('profil')}}">Profil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Riwayat Pendidikan Formal</li>
+        </ol>
+    </nav>
+
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -22,7 +23,7 @@
                     <i class="bi bi-mortarboard-fill fs-3"></i>
                 </div>
                 <div class="col-8 col-md-8">
-                    <h5 class="font-weight-bold mb-0">Riwayat Pendidikan</h5>
+                    <h5 class="font-weight-bold mb-0">Riwayat Pendidikan Formal</h5>
                 </div>
                 @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
                     <div class="col-2 col-md-3 text-end">
@@ -42,13 +43,12 @@
         </div>
         <div class="card-body">
             @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
-            <p>Silakan perbaharui informasi riwayat pendidikan di bawah ini:</p>
+                <p>Silakan perbaharui informasi riwayat pendidikan formal di bawah ini:</p>
             @else
-            <p>Silakan isi informasi riwayat pendidikan di bawah ini:</p>
+                <p>Silakan isi informasi riwayat pendidikan formal di bawah ini:</p>
             @endif
             <form class="form"
-                @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
-                action="{{ route('alumni.profil.riwayat-pendidikan-formal.update', $pendidikanFormal->id_riwayat_pendidikan_formal) }}"
+                @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create')) action="{{ route('alumni.profil.riwayat-pendidikan-formal.update', $pendidikanFormal->id_riwayat_pendidikan_formal) }}"
                 @else
                     action="{{ route('alumni.profil.riwayat-pendidikan-formal.store') }}" @endif
                 method="POST" data-parsley-validate>
@@ -111,8 +111,7 @@
                     </div>
                     <div class="mb-3 col-12">
                         <x-input type="text" name="bidang-studi" label="Bidang Studi/Jurusan"
-                            placeholder="Bidang Studi/Jurusan" value="{{ $pendidikanFormal->bidang_studi ?? '' }}"
-                        />
+                            placeholder="Bidang Studi/Jurusan" value="{{ $pendidikanFormal->bidang_studi ?? '' }}" />
                     </div>
                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                         <x-input type="text" name="tahun-awal" label="Tahun Awal" placeholder="Tahun Awal"

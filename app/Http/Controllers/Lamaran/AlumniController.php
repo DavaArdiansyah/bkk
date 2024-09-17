@@ -39,6 +39,10 @@ class AlumniController extends Controller
      */
     public function store(Request $request)
     {
+        $alumni = Alumni::find(Auth::user()->alumni->nik);
+        if ($alumni->alamat == null || $alumni->keahlian || $alumni->deskripsi) {
+            return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap lengkapi informasi utama terlebih dahulu.']);
+        }
         $lamaran = Lamaran::create([
             'id_lowongan_pekerjaan' => $request->input('id-lowongan-pekerjaan'),
             'nik' => Alumni::where('username', Auth::user()->username)->first()->nik,
