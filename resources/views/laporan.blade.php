@@ -5,6 +5,11 @@
     @vite(['resources/js/views/laporan.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Laporan</li>
+        </ol>
+    </nav>
     <div class="container">
         <section>
             <div id="periode" data-periode="{{ $periode }}"></div>

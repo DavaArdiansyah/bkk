@@ -4,6 +4,12 @@
 @php $fileRoute = 'profil'; @endphp
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Profil</li>
+        </ol>
+    </nav>
+
     <!-- Section 1: Profil Information -->
     <div class="card">
         <div class="card-body">

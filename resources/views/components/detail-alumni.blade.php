@@ -11,7 +11,7 @@
                     <div class="card-body px-4 py-4-5">
                         <div class="text-center">
                             <div class="avatar avatar-2xl">
-                                <img src="{{ isset($data->nama_file_foto) ? asset('storage/tmp/images/' . $data->nama_file_foto) : ($data->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}" alt="Avatar" />
+                                <img src="{{ isset($data->nama_file_foto) ? asset('storage/images/' . $data->nama_file_foto) : ($data->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}" alt="Avatar" />
                             </div>
                         </div>
                     </div>

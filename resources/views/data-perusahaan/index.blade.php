@@ -9,6 +9,12 @@
     @vite(['resources/js/components/datatables/data-perusahaan.js', 'resources/js/components/sweetalert2/master.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Data Perusahaan</li>
+        </ol>
+    </nav>
+
     <section>
         <div class="card">
             <div class="card-body">

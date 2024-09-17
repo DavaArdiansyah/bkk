@@ -6,11 +6,18 @@
     $subName = 'Alumni';
     $fileRoute = 'admin.data-alumni.import';
 @endphp
-@section('title', 'Impor Data Alumni')
+@section('title', 'Data Alumni')
 @section('assets')
     @vite(['resources/js/components/filepond/excel.js', 'resources/js/components/sweetalert2/master.js'])
 @endsection
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route ('admin.data-alumni.index')}}">Data Alumni</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Import</li>
+        </ol>
+    </nav>
+
     <section>
         <div class="card">
             <div class="card-header">
