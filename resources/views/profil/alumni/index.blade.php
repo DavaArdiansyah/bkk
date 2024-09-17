@@ -6,7 +6,7 @@
     $fileRoute = 'profil';
 @endphp
 @section('assets')
-    @vite('resources/js/components/sweetalert2/master.js')
+    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/images.js'])
 @endsection
 
 @section('content')
@@ -17,11 +17,14 @@
                 <!-- Avatar -->
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
                     <div class="avatar avatar-2xl border border-4 border-light">
-                        <a data-bs-toggle="modal" data-bs-target="#modal-edit-foto-{{ $alumni->nik }}">
+                        <a data-bs-toggle="modal" data-bs-target="#modal-avatar-edit-{{ $alumni->nik }}">
                             {{-- <a id="modal-edit-foto" data-update-url="/profil/foto/{{$alumni->id}}" > --}}
-                            <img src="{{ isset($alumni->foto) ? asset('storage/tmp/images/' . $alumni->foto) : ($alumni->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}"
+                            <img src="{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : ($alumni->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}"
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
+                        <x-modal.avatar id="{{ $alumni->nik }}" title="Perbaharui Foto Profil"
+                            action="{{ route('profil.update', $alumni->user->username) }}" for="Alumni" />
+
                         {{-- <x-edit-foto id="{{ $alumni->nik }}" /> --}}
                     </div>
                 </div>
@@ -34,8 +37,7 @@
                             <h5 class="font-weight-bold mb-2">{{ $alumni->user->username }} - {{ $alumni->nama }}</h5>
                         </div>
                         <div class="col-2 text-end">
-                            <a href="{{ route('profil.edit', $alumni->user->username) }}"
-                                class="btn btn-link me-2">
+                            <a href="{{ route('profil.edit', $alumni->user->username) }}" class="btn btn-link me-2">
                                 <i class="bi bi-pencil fs-5 me-1"></i>
                             </a>
                         </div>
@@ -160,13 +162,14 @@
                     <i class="bi bi-star-fill fs-4"></i>
                 </div>
                 <div class="col-8 col-md-8">
-                    <a href="{{ route('profil.edit', $alumni->nik) }}" class="btn btn-link text-decoration-none">
+                    <a href="{{ route('alumni.profil.keahlian.edit', $alumni->nik) }}"
+                        class="btn btn-link text-decoration-none">
                         <h5 class="font-weight-bold mb-0">Keahlian</h5>
                     </a>
                 </div>
                 <div class="col-2 col-md-3 text-end">
                     @if (!isset($alumni->keahlian))
-                        <a href="{{ route('profil.edit', $alumni->nik) }}"
+                        <a href="{{ route('alumni.profil.keahlian.edit', $alumni->nik) }}"
                             class="btn btn-lg btn-link fs-3">
                             <i class="bi bi-plus fs-2"></i>
                         </a>

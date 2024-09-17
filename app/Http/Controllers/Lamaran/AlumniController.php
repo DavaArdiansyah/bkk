@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Lamaran;
 
 use App\Http\Controllers\Controller;
+use App\Models\Aktivitas;
 use App\Models\Alumni;
 use App\Models\FileLamaran;
 use App\Models\Lamaran;
@@ -41,6 +42,11 @@ class AlumniController extends Controller
         $lamaran = Lamaran::create([
             'id_lowongan_pekerjaan' => $request->input('id-lowongan-pekerjaan'),
             'nik' => Alumni::where('username', Auth::user()->username)->first()->nik,
+        ]);
+
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Melamar pekerjaan',
         ]);
 
         if ($request->input('file')) {

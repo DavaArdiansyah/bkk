@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @yield('meta');
+    @yield('meta')
     <title>@yield('title') - Karier Sebelas</title>
     @vite(['public/assets/scss/app.scss', 'public/assets/scss/themes/dark/app-dark.scss'])
     <link rel="shortcut icon" href="{{ asset('assets/static/images/logo/favicon.svg') }}" type="image/x-icon" />

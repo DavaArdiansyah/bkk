@@ -47,10 +47,11 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
 
 Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
     Route::resource('cari-lowongan', App\Http\Controllers\Halaman\CariLowonganController::class)->parameters(['cari-lowongan' => 'loker'])->only('index', 'show');
-    Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class);
+    Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class)->only('index', 'store');
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::resource('riwayat-pendidikan-formal', App\Http\Controllers\Profil\PendidikanFormalController::class)->parameters(['riwayat-pendidikan-formal' => 'pendidikanFormal'])->except('index', 'show');
         Route::resource('riwayat-pendidikan-non-formal', App\Http\Controllers\Profil\PendidikanNonFormalController::class)->parameters(['riwayat-pendidikan-non-formal' => 'pendidikanNonFormal'])->except('index', 'show');
-        Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja']);
+        Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja'])->except('index', 'show');
+        Route::resource('keahlian', App\Http\Controllers\Profil\KeahlianController::class)->parameters(['keahlian' => 'alumni'])->only('edit', 'update');
     });
 });

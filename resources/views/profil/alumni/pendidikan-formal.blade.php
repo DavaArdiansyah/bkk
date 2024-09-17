@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
-@section('title', 'Edit Data Riwayat Pendidikan')
+@section('title', 'Edit Data Riwayat Pendidikan Formal')
 @else
-@section('title', 'Tambah Data Riwayat Pendidikan')
+@section('title', 'Tambah Data Riwayat Pendidikan Formal')
 @endif
 
 @php
