@@ -40,3 +40,8 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
     Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
     Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
+
+Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
+    Route::resource('cari-lowongan', App\Http\Controllers\Halaman\CariLowonganController::class)->parameters(['cari-lowongan' => 'loker'])->only('index', 'show');
+    Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class);
+});

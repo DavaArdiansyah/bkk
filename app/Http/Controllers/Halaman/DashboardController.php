@@ -11,6 +11,7 @@ use App\Models\Loker;
 use App\Models\Perusahaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -21,9 +22,18 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
-        $data = $this->admin($tahun);
-        return view('dashboard.admin', compact(['tahun', 'data']));
+        if (Auth::user()->role == 'Admin BKK') {
+            $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
+            $data = $this->admin($tahun);
+            return view('dashboard.admin', compact(['tahun', 'data']));
+        } elseif (Auth::user()->role == 'Alumni') {
+            $data = Loker::where('status', 'Dipublikasi')->paginate(10);
+            $data->getCollection()->transform(function ($item) {
+                $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
+                return $item;
+            });
+            return view('lowongan.alumni.index', compact('data'));
+        }
     }
 
     public function admin($tahun)

@@ -61,5 +61,25 @@
             "icon": "person-circle",
             "route": "profil"
         }
+    ],
+    "Alumni" : [
+        {
+            "name": "Menu",
+            "isTitle": true
+        },
+        {
+            "name": "Cari Lowongan",
+            "icon": "grid-fill",
+            "route": "dashboard"
+        },
+        {
+            "name": "Profil",
+            "icon": "person-circle",
+            "route": "profil"
+        },
+        {
+            "name": "Lamaran Saya",
+            "icon": "file-person"
+        }
     ]
 }
