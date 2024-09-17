@@ -8,6 +8,7 @@ use App\Models\FileLamaran;
 use App\Models\Lamaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AlumniController extends Controller
 {
@@ -16,7 +17,12 @@ class AlumniController extends Controller
      */
     public function index()
     {
-        //
+        $lamaran = Lamaran::where('nik', Alumni::where('username', Auth::user()->username)->value('nik'))->orderBy('waktu', 'desc')->get();
+        foreach ($lamaran as $lm) {
+            $fileName = 'public/files/' . $lm->id_lamaran . $lm->alumni->nama . '.txt';
+            $lm['pesan'] = Storage::exists($fileName) ? Storage::get($fileName) : 'Pesan Tidak Ditemukan.';
+        }
+        return view('lamaran.alumni.index', compact('lamaran'));
     }
 
     /**

@@ -79,7 +79,8 @@
         },
         {
             "name": "Lamaran Saya",
-            "icon": "file-person"
+            "icon": "file-person",
+            "route": "alumni.lamaran.index"
         }
     ]
 }
