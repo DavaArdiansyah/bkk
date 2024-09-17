@@ -46,7 +46,7 @@
                             value="{{ $alamat['alamat-lengkap'] ?? '' }}" class="mandatory" required="true" />
                     </div>
                     <div class="col-md-6 col-12">
-                        <div class="form-group">
+                        <div class="form-group mandatory">
                             <label for="provinsi" class="form-label">Provinsi</label>
                             <select name="provinsi" id="provinsi" class="form-select" data-parsley-required="true">
                                 <option selected disabled>Pilih Provinsi</option>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
-                        <div class="form-group">
+                        <div class="form-group mandatory">
                             <label for="kota" class="form-label">Kota/Kabupaten</label>
                             <select name="kota" id="kota" class="form-select" data-parsley-required="true" disabled>
                                 <option selected disabled>Pilih Kota/Kabupaten</option>
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
-                        <div class="form-group">
+                        <div class="form-group mandatory">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
                             <select name="kecamatan" id="kecamatan" class="form-select" data-parsley-required="true"
                                 disabled>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-12 mb-3">
-                        <div class="form-group">
+                        <div class="form-group mandatory">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
                             <select name="kelurahan" id="kelurahan" class="form-select" data-parsley-required="true"
                                 disabled>

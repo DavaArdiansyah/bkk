@@ -113,7 +113,7 @@ class DataPerusahaanController extends Controller
         $perusahaan->bidang_usaha = $request->input('bidang-usaha');
         $perusahaan->no_telepon = $request->input('no-telepon');
         $perusahaan->alamat = $this->wilayahController->alamatlengkap($request);
-        if ($request->input('logo')) {
+        if ($request->input('file')) {
             $perusahaan->nama_file_logo = $request->input('file');
         }
 

@@ -15,7 +15,7 @@ class Avatar extends Component
     public $title;
     public $action;
     public $for;
-    public function __construct($id, $title, $action, $for)
+    public function __construct($id, $title, $action = null, $for = null)
     {
         $this->id = $id;
         $this->title = $title;
