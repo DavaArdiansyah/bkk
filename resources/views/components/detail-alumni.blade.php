@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header p-4">
-                <h5 class="modal-title" id="modal-detail-alumni">Detail Data Alumni</h5>
+                <h5 class="modal-title" id="modal-detail-alumni">{{isset($fileLamaran) ? 'Detail Data Pelamar' : 'Detail Data Alumni'}}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -179,7 +179,7 @@
                     <!-- end accordion keahlian  -->
 
                     <!-- accordion file tambahan  -->
-                    @if (isset($fileTambahan))
+                    @if (isset($fileLamaran))
                     <div class="accordion-item">
                         <div class="accordion-header" id="headerFileTambahan">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

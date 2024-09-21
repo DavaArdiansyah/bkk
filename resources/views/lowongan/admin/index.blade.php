@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Informasi Lowongan')
 @php
-    $sidebarItemName = 'Ajuan Pengguna';
+    $sidebarItemName = 'Info Lowongan';
     $fileRoute = 'admin.info-lowongan.index';
 @endphp
 @section('assets')
@@ -25,7 +25,7 @@
                         <th class="text-start">NAMA PERUSAHAAN</th>
                         <th class="text-start">POSISI</th>
                         <th class="text-start">STATUS PUBLIKASI</th>
-                        <th class="text-start">BATAS LOWONGAN</th>
+                        {{-- <th class="text-start">BATAS LOWONGAN</th> --}}
                         <th class="text-start">AKSI</th>
                         <th class="text-start">WAKTU PENGAJUAN</th>
                     </tr>
@@ -37,10 +37,10 @@
                             <td class="text-start">{{ $lk->perusahaan->nama }}</td>
                             <td class="text-start">{{ $lk->jabatan }}</td>
                             <td class="text-start">{{ $lk->status }}</td>
-                            <td class="text-start">{{ $lk->tanggal_akhir }}</td>
+                            {{-- <td class="text-start">{{ $lk->tanggal_akhir }}</td> --}}
                             <td class="text-start">
                                 <div class="btn-group d-flex justify-content-center" role="group" aria-label="Aksi">
-                                    <a href="{{ route('admin.info-lowongan.show', $lk->id_lowongan_pekerjaan) }}"
+                                    <a href="{{ route('admin.ajuan-info-lowongan.show', $lk->id_lowongan_pekerjaan) }}"
                                         class="btn btn-primary m-1">
                                         <i class="bi bi-file-text m-1"></i>
                                     </a>
@@ -66,7 +66,7 @@
                                 </form> --}}
                                 </div>
                             </td>
-                            <td class="text-start">{{ $lk->waktu }}</td>
+                            <td class="text-start">{{$lk->waktu}}</td>
                             {{-- <td class="text-start">{{$lk->updated_at->format('Y-m-d')}}</td> --}}
                         </tr>
                     @endforeach

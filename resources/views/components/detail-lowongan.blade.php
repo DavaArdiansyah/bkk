@@ -43,13 +43,14 @@
                     data-bs-target="#modal-input-cv-{{ $data->id_lowongan_pekerjaan }}">
                     Lamar
                 </button>
-                <x-modal.cv id="{{$data->id_lowongan_pekerjaan}}" />
-                    {{-- Konten opsional dalam modal lamar --}}
+                <x-modal.cv id="{{ $data->id_lowongan_pekerjaan }}" />
+                {{-- Konten opsional dalam modal lamar --}}
             @else
                 <div class="btn-group mt-3" role="group">
                     {{-- Tombol Publikasi --}}
                     @if ($data->status == 'Tertunda')
-                        <form action="{{ route('admin.info-lowongan.update', $data->id_lowongan_pekerjaan) }}" method="post">
+                        <form action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
+                            method="post">
                             @csrf
                             @method('put')
                             <input type="hidden" name="status" value="Dipublikasi">
@@ -66,7 +67,9 @@
                             data-bs-target="#modal-input-pesan-{{ $data->id_lowongan_pekerjaan }}">
                             <i class="bi bi-x-circle me-1"></i> Tidak Dipublikasi
                         </button>
-                        <x-modal.lowongan.tidak-dipublikasi id="{{$data->id_lowongan_pekerjaan}}" />
+                        <x-modal.input-pesan id="{{$data->id_lowongan_pekerjaan}}" title="Pesan Untuk Perusahaan"
+                            action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
+                            for="lowongan" />
                     @endif
                 </div>
             @endif

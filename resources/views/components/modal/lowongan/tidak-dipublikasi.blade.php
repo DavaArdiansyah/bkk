@@ -6,7 +6,7 @@
                 <h5 class="modal-title">Masukan Pesan Untuk Perusahaan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('admin.info-lowongan.update', $id) }}" method="POST">
+            <form action="{{ route('admin.ajuan-info-lowongan.update', $id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">

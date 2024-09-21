@@ -112,10 +112,12 @@
             "icon": "file-person",
             "submenu": [
                 {
-                    "name": "Terbaru"
+                    "name": "Terbaru",
+                    "route": "perusahaan.lamaran.terbaru"
                 },
                 {
-                    "name": "Arsip"
+                    "name": "Arsip",
+                    "route": "perusahaan.lamaran.arsip"
                 }
             ]
         },

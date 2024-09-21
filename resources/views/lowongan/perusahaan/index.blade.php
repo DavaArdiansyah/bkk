@@ -11,6 +11,12 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Info Lowongan</li>
+        </ol>
+    </nav>
+
     <div class="card">
         <div class="card-body">
             <!-- Table data lowongan pekerjaan -->
@@ -31,23 +37,27 @@
                             <td class="text-start"></td>
                             <td class="text-start">{{ $lk->jabatan }}</td>
                             <td class="text-start">{{ $lk->tanggal_akhir }}</td>
-                            <td class="text-start
+                            <td
+                                class="text-start
                                 @if ($lk->status == 'Tertunda') text-warning
                                 @elseif ($lk->status == 'Dipublikasi') text-success
-                                @elseif ($lk->status == 'Tidak Dipublikasi') text-danger
-                                @endif">
+                                @elseif ($lk->status == 'Tidak Dipublikasi') text-danger @endif">
                                 {{ $lk->status }}
                             </td>
                             <td class="text-start">
                                 <div class="btn-group d-flex justify-content-center" role="group" aria-label="Aksi">
-                                    <a href="{{ route('perusahaan.info-lowongan.show', $lk->id_lowongan_pekerjaan) }}" class="btn btn-primary m-1">
+                                    <a href="{{ route('perusahaan.info-lowongan.show', $lk->id_lowongan_pekerjaan) }}"
+                                        class="btn btn-primary m-1">
                                         <i class="bi bi-file-text m-1"></i> Detail
                                     </a>
-                                    <a href="{{ route('perusahaan.info-lowongan.edit', $lk->id_lowongan_pekerjaan) }}" class="btn btn-warning m-1">
+                                    <a href="{{ route('perusahaan.info-lowongan.edit', $lk->id_lowongan_pekerjaan) }}"
+                                        class="btn btn-warning m-1">
                                         <i class="bi bi-pencil me-1"></i> Edit
                                     </a>
                                     @if ($lk->status === 'Dipublikasi')
-                                        <form action="{{ route('perusahaan.info-lowongan.update', $lk->id_lowongan_pekerjaan) }}" method="post">
+                                        <form
+                                            action="{{ route('perusahaan.info-lowongan.update', $lk->id_lowongan_pekerjaan) }}"
+                                            method="post">
                                             @csrf
                                             @method('put')
                                             <input type="hidden" name="status" value="Tidak Dipublikasi">
@@ -57,12 +67,15 @@
                                             </button>
                                         </form>
                                     @else
-                                        <button data-bs-toggle="modal" data-bs-target="#modal-pesan-{{ $lk->id_lowongan_pekerjaan }}" class="btn btn-warning m-1
+                                        <button data-bs-toggle="modal"
+                                            data-bs-target="#modal-pesan-{{ $lk->id_lowongan_pekerjaan }}"
+                                            class="btn btn-warning m-1
                                             {{ $lk->status == 'Tertunda' ? 'disabled' : '' }}">
                                             <i class="bi bi-envelope me-1"></i> Pesan Admin BKK
                                         </button>
                                         <!-- Modal -->
-                                        <x-modal.pesan id="{{ $lk->id_lowongan_pekerjaan }}" title="Pesan Admin BKK" pesan="{{ $lk->pesan }}" />
+                                        <x-modal.pesan id="{{ $lk->id_lowongan_pekerjaan }}" title="Pesan Admin BKK"
+                                            pesan="{{ $lk->pesan }}" />
                                     @endif
                                 </div>
                             </td>

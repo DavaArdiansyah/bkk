@@ -15,25 +15,23 @@ import "datatables.net-responsive";
 import "datatables.net-responsive-bs5";
 
 document.addEventListener("DOMContentLoaded", function () {
-    $("#ajuan-lowongan").DataTable({
-        order: [5, "desc"],
+    $('#lamaran-terbaru').DataTable({
+        order: [[5, 'desc']],
         responsive: true,
         layout: {
             top1: {
-                searchPanes: {
-                    //filter layout
+                searchPanes: { //filter layout
                     orderable: false, //non aktif noise filter
                     initCollapsed: true, //non aktif filter dropdown
-                },
+                }
             },
         },
-        columnDefs: [
-            {
+        columnDefs: [{
                 searchPanes: {
-                    show: true, //filter show true
+                    show: true //filter show true
                 },
-                targets: [1, 2, 3], //target kolom index 1, 2 dan 3
-            },
-        ],
+                targets: [2, 4] //target kolom index 2, 3
+            }
+        ]
     });
 });

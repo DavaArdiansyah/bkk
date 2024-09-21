@@ -9,6 +9,13 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('perusahaan.info-lowongan.index') }}">Info Lowongan</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </nav>
+
     <div class="card">
         <div class="card-body">
             <p>Silakan perbaharui Informasi Lowongan di bawah ini:</p>

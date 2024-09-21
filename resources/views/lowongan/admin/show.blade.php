@@ -17,5 +17,6 @@
         </ol>
     </nav>
 
-    @include('partials.detail-lowongan')
+    <x-detail-lowongan :data="$loker" />
+    {{-- @include('partials.detail-lowongan') --}}
 @endsection

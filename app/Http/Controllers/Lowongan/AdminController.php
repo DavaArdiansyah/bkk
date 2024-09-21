@@ -16,6 +16,10 @@ class AdminController extends Controller
     public function index()
     {
         $loker = Loker::all();
+        $loker->transform(function ($item) {
+            $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
+            return $item;
+        });
         return view ('lowongan.admin.index', compact('loker'));
     }
 
@@ -60,7 +64,6 @@ class AdminController extends Controller
         $loker->update(['status' => $request->input('status')]);
 
         if ($request->input('pesan')) {
-            Storage::delete("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama);
             Storage::put("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama . '.txt', $request->input('pesan'));
             return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil mengubah status lowongan menjadi: {$request->input('status')} dan mengirimkan pesan kepada perusahaan terkait."]);;
         }

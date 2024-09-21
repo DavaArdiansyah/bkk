@@ -58,4 +58,9 @@ Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
 
 Route::middleware(['auth', 'role:Perusahaan'])->name('perusahaan.')->group(function () {
     Route::resource('info-lowongan', App\Http\Controllers\Lowongan\PerusahaanController::class)->parameters(['info-lowongan' => 'loker']);
+    Route::prefix('lamaran')->name('lamaran.')->group(function () {
+        Route::get('terbaru', [App\Http\Controllers\Lamaran\PerusahaanController::class, 'terbaru'])->name('terbaru');
+        Route::put('update/{lamaran}', [App\Http\Controllers\Lamaran\PerusahaanController::class, 'update'])->name('update');
+        Route::get('arsip', [App\Http\Controllers\Lamaran\PerusahaanController::class, 'arsip'])->name('arsip');
+    });
 });

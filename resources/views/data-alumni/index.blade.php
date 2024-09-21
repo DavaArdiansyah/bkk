@@ -53,7 +53,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <x-detail-alumni :data="$al" for="data-alumni" />
+                            <x-detail-alumni :data="$al" />
                         @endforeach
                     </tbody>
                 </table>

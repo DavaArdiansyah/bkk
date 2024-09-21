@@ -6,6 +6,12 @@
 @endsection
 
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('profil') }}">Profil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Informasi Utama</li>
+        </ol>
+    </nav>
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -21,7 +27,8 @@
         </div>
         <div class="card-body">
             <p>Silakan perbaharui informasi utama di bawah ini:</p>
-            <form class="form" action="{{ route('profil.update', $user->username) }}" method="POST" data-parsley-validate>
+            <form class="form" action="{{ route('profil.update', $user->username) }}" method="POST"
+                data-parsley-validate>
                 @csrf @method('PUT')
                 <div id="data-provinsi" class="d-none">{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : '' }}</div>
                 <div id="data-kota" class="d-none">{{ isset($alamat['kota']) ? $alamat['kota'] : '' }}</div>
@@ -37,23 +44,29 @@
                             <label for="bidang-usaha" class="form-label">Bidang Usaha</label>
                             <select name="bidang-usaha" id="bidang-usaha" class="form-select" required>
                                 <option disabled>Pilih Bidang Usaha</option>
-                                <option value="tambah" {{ $user->perusahaan->bidang_usaha == 'tambah' ? 'selected' : '' }}>Tambah
+                                <option value="tambah" {{ $user->perusahaan->bidang_usaha == 'tambah' ? 'selected' : '' }}>
+                                    Tambah
                                     Opsi Baru</option>
                                 <option value="Perdagangan"
-                                    {{ $user->perusahaan->bidang_usaha == 'Perdagangan' ? 'selected' : '' }}>Perdagangan</option>
+                                    {{ $user->perusahaan->bidang_usaha == 'Perdagangan' ? 'selected' : '' }}>Perdagangan
+                                </option>
                                 <option value="Makanan dan Minuman"
-                                    {{ $user->perusahaan->bidang_usaha == 'Makanan dan Minuman' ? 'selected' : '' }}>Makanan dan
+                                    {{ $user->perusahaan->bidang_usaha == 'Makanan dan Minuman' ? 'selected' : '' }}>Makanan
+                                    dan
                                     Minuman</option>
                                 <option value="Pertanian dan Perkebunan"
                                     {{ $user->perusahaan->bidang_usaha == 'Pertanian dan Perkebunan' ? 'selected' : '' }}>
                                     Pertanian dan Perkebunan</option>
-                                <option value="Jasa" {{ $user->perusahaan->bidang_usaha == 'Jasa' ? 'selected' : '' }}>Jasa
+                                <option value="Jasa" {{ $user->perusahaan->bidang_usaha == 'Jasa' ? 'selected' : '' }}>
+                                    Jasa
                                 </option>
                                 <option value="Properti dan Konstruksi"
-                                    {{ $user->perusahaan->bidang_usaha == 'Properti dan Konstruksi' ? 'selected' : '' }}>Properti
+                                    {{ $user->perusahaan->bidang_usaha == 'Properti dan Konstruksi' ? 'selected' : '' }}>
+                                    Properti
                                     dan Konstruksi</option>
                                 <option value="Industri Kreatif"
-                                    {{ $user->perusahaan->bidang_usaha == 'Industri Kreatif' ? 'selected' : '' }}>IndustriKreatif
+                                    {{ $user->perusahaan->bidang_usaha == 'Industri Kreatif' ? 'selected' : '' }}>
+                                    IndustriKreatif
                                 </option>
                                 <option value="Teknologi Informasi dan Komunikasi"
                                     {{ $user->perusahaan->bidang_usaha == 'Teknologi Informasi dan Komunikasi' ? 'selected' : '' }}>
@@ -65,7 +78,8 @@
                                     {{ $user->perusahaan->bidang_usaha == 'Transportasi dan Logistik' ? 'selected' : '' }}>
                                     Transportasi dan Logistik</option>
                                 <option value="Industri Manufaktur"
-                                    {{ $user->perusahaan->bidang_usaha == 'Industri Manufaktur' ? 'selected' : '' }}>Industri
+                                    {{ $user->perusahaan->bidang_usaha == 'Industri Manufaktur' ? 'selected' : '' }}>
+                                    Industri
                                     Manufaktur</option>
 
                                 @if (
