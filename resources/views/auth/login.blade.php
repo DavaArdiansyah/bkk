@@ -8,16 +8,18 @@
                 <div class="auth-logo mb-4 text-center">
                     <img src="" alt="Logo" id="logo" srcset="" light-logo="/assets/static/images/logo/logo-light.png" dark-logo="/assets/static/images/logo/logo-dark.png">
                 </div>
-                <form action="{{route ('login')}}" method="POST">
+                <form action="{{route ('login')}}" method="POST" data-parsley-validate>
                     @csrf
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="text" name="username" id="username" class="form-control form-control-xl" placeholder="Username">
+                        <label for="username" class="form-label d-none">Username</label>
+                        <input type="text" name="username" id="username" class="form-control form-control-xl" placeholder="Username" data-parsley-required="true">
                         <div class="form-control-icon">
                             <i class="bi bi-person"></i>
                         </div>
                     </div>
                     <div class="form-group position-relative has-icon-left mb-4">
-                        <input type="password" name="password" id="password" class="form-control form-control-xl" placeholder="Password">
+                        <label for="username" class="form-label d-none">Password</label>
+                        <input type="password" name="password" id="password" class="form-control form-control-xl" placeholder="Password" data-parsley-required="true">
                         <div class="form-control-icon">
                             <i class="bi bi-shield-lock"></i>
                         </div>

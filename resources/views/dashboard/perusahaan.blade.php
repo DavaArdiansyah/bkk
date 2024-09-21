@@ -14,13 +14,19 @@
 
     <section class="row">
         <div class="col-12 col-md-6">
-            <x-statistics title="Total Lowongan" icon="person-fill" data="{{ $data['loker'] }}" />
+            <a href="{{route ('perusahaan.info-lowongan.index')}}">
+                <x-statistics title="Total Lowongan" icon="person-fill" data="{{ $data['loker'] }}" />
+            </a>
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Lowongan Yang Dipublikasi" icon="person-fill" data="{{ $data['lokerPublikasi'] }}" />
+            <a href="{{route ('perusahaan.info-lowongan.index')}}">
+                <x-statistics title="Lowongan Yang Dipublikasi" icon="person-fill" data="{{ $data['lokerPublikasi'] }}" />
+            </a>
         </div>
         <div class="col-12">
-            <x-statistics title="Lamaran Terbaru" icon="person-fill" data="{{ $data['lamaran'] }}" />
+            <a href="{{route ('perusahaan.lamaran.terbaru')}}">
+                <x-statistics title="Lamaran Terbaru" icon="person-fill" data="{{ $data['lamaran'] }}" />
+            </a>
         </div>
         <div class="col-12">
             <div class="card">

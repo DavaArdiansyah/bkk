@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - Karier Sebelas</title>
     @vite(['public/assets/scss/app.scss', 'public/assets/scss/themes/dark/app-dark.scss', 'public/assets/scss/pages/auth.scss'])
-    @vite(['public/assets/static/js/initTheme.js', 'public/assets/static/js/components/dark.js', 'resources/js/components/sweetalert2/auth.js'])
+    @vite(['public/assets/static/js/initTheme.js', 'public/assets/static/js/components/dark.js', 'resources/js/components/sweetalert2/auth.js', 'resources/js/components/parsley.js'])
 </head>
 
 <body>

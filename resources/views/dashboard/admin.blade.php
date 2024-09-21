@@ -8,19 +8,14 @@
     @apexchartsScripts
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
+            {{-- <li class="breadcrumb-item"><a href="{{route ('admin.data-alumni.index')}}">Data Alumni</a></li> --}}
             <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item active" aria-current="page">Admin</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ Auth::user()->username }}</li>
         </ol>
     </nav>
 
     <section class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="text-muted font-extrabold">
-                        {{ 'Halo ' . Auth::user()->username . ', anda login sebagai Admin BKK' }}</h6>
-                </div>
-            </div>
-        </div>
         <div class="col-12 col-md-6">
             <x-statistics title="Alumni Yang Bekerja" icon="person-fill" data="{{ $data['kerja'] }}" />
         </div>
