@@ -33,6 +33,10 @@ class DashboardController extends Controller
                 return $item;
             });
             return view('lowongan.alumni.index', compact('data'));
+        } elseif (Auth::user()->role == 'Perusahaan') {
+            $tahun = $request->input('tahun') ?? Carbon::now()->format('Y');
+            $data = $this->perusahaan($tahun);
+            return view('dashboard.perusahaan', compact(['tahun', 'data']));
         }
     }
 
@@ -78,6 +82,46 @@ class DashboardController extends Controller
         return $data = [
             'kerja' => $kerja,
             'tidakKerja' => $tidakKerja,
+            'chart' => $chart,
+        ];
+    }
+
+    public function perusahaan($tahun)
+    {
+        $perusahaan = Perusahaan::where('username', Auth::user()->username)->first();
+
+        $loker = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->count();
+        $lokerPublikasi = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)
+            ->where('status', 'Dipublikasi')
+            ->count();
+
+        $lokerIds = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->pluck('id_lowongan_pekerjaan');
+
+        $lamaran = Lamaran::whereIn('status', ['Terkirim'])
+            ->whereIn('id_lowongan_pekerjaan', $lokerIds)
+            ->count();
+
+        $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        $jumlahLamaranPerBulan = [];
+        foreach (range(1, 12) as $month) {
+            $jumlahLamaranPerBulan[] = Lamaran::whereYear('waktu', $tahun)
+                ->whereMonth('waktu', $month)
+                ->whereIn('id_lowongan_pekerjaan', $lokerIds)
+                ->count();
+        }
+
+        $chart = (new Chart)
+            ->setType('bar')
+            ->setWidth('100%')
+            ->setHeight(400)
+            ->setLabels($bulan)
+            ->setDataset('Jumlah Lamaran', 'bar', $jumlahLamaranPerBulan);
+
+        return $data = [
+            'loker' => $loker,
+            'lokerPublikasi' => $lokerPublikasi,
+            'lamaran' => $lamaran,
             'chart' => $chart,
         ];
     }

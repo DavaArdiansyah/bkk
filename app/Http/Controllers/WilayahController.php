@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -13,6 +14,9 @@ class WilayahController extends Controller
     }
 
     public function provinsi () {
+        // $client = New Client();
+        // $response = $client->get('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
+        // return  json_decode($response->getBody()->getContents());
         $url = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
         return $url->json();
     }

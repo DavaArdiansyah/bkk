@@ -5,7 +5,7 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/components/flatpickr.js'])
+    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/views/pendidikan-non-formal.js'])
 @endsection
 
 @section('content')

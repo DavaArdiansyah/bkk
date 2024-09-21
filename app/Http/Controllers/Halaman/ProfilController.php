@@ -9,6 +9,7 @@ use App\Models\Alumni;
 use App\Models\Kerja;
 use App\Models\PendidikanFormal;
 use App\Models\PendidikanNonFormal;
+use App\Models\Perusahaan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -40,6 +41,9 @@ class ProfilController extends Controller
             });
             $kerja = Kerja::where('nik', $alumni->nik)->orderby('tahun_awal', 'desc')->get();
             return view('profil.alumni.index', compact(['alumni', 'pendidikanFormal', 'pendidikanNonFormal', 'kerja']));
+        } elseif (Auth::user()->role == 'Perusahaan') {
+            $perusahaan = Perusahaan::where('username', Auth::user()->username)->first();
+            return view('profil.perusahaan.index', compact('perusahaan'));
         }
     }
 
@@ -48,10 +52,13 @@ class ProfilController extends Controller
         $alamat = [];
 
         $provinsi = $this->wilayahController->provinsi();
-        if ($user->alumni->alamat) {
+        if ($user->alumni?->alamat) {
             $alamat = $this->wilayahController->alamat($user->alumni->alamat);
+            return view('profil.alumni.edit', compact('user', 'provinsi', 'alamat'));
+        } elseif ($user->perusahaan?->alamat) {
+            $alamat = $this->wilayahController->alamat($user->perusahaan->alamat);
+            return view ('profil.perusahaan.edit', compact('user', 'provinsi', 'alamat'));
         }
-        return view('profil.alumni.edit', compact('user', 'provinsi', 'alamat'));
     }
 
     public function update(Request $request, user $user)
@@ -61,11 +68,22 @@ class ProfilController extends Controller
                 $data = Alumni::find(Auth::user()->alumni->nik);
                 $this->avatar($data, $request, 'Alumni');
                 return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
+            } elseif ($request->input('for') == 'Perusahaan') {
+                $data = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
+                $this->avatar($data, $request, 'Perusahaan');
+                return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
             }
         }
-        $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
-        $user->alumni->kontak = $request->input('kontak');
-        $user->alumni->deskripsi = $request->input('deskripsi');
+
+        if ($user->alumni) {
+            $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
+            $user->alumni->kontak = $request->input('kontak');
+            $user->alumni->deskripsi = $request->input('deskripsi');
+        } else if ($user->perusahaan) {
+            $user->perusahaan->alamat = $this->wilayahController->alamatLengkap($request);
+            $user->perusahaan->bidang_usaha = $request->input('bidang-usaha');
+            $user->perusahaan->no_telepon = $request->input('no-telepon');
+        }
 
         $username = $request->input('username');
         $password = $request->input('password-baru');
@@ -80,11 +98,18 @@ class ProfilController extends Controller
             $user->password = Hash::make($password);
         }
 
-        if (!$user->alumni->isDirty() && !$user->isDirty()) {
+        if ($user->alumni && !$user->alumni->isDirty() && !$user->isDirty()) {
+            return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+        } elseif ($user->perusahaan && !$user->perusahaan->isDirty() && !$user->isDirty()) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
-        $user->alumni->save();
+        if ($user->alumni) {
+            $user->alumni->save();
+        } elseif ($user->perusahaan) {
+            $user->perusahaan->save();
+        }
+
         $user->save();
         if ($user->save()) {
             Auth::logout();
@@ -94,10 +119,18 @@ class ProfilController extends Controller
                 'keterangan' => 'Memperbaharui Data Akun',
             ]);
         }
-        Aktivitas::create([
-            'username' => Auth::user()->username,
-            'keterangan' => 'Memperbaharui Data Alumni',
-        ]);
+
+        if ($user->alumni) {
+            Aktivitas::create([
+                'username' => Auth::user()->username,
+                'keterangan' => 'Memperbaharui Data Alumni',
+            ]);
+        } elseif ($user->perusahaan) {
+            Aktivitas::create([
+                'username' => Auth::user()->username,
+                'keterangan' => 'Memperbaharui Data Perusahaan',
+            ]);
+        }
 
         return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
@@ -105,18 +138,30 @@ class ProfilController extends Controller
     public function avatar($data, $request, $for)
     {
         if ($for == 'Alumni') {
-            Storage::delete('public/tmp/images/' . $data->foto);
+            Storage::delete('public/images/' . $data->nama_file_foto);
             $data->nama_file_foto = $request->input('file');
 
             if (!$request->input('file')) {
-                return redirect()->back()->with(['toast' => 'true', 'status' => 'info', 'message' => 'Tidak Ada Data Yang Diperbaharui']);
+                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak Ada Data Yang Diperbaharui']);
             }
-
 
             $data->save();
             Aktivitas::create([
                 'username' => Auth::user()->username,
                 'keterangan' => 'Memperbaharui Foto Profil',
+            ]);
+        } elseif ($for == 'Perusahaan') {
+            Storage::delete('public/images' . $data->nama_file_logo);
+            $data->nama_file_logo = $request->input('file');
+
+            if (!$request->input('file')) {
+                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak Ada Data Yang Diperbaharui']);
+            }
+
+            $data->save();
+            Aktivitas::create([
+                'username' => Auth::user()->username,
+                'keterangan' => 'Memperbaharui Logo',
             ]);
         }
     }

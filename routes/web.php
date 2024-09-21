@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +25,7 @@ Route::prefix('tmp')->name('tmp.')->group(function () {
 });
 Route::get('', [App\Http\Controllers\Halaman\DashboardController::class, 'index'])->name('dashboard');
 Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'index'])->name('profil');
+
 Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('edit/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'edit'])->name('edit');
     Route::put('update/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'update'])->name('update');
@@ -42,7 +42,7 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
     Route::resource('data-perusahaan', App\Http\Controllers\DataPerusahaanController::class)->parameters(['data-perusahaan' => 'perusahaan']);
     Route::post('data-perusahaan/akun', [App\Http\Controllers\DataPerusahaanController::class, 'akun'])->name('data-perusahaan.akun.create');
     Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
-    Route::resource('info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['info-lowongan' => 'loker'])->only('index', 'show', 'update');
+    Route::resource('ajuan-info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['ajuan-info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
 
 Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
@@ -54,4 +54,8 @@ Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
         Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja'])->except('index', 'show');
         Route::resource('keahlian', App\Http\Controllers\Profil\KeahlianController::class)->parameters(['keahlian' => 'alumni'])->only('edit', 'update');
     });
+});
+
+Route::middleware(['auth', 'role:Perusahaan'])->name('perusahaan.')->group(function () {
+    Route::resource('info-lowongan', App\Http\Controllers\Lowongan\PerusahaanController::class)->parameters(['info-lowongan' => 'loker']);
 });

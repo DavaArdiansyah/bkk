@@ -54,7 +54,7 @@
         {
             "name": "Info Lowongan",
             "icon": "newspaper",
-            "route": "admin.info-lowongan.index"
+            "route": "admin.ajuan-info-lowongan.index"
         },
         {
             "name": "Profil",
@@ -81,6 +81,48 @@
             "name": "Lamaran Saya",
             "icon": "file-person",
             "route": "alumni.lamaran.index"
+        }
+    ],
+    "Perusahaan"  : [
+        {
+            "name": "Menu",
+            "isTitle": true
+        },
+        {
+            "name": "Dashboard",
+            "icon": "grid-fill",
+            "route": "dashboard"
+        },
+        {
+            "name": "Info Lowongan",
+            "icon": "newspaper",
+            "submenu": [
+                {
+                    "name": "Tambah Data",
+                    "route": "perusahaan.info-lowongan.create"
+                },
+                {
+                    "name": "Tampil Data",
+                    "route": "perusahaan.info-lowongan.index"
+                }
+            ]
+        },
+        {
+            "name": "Lamaran",
+            "icon": "file-person",
+            "submenu": [
+                {
+                    "name": "Terbaru"
+                },
+                {
+                    "name": "Arsip"
+                }
+            ]
+        },
+        {
+            "name": "Profil",
+            "icon": "person-circle",
+            "route": "profil"
         }
     ]
 }

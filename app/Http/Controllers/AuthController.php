@@ -16,20 +16,22 @@ class AuthController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-    public function showLoginForm () {
+    public function showLoginForm()
+    {
         return view('auth.login');
     }
 
-    public function login (Request $request) {
+    public function login(Request $request)
+    {
         $user = User::find($request->input('username'));
-        if ($user?->perusahaan?->id_data_perusahaan) {
+        if (!$user) {
+            return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+        }
+        if ($user->perusahaan) {
             $perusahaan = Perusahaan::find($user->perusahaan->id_data_perusahaan);
             if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
                 return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
             }
-        }
-        if (!$user) {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
         }
         if (!Hash::check($request->input('password'), $user->password)) {
             return redirect()->back()->with(['status' => 'error', 'message' => 'Password yang anda masukan salah.']);
@@ -38,7 +40,8 @@ class AuthController extends Controller
         return redirect()->route('dashboard')->with(['status' => 'success', 'message' => 'Login berhasil!']);
     }
 
-    public function logout () {
+    public function logout()
+    {
         Auth::logout(Auth::user());
         return redirect()->route('login');
     }

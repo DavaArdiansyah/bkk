@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Lowongan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Loker;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -39,6 +40,7 @@ class AdminController extends Controller
      */
     public function show(Loker $loker)
     {
+        $loker->tanggal_akhir = Carbon::parse($loker->tanggal_akhir)->format('j M Y H:i');
         return view ('lowongan.admin.show', compact('loker'));
     }
 

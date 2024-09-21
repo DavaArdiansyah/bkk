@@ -1,10 +1,8 @@
 <div class="card">
     <div class="card-body">
-        @if (Route::is('admin.info-lowongan.show', $loker->id_lowongan_pekerjaan))
-            <p class="card-text {{ $loker->status == 'Dipublikasi' ? 'text-success' : 'text-danger' }}">
-                <i class="bi bi-calendar-event"></i> Status Lowongan: {{ $loker->status }}
-            </p>
-        @endif
+        <p class="card-text {{ $loker->status == 'Dipublikasi' ? 'text-success' : 'text-danger' }}">
+            <i class="bi bi-calendar-event"></i> Status Lowongan: {{ $loker->status }}
+        </p>
 
         <h4 class="card-title">
             Nama Perusahaan: <span class="text-primary">{{ $loker->perusahaan->nama }}</span>
@@ -33,15 +31,15 @@
                 <p class="card-text">{{ $loker->deskripsi }}</p>
             </div>
 
-            @if (Route::is('alumni.info-loker.detail', $loker->id_lowongan_pekerjaan))
+            @if (Route::is('alumni.cari-lowongan.detail', $loker->id_lowongan_pekerjaan))
                 <a class="btn btn-primary mt-3 ms-1" data-bs-toggle="modal"
                     data-bs-target="#modal-input-cv-{{ $loker->id_lowongan_pekerjaan }}">
                     Lamar
                 </a>
                 {{-- <x-input-cv id="{{ $loker->id_lowongan_pekerjaan }}"/> --}}
-            @else
+            @elseif (Route::is('admin.ajuan-info-lowongan.detail', $loker->id_lowongan_pekerjaan))
                 <div class="btn-group" role="group" aria-label="Aksi">
-                    <form action="{{ route('admin.info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
+                    <form action="{{ route('admin.ajuan-info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
                         method="post">
                         @csrf
                         @method('put')
@@ -73,7 +71,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <form action="{{ route('admin.info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
+                                <form action="{{ route('admin.ajuan-info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
                                     method="POST" data-parsley-validate>
                                     @csrf @method('PUT')
                                     <div class="modal-body">
