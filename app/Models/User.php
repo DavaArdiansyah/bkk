@@ -59,4 +59,8 @@ class User extends Authenticatable
     public function perusahaan () : HasOne {
         return $this->hasOne(Perusahaan::class, 'username');
     }
+
+    public function admin () : HasOne {
+        return $this->hasOne(Admin::class, 'username');
+    }
 }

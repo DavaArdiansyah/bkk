@@ -32,10 +32,9 @@
 
         {{-- Deskripsi Pekerjaan --}}
         <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title">Deskripsi Pekerjaan:</h5>
-                <p class="card-text">{{ $data->deskripsi }}</p>
-            </div>
+            <hr>
+            <h5 class="card-title">Deskripsi Pekerjaan:</h5>
+            <p class="card-text">{{ $data->deskripsi }}</p>
 
             {{-- Aksi Berdasarkan Role --}}
             @if (Route::is('alumni.cari-lowongan.show', $data->id_lowongan_pekerjaan))
@@ -46,32 +45,50 @@
                 <x-modal.cv id="{{ $data->id_lowongan_pekerjaan }}" />
                 {{-- Konten opsional dalam modal lamar --}}
             @else
-                <div class="btn-group mt-3" role="group">
+                <div class="row" role="group">
                     {{-- Tombol Publikasi --}}
                     @if ($data->status == 'Tertunda')
-                        <form action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
-                            method="post">
-                            @csrf
-                            @method('put')
-                            <input type="hidden" name="status" value="Dipublikasi">
-                            <button type="submit" class="btn btn-success"
-                                {{ $data->tanggal_akhir < now() ? 'disabled' : '' }}>
-                                <i class="bi bi-check-circle me-1"></i> Publikasi
-                            </button>
-                        </form>
+                        <div class="col-md-6 col-12 mb-3">
+                            <form
+                                action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
+                                method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="hidden" name="status" value="Dipublikasi">
+                                <button type="submit" class="btn btn-success w-100"
+                                    {{ $data->tanggal_akhir < now() ? 'disabled' : '' }}>
+                                    <i class="bi bi-check-circle me-1"></i> Publikasi
+                                </button>
+                            </form>
+                        </div>
                     @endif
 
                     {{-- Tombol Tidak Dipublikasi --}}
                     @if ($data->status != 'Tidak Dipublikasi')
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#modal-input-pesan-{{ $data->id_lowongan_pekerjaan }}">
-                            <i class="bi bi-x-circle me-1"></i> Tidak Dipublikasi
-                        </button>
-                        <x-modal.input-pesan id="{{$data->id_lowongan_pekerjaan}}" title="Pesan Untuk Perusahaan"
-                            action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
-                            for="lowongan" />
+                        <div class="col-md-6 col-12 mb-3">
+                            <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                data-bs-target="#modal-input-pesan-{{ $data->id_lowongan_pekerjaan }}">
+                                <i class="bi bi-x-circle me-1"></i> Tidak Dipublikasi
+                            </button>
+                            <x-modal.input-pesan id="{{ $data->id_lowongan_pekerjaan }}" title="Pesan Untuk Perusahaan"
+                                action="{{ route('admin.ajuan-info-lowongan.update', $data->id_lowongan_pekerjaan) }}"
+                                for="lowongan" />
+                        </div>
                     @endif
                 </div>
+            @endif
+
+            @if (Route::is('admin.ajuan-info-lowongan.show', $data->id_lowongan_pekerjaan))
+                <hr>
+                <p class="card-text">
+                    <i class="bi bi-briefcase"></i> Pelamar: {{ $pelamar }}
+                </p>
+                <p class="card-text">
+                    <i class="bi bi-check-circle"></i> Diterima: {{ $diterima }}
+                </p>
+                <p class="card-text">
+                    <i class="bi bi-x-circle"></i> Ditolak: {{ $ditolak }}
+                </p>
             @endif
         </div>
     </div>

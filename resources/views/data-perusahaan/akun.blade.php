@@ -29,7 +29,7 @@
                     <input type="hidden" name="logo" value="{{ $request['nama-file-logo'] }}">
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            <x-input type="email" name="username" label="EMAIL" placeholder="EMAIL" class="mandatory"
+                            <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory"
                                 required="true" />
                         </div>
                         <div class="col-md-6 col-12">

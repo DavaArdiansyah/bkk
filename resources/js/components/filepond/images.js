@@ -5,12 +5,14 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 // Registrasi plugin
 FilePond.registerPlugin(
     FilePondPluginFileValidateType,
     FilePondPluginImagePreview,
-    FilePondPluginImageCrop
+    FilePondPluginImageCrop,
+    FilePondPluginFileValidateSize,
 );
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -18,6 +20,8 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute(
 FilePond.create(document.querySelector('.filepond'), {
     acceptedFileTypes: ['image/jpeg', 'image/png'],
     credits: null,
+    maxFileSize: '2MB',
+    labelMaxFileSizeExceeded: 'Ukuran maksimum file adalah 2 MB.',
     allowMultiple: false,
     allowImagePreview: true,
     allowImageCrop: true,
@@ -30,5 +34,5 @@ FilePond.create(document.querySelector('.filepond'), {
                 'X-CSRF-TOKEN': csrfToken
             },
         }
-    }
+    },
 });

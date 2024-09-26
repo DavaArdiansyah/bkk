@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('data_perusahaan', function (Blueprint $table) {
-            $table->string('id_data_perusahaan')->primary();
+        Schema::create('data_admin', function (Blueprint $table) {
+            $table->string('nip')->primary();
             $table->string('username');
             $table->string('nama');
-            $table->string('bidang_usaha');
-            $table->string('no_telepon');
+            $table->enum('jenis_kelamin', ['Laki Laki', 'Perempuan']);
             $table->text('alamat');
-            $table->string('nama_file_logo')->nullable();
+            $table->string('kontak');
+            $table->string('nama_file_foto');
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
 
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('data_perusahaan');
+        Schema::dropIfExists('data_admin');
     }
 };

@@ -9,7 +9,7 @@ FilePond.registerPlugin(
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-FilePond.create(document.querySelector('.filepond'), {
+FilePond.create(document.querySelector('.filepond-excel'), {
     acceptedFileTypes: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
     credits: null,
     server: {

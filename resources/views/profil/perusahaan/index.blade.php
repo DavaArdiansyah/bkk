@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('meta')
-<meta name="csrf-token" content="{{ csrf_token() }}">@endsection
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @section('title', 'Profil')
 <?php $fileRoute = 'profil'; ?>
 @section('assets')

@@ -81,6 +81,11 @@
             "name": "Lamaran Saya",
             "icon": "file-person",
             "route": "alumni.lamaran.index"
+        },
+        {
+            "name": "Kegiatan Sekarang",
+            "icon": "person-vcard",
+            "route": "alumni.kegiatan-sekarang.edit"
         }
     ],
     "Perusahaan"  : [

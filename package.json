@@ -27,6 +27,7 @@
         "datatables.net-select": "^2.0.3",
         "datatables.net-select-bs5": "^2.0.3",
         "filepond": "^4.31.1",
+        "filepond-plugin-file-validate-size": "^2.2.8",
         "filepond-plugin-file-validate-type": "^1.2.9",
         "filepond-plugin-image-crop": "^2.0.6",
         "filepond-plugin-image-preview": "^4.6.12",

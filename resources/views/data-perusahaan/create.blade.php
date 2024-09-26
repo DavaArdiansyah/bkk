@@ -8,7 +8,7 @@
 @endphp
 @section('title', 'Tambah Data Perusahaan')
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/images.js', 'resources/js/bidang-usaha.js'])
+    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/images.js', 'resources/js/components/filepond/excel.js', 'resources/js/bidang-usaha.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -18,7 +18,7 @@
         </ol>
     </nav>
 
-    <section class="tambah">
+    <section>
         <div class="card">
             <div class="card-body">
                 <form action="{{ route('admin.data-perusahaan.akun.create') }}" method="POST" enctype="multipart/form-data"
@@ -111,6 +111,37 @@
                         </div>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Upload Data Excel</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.data-perusahaan.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" class="filepond-excel" name="files[]" required>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-upload me-2"></i>Upload
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Petunjuk Impor Data</h4>
+            </div>
+            <div class="card-body">
+                <ol class="list mb-0">
+                    <li>Download Format Yang Sudah Disediakan Jika Belum Memilikinya: <a
+                            href="{{ asset('assets/file/data-perusahaan/Format.xlsx') }}" download>Format.xlsx</a></li>
+                    <li>Isi Data Sesuai Dengan Format Yang Sudah Disediakan</li>
+                </ol>
+                <br>
+                <u>Note :</u>
+                <br>Jika Impor Gagal Coba Lihat Pada File Yang Anda Impor
             </div>
         </div>
     </section>

@@ -36,7 +36,7 @@
                 <div id="data-kelurahan" class="d-none">{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : '' }}</div>
                 <div class="row">
                     <div class="mb-3 col-md-6 col-12">
-                        <x-input type="text" name="username" label="Username" placeholder="Username"
+                        <x-input type="email" name="username" label="Username" placeholder="Username"
                             value="{{ $user->username }}" class="mandatory" required="true" />
                     </div>
                     <div class="col-md-6 col-12">

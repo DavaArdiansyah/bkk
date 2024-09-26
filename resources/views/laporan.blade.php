@@ -44,7 +44,7 @@
                         <div class="col-lg-8 col-md-6">
                             <select class="form-select" id="kategori" name="kategori">
                                 <option value="detail-alumni-bekerja" selected>Detail Alumni Bekerja</option>
-                                <option value="info-loker">Info Loker</option>
+                                <option value="lacak-alumni">Lacak Alumni</option>
                             </select>
                         </div>
                     </div>
@@ -89,8 +89,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if ($data)
-                                @foreach ($data as $dt)
+                            @if ($data['detail-alumni-bekerja'])
+                                @foreach ($data['detail-alumni-bekerja'] as $dt)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td class="text-start">{{ $dt['nik'] }}</td>
@@ -108,8 +108,47 @@
 
                     {{-- @include('partials.laporan.detail-alumni-bekerja') --}}
                 </div>
-                <div class="info-loker-content">
-                    <h1>Kelass</h1>
+                <div class="lacak-alumni-content">
+                    <table class="table table-striped nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-start">STATUS</th>
+                                <th class="text-start">JUMLAH ALUMNI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($data['lacak-alumni'])
+                                {{-- @foreach ($data as $dt)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-start">{{ $dt['nik'] }}</td>
+                                        <td class="text-start">{{ $dt['nama'] }}</td>
+                                        <td class="text-start">{{ $dt['nama-perusahaan'] }}</td>
+                                    </tr>
+                                @endforeach --}}
+                                <tr>
+                                    <td>BEKERJA</td>
+                                    <td>{{$data['lacak-alumni']['bekerja']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>KULIAH</td>
+                                    <td>{{$data['lacak-alumni']['kuliah']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>WIRAUSAHA</td>
+                                    <td>{{$data['lacak-alumni']['wirausaha']}}</td>
+                                </tr>
+                                <tr>
+                                    <td>TIDAK BEKERJA</td>
+                                    <td>{{$data['lacak-alumni']['tidak bekerja']}}</td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan="4" class="text-center">Tidak ada data yang ditampilkan.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
                     {{-- @include('partials.laporan.info-loker') --}}
                 </div>
             </div>

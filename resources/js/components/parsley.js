@@ -18,6 +18,13 @@ $.extend(window.Parsley.options, {
   errorTemplate: "<span></span>"
 });
 
+// Custom email validation message (optional)
+window.Parsley.addMessages('en', {
+  type: {
+    email: 'Format email tidak valid.'
+  }
+});
+
 // Custom validation handling for Parsley
 window.Parsley.addValidator('passwordMatch', {
   validateString: function (value, requirement, instance) {
@@ -26,20 +33,19 @@ window.Parsley.addValidator('passwordMatch', {
   },
   messages: {
     en: 'Konfirmasi password tidak sama.',
-    // Add other language messages if needed
   }
 });
 
 // Custom error message handling
 window.Parsley.on("field:validated", function () {
-  var elNode = this; // Use `this` to refer to the validated element
+  var elNode = this;
 
   // Check if the element has any validation errors
   if (elNode.validationResult !== true) {
     var fieldNode = $(elNode.element);
     var formGroupNode = fieldNode.closest(".form-group");
     var lblNode = formGroupNode.find(".form-label:first");
-    var lblText = lblNode.text().trim();  // Extract label text
+    var lblText = lblNode.text().trim();
 
     // If the label exists, customize the error message
     if (lblText) {
@@ -54,6 +60,9 @@ window.Parsley.on("field:validated", function () {
           }
           if (result.assert.name === 'minlength') {
             errorNode.html(lblText + " harus memiliki minimal " + result.assert.requirements + " karakter.");
+          }
+          if (result.assert.name === 'type' && result.assert.requirements === 'email') {
+            errorNode.html(lblText + " harus berupa email yang valid.");
           }
         });
       }

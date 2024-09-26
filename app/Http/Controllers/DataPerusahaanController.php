@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\PerusahaanImport;
 use App\Models\Loker;
 use App\Models\Perusahaan;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Validators\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataPerusahaanController extends Controller
 {
@@ -24,7 +28,7 @@ class DataPerusahaanController extends Controller
     public function index()
     {
         $perusahaan = Perusahaan::all();
-        return view ('data-perusahaan.index', compact('perusahaan'));
+        return view('data-perusahaan.index', compact('perusahaan'));
     }
 
     /**
@@ -33,10 +37,10 @@ class DataPerusahaanController extends Controller
     public function create()
     {
         $provinsi = $this->wilayahController->provinsi();
-        return view ('data-perusahaan.create', compact('provinsi'));
+        return view('data-perusahaan.create', compact('provinsi'));
     }
 
-    public function akun (Request $request)
+    public function akun(Request $request)
     {
         $request = [
             'nama' => $request->input('nama'),
@@ -53,16 +57,46 @@ class DataPerusahaanController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'unique:users,username'
-        ]);
+        if ($request->input('files')) {
+            $path = public_path('storage/tmp/files/');
+            $files = $request->input('files');
 
-        if ($validator->fails()) {
-            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Email sudah ada.']);
+            try {
+                foreach ($files as $file) {
+                    Excel::import(new PerusahaanImport, $path . '/' . $file);
+                    Storage::delete("public/tmp/files/" . $file);
+                }
+                return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil di impor.']);
+            } catch (ValidationException $e) {
+                $errors = $e->errors();
+                $errorMessages = [];
+                foreach ($errors as $messages) {
+                    if (is_array($messages)) {
+                        $errorMessages[] = implode(', ', $messages);
+                    }
+                }
+                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Kesalahan validasi: ' . implode('', $errorMessages)]);
+            } catch (\Exception $e) {
+                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Terjadi kesalahan saat mengimpor file.']);
+            }
+        }
+        $username = $request->input('username');
+
+        $client = new Client();
+        $hunter_api_key = env('HUNTER_API_KEY');
+        $result = $client->get("https://api.hunter.io/v2/email-verifier?email={$username}&api_key={$hunter_api_key}");
+        $status = json_decode($result->getBody(), true)['data']['status'];
+
+        if ($status == 'invalid') {
+            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Email tidak valid.']);
+        }
+
+        if (User::where('username', $username)->exists()) {
+            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Username sudah ada.']);
         }
 
         $user = User::create([
-            'username' => $request->input('username'),
+            'username' => $username,
             'password' => Hash::make($request->input('password')),
             'role' => 'Perusahaan',
         ]);

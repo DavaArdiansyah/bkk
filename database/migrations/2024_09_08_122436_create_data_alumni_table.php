@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('keahlian')->nullable();
             $table->string('nama_file_foto')->nullable();
             $table->text('deskripsi')->nullable();
+            $table->enum('status', ['Tidak Bekerja', 'Bekerja', 'Wirausaha', 'Kuliah'])->default('Tidak Bekerja');
 
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
         });

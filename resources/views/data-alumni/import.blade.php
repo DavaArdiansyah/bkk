@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('meta')
-<meta name="csrf-token" content="{{ csrf_token() }}">@endsection
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
 @php
     $sidebarItemName = 'Data Pengguna';
     $subName = 'Alumni';
@@ -26,7 +27,7 @@
             <div class="card-body">
                 <form action="{{ route('admin.data-alumni.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <input type="file" class="filepond" name="files[]" required>
+                    <input type="file" class="filepond-excel" name="files[]" required>
                     <button type="submit" class="btn btn-primary w-100">
                         <i class="bi bi-upload me-2"></i>Upload
                     </button>
@@ -41,7 +42,7 @@
             <div class="card-body">
                 <ol class="list mb-0">
                     <li>Download Format Yang Sudah Disediakan Jika Belum Memilikinya: <a
-                            href="{{ asset('assets/file/Format.xlsx') }}" download>Format.xlsx</a></li>
+                            href="{{ asset('assets/file/data-alumni/Format.xlsx') }}" download>Format.xlsx</a></li>
                     <li>Isi Data Sesuai Dengan Format Yang Sudah Disediakan</li>
                 </ol>
                 <br>

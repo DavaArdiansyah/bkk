@@ -18,7 +18,16 @@ class LaporanController extends Controller
         $periode = $request->input('waktu') ?? Carbon::now()->translatedFormat('j F Y');
         $periodeAwal = $this->periodeAwal($periode);
         $periodeAkhir = $this->periodeAkhir($periode);
-        $data = $this->detailALumniBekerja($periodeAwal, $periodeAkhir);
+        $data = [];
+        $data['detail-alumni-bekerja'] = $this->detailALumniBekerja($periodeAwal, $periodeAkhir);
+        $tahunLulus = Carbon::parse($periode)->format('Y');
+
+        $data['lacak-alumni'] = [
+            'bekerja' => Alumni::where('status', 'Bekerja')->where('tahun_lulus', $tahunLulus)->count(),
+            'kuliah' => Alumni::where('status', 'Kuliah')->where('tahun_lulus', $tahunLulus)->count(),
+            'wirausaha' => Alumni::where('status', 'Wirausaha')->where('tahun_lulus', $tahunLulus)->count(),
+            'tidak bekerja' => Alumni::where('status', 'Tidak Bekerja')->where('tahun_lulus', $tahunLulus)->count(),
+        ];
 
         $namaFile = $request->input('data') . '_periode_' . $periode;
 

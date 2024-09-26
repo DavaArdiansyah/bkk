@@ -40,27 +40,29 @@ class AlumniController extends Controller
     public function store(Request $request)
     {
         $alumni = Alumni::find(Auth::user()->alumni->nik);
-        if ($alumni->alamat == null || $alumni->keahlian || $alumni->deskripsi) {
-            return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap lengkapi informasi utama terlebih dahulu.']);
+        if (!$request->input('files')) {
+            if ($alumni->alamat == null || $alumni->keahlian == null|| $alumni->deskripsi == null) {
+                return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap lengkapi informasi utama terlebih dahulu.']);
+            }
         }
         $lamaran = Lamaran::create([
             'id_lowongan_pekerjaan' => $request->input('id-lowongan-pekerjaan'),
             'nik' => Alumni::where('username', Auth::user()->username)->first()->nik,
         ]);
 
-        Aktivitas::create([
-            'username' => Auth::user()->username,
-            'keterangan' => 'Melamar pekerjaan',
-        ]);
-
-        if ($request->input('file')) {
-            foreach ($request->input('file') as $file) {
+        if ($request->input('files')) {
+            foreach ($request->input('files') as $file) {
                 FileLamaran::create([
                     'id_lamaran' => $lamaran->id_lamaran,
                     'nama_file' => $file
                 ]);;
             }
         }
+
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Melamar pekerjaan',
+        ]);
 
         return redirect()->back()->with(['status' => 'success', 'message' => 'Anda berhasil melamar pekerjaan ini.']);
     }

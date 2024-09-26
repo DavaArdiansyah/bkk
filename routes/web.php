@@ -41,7 +41,9 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
     Route::resource('data-alumni', App\Http\Controllers\DataAlumniController::class)->parameters(['data-alumni' => 'alumni'])->except('show', 'destroy');
     Route::resource('data-perusahaan', App\Http\Controllers\DataPerusahaanController::class)->parameters(['data-perusahaan' => 'perusahaan']);
     Route::post('data-perusahaan/akun', [App\Http\Controllers\DataPerusahaanController::class, 'akun'])->name('data-perusahaan.akun.create');
-    Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
+    Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'destroy');
+    Route::get('akun-perusahaan', [App\Http\Controllers\AkunPengguna::class, 'perusahaan'])->name('akun-pengguna.perusahaan.create');
+    Route::get('akun-admin', [App\Http\Controllers\AkunPengguna::class, 'admin'])->name('akun-pengguna.admin.create');
     Route::resource('ajuan-info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['ajuan-info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
 
@@ -53,6 +55,10 @@ Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
         Route::resource('riwayat-pendidikan-non-formal', App\Http\Controllers\Profil\PendidikanNonFormalController::class)->parameters(['riwayat-pendidikan-non-formal' => 'pendidikanNonFormal'])->except('index', 'show');
         Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja'])->except('index', 'show');
         Route::resource('keahlian', App\Http\Controllers\Profil\KeahlianController::class)->parameters(['keahlian' => 'alumni'])->only('edit', 'update');
+    });
+    Route::prefix('kagiatan-sekarang')->name('kegiatan-sekarang.')->group(function () {
+        Route::get('', [App\Http\Controllers\Halaman\KegiatanSekarang::class, 'edit'])->name('edit');
+        Route::put('{alumni}', [App\Http\Controllers\Halaman\KegiatanSekarang::class, 'update'])->name('update');
     });
 });
 

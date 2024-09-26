@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use App\Models\FileLamaran;
 use App\Models\Kerja;
+use App\Models\Lamaran;
 use App\Models\PendidikanFormal;
 use App\Models\PendidikanNonFormal;
 use Closure;
@@ -19,7 +20,6 @@ class DetailAlumni extends Component
     public $pendidikanFormal;
     public $pendidikanNonFormal;
     public $kerja;
-    public $fileLamaran;
     public function __construct($data, $idLamaran = null)
     {
         $this->data = $data;
@@ -27,7 +27,8 @@ class DetailAlumni extends Component
         $this->pendidikanNonFormal = PendidikanNonFormal::where('nik', $this->data->nik)->get();
         $this->kerja = Kerja::where('nik', $this->data->nik)->get();
         if ($idLamaran) {
-            $this->fileLamaran = FileLamaran::where('id_lamaran', $idLamaran)->get();
+            $this->data['id_lamaran'] = $idLamaran;
+            $this->data['file'] = FileLamaran::where('id_lamaran', $idLamaran)->get();
         }
     }
 
@@ -38,7 +39,6 @@ class DetailAlumni extends Component
     {
         return view('components.detail-alumni', [
             'data' => $this->data,
-            'fileLamaran' => $this->fileLamaran,
         ]);
     }
 }

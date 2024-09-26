@@ -170,7 +170,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($data as $dt)
+            @foreach ($data['detail-alumni-bekerja'] as $dt)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $dt['nik'] }}</td>

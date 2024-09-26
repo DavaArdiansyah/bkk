@@ -33,6 +33,7 @@ class TmpController extends Controller
             $file->move(storage_path('app/public/images'), $fileName);
 
             return $fileName;
-        } return '';
+        }
+        return '';
     }
 }

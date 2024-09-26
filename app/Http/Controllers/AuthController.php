@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,11 @@ class AuthController extends Controller
         if ($user->perusahaan) {
             $perusahaan = Perusahaan::find($user->perusahaan->id_data_perusahaan);
             if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
+                return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+            }
+        } elseif ($user->admin) {
+            $admin = Admin::find($user->admin->nip);
+            if ($user->role == 'Admin BKK' && $admin->status == 'Tidak Aktif') {
                 return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
             }
         }

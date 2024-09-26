@@ -6,12 +6,12 @@ $(document).ready(function() {
         var selectedValue = $(this).val();
         $('#export-data').val(selectedValue);
 
-        if (selectedValue === 'info-loker') {
-            $('.info-loker-content').removeClass('d-none').addClass('d-block');
+        if (selectedValue === 'lacak-alumni') {
+            $('.lacak-alumni-content').removeClass('d-none').addClass('d-block');
             $('.detail-alumni-bekerja-content').removeClass('d-block').addClass('d-none');
         } else if (selectedValue === 'detail-alumni-bekerja') {
             $('.detail-alumni-bekerja-content').removeClass('d-none').addClass('d-block');
-            $('.info-loker-content').removeClass('d-block').addClass('d-none');
+            $('.lacak-alumni-content').removeClass('d-block').addClass('d-none');
         }
     });
 

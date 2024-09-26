@@ -40,7 +40,7 @@
                             <td class="text-start">
                                 <div class="btn-group d-flex justify-content-center" role="group" aria-label="Aksi">
                                     <button class="btn btn-primary m-1" data-bs-toggle="modal"
-                                        data-bs-target="#modalDataAlumni{{ $lm->alumni->nik }}">
+                                        data-bs-target="#modalDataAlumni{{ $lm->id_lamaran }}">
                                         <i class="bi bi-file-text m-1"></i>Detail
                                     </button>
 

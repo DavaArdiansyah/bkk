@@ -2,9 +2,11 @@ import * as FilePond from 'filepond';
 import 'filepond/dist/filepond.min.css';
 
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 
 FilePond.registerPlugin(
     FilePondPluginFileValidateType,
+    FilePondPluginFileValidateSize,
 );
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -12,6 +14,8 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute(
 FilePond.create(document.querySelector('.filepond'), {
     acceptedFileTypes: ['application/pdf'],
     credits: null,
+    maxFileSize: '2MB',
+    labelMaxFileSizeExceeded: 'Ukuran maksimum file adalah 2 MB.',
     server: {
         process: {
             url: '/tmp/files',

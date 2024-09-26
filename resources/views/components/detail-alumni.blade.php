@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalDataAlumni{{ $data->nik }}"  data-bs-backdrop="static" tabindex="-1" role="dialog"
+<div class="modal fade" id="modalDataAlumni{{ $data->id_lamaran ? $data->id_lamaran : $data->nik }}"  data-bs-backdrop="static" tabindex="-1" role="dialog"
     aria-labelledby="modal-detail-alumni" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
@@ -179,7 +179,7 @@
                     <!-- end accordion keahlian  -->
 
                     <!-- accordion file tambahan  -->
-                    @if (isset($fileLamaran))
+                    @if ($data->file)
                     <div class="accordion-item">
                         <div class="accordion-header" id="headerFileTambahan">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -197,9 +197,9 @@
                             aria-labelledby="headerFileTambahan" data-bs-parent="#accordionDataAlumni">
                             <div class="accordion-body">
                                 <div class="card">
-                                    @if (!$fileLamaran->isEmpty())
-                                    @foreach ($fileLamaran as $flm)
-                                    <a href="{{asset('storage/tmp/files/' . $flm->nama_file)}}" class="mb-3">{{$lamaran->dataAlumni->nama}}.pdf</a>
+                                    @if (!$data->file->isEmpty())
+                                    @foreach ($data->file as $flm)
+                                    <a href="{{asset('storage/tmp/files/' . $flm->nama_file)}}" class="mb-3">{{$flm->nama_file}}.pdf</a>
                                     @endforeach
                                     {{-- <iframe src="{{asset('storage/tmp/files/' . $lamaran->file)}}" width="413" height="200" frameborder="0"></iframe> --}}
                                     @else
