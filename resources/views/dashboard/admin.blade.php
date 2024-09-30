@@ -15,10 +15,16 @@
 
     <section class="row">
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Bekerja" icon="person-fill" data="{{ $data['kerja'] }}" />
+            <x-statistics title="Alumni Yang Bekerja" icon="briefcase-fill" data="{{ $data['bekerja'] }}" />
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Tidak Bekerja" icon="building" data="{{ $data['tidakKerja'] }}" />
+            <x-statistics title="Alumni Yang Kuliah" icon="mortarboard-fill" data="{{ $data['kuliah'] }}" />
+        </div>
+        <div class="col-12 col-md-6">
+            <x-statistics title="Alumni Yang Wirausaha" icon="lightbulb-fill" data="{{ $data['wirausaha'] }}" />
+        </div>
+        <div class="col-12 col-md-6">
+            <x-statistics title="Alumni Yang Tidak Bekerja" icon="hourglass-split" data="{{ $data['tidak-bekerja'] }}" />
         </div>
         <div class="col-12">
             <!-- Grafik Garis -->

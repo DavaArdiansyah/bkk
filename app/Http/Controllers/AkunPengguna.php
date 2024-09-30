@@ -54,9 +54,24 @@ class AkunPengguna extends Controller
      */
     public function store(Request $request)
     {
+        $username = $request->input('username');
+
+        $client = new Client();
+        $hunter_api_key = env('HUNTER_API_KEY');
+        $result = $client->get("https://api.hunter.io/v2/email-verifier?email={$username}&api_key={$hunter_api_key}");
+        $status = json_decode($result->getBody(), true)['data']['status'];
+
+        if ($status == 'invalid') {
+            return redirect()->back()->with(['status' => 'error', 'message' => 'Email tidak valid.']);
+        }
+
+        if (User::where('username', $username)->exists()) {
+            return redirect()->back()->with(['status' => 'error', 'message' => 'Username sudah ada.']);
+        }
+
         if ($request->input('role') == 'Admin') {
             $user = User::create([
-                'username' => $request->input('username'),
+                'username' => $username,
                 'password' => Hash::make($request->input('password')),
                 'role' => 'Admin BKK',
             ]);
@@ -73,7 +88,14 @@ class AkunPengguna extends Controller
 
             return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
         } elseif ($request->input('role') == 'Perusahaan') {
-            return $request;
+            User::create([
+                'username' => $username,
+                'password' => Hash::make($request->input('password')),
+                'role' => 'Perusahaan',
+                'id_data_perusahaan' => $request->input('id_data_perusahaan'),
+            ]);
+
+            return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
         }
     }
 

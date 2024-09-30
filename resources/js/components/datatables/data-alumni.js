@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 targets: [3, 4, 5], //target kolom index 3, 4 dan 5
             },
-        ],
-        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        ]
     });
 });

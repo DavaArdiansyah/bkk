@@ -2,7 +2,7 @@
 @php $fileRoute = 'admin.laporan'; @endphp
 @extends('layouts.master')
 @section('assets')
-    @vite(['resources/js/views/laporan.js'])
+    @vite(['resources/js/views/laporan.js', 'resources/js/components/datatables/detail-alumni-bekerja.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -81,25 +81,29 @@
                         </div>
                     </div>
 
-                    <div class="row py-3 justify-content-end">
-                        <div class="col-12 col-md-6 text-end">
-                            <form id="export-form" action="{{ route('admin.laporan') }}" method="GET">
-                                <input type="hidden" name="waktu" value="{{ $periode }}">
-                                <input type="hidden" name="angkatan" value="{{ $angkatan }}">
-                                <input type="hidden" name="data" id="export-data">
-                                <input type="hidden" name="type-file" id="type-file">
-                                <button class="btn btn-outline-danger m-1" data-type="pdf">
+                    <form id="export-form" action="{{ route('admin.laporan') }}" method="GET">
+                        <input type="hidden" name="waktu" value="{{ $periode }}">
+                        <input type="hidden" name="angkatan" value="{{ $angkatan }}">
+                        <input type="hidden" name="data" id="export-data">
+                        <input type="hidden" name="type-file" id="type-file">
+                        <div class="row mt-md-3">
+                            <div class="col-md-4 col-12">
+                                <button type="submit" class="btn btn-outline-danger mb-2 w-100" data-type="pdf">
                                     <i class="bi bi-file-earmark-pdf"></i> Unduh .pdf
                                 </button>
-                                <button class="btn btn-outline-success m-1" data-type="csv">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <button type="submit" class="btn btn-outline-success mb-2 w-100" data-type="csv">
                                     <i class="bi bi-file-earmark-spreadsheet"></i> Unduh .csv
                                 </button>
-                                <button class="btn btn-outline-success m-1" data-type="xlsx">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <button type="submit" class="btn btn-outline-success mb-2 w-100" data-type="xlsx">
                                     <i class="bi bi-file-earmark-excel"></i> Unduh .xlsx
                                 </button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </article>
         </section>
@@ -112,7 +116,7 @@
                     @endphp --}}
 
                     {{-- <x-table id="detail-alumni-bekerja" :labels="['NIK', 'NAMA LENGKAP', 'NAMA PERUSAHAAN']" :keys="['nik', 'nama', 'nama-perusahaan']" :rows="$data" /> --}}
-                    <table class="table table-striped nowrap table-bordered">
+                    <table class="table table-striped nowrap table-bordered" id="detail-alumni-bekerja">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:5%">NO</th>

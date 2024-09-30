@@ -16,13 +16,13 @@
                 <div class="card-body p-4">
                     <h4 class="text-center mb-4 text-primary fw-semibold">
                         @if ($alumni->status == 'Bekerja')
-                            <i class="bi bi-briefcase me-2"></i>
+                            <i class="bi bi-briefcase-fill me-2"></i>
                             "Kerja keras Anda kini membuahkan hasil. Teruslah berkarya!"
                         @elseif ($alumni->status == 'Kuliah')
-                            <i class="bi bi-book me-2"></i>
+                            <i class="bi bi-mortarboard-fill me-2"></i>
                             "Pendidikan adalah kunci kesuksesan. Teruslah belajar dan berkembang!"
                         @elseif ($alumni->status == 'Wirausaha')
-                            <i class="bi bi-lightbulb me-2"></i>
+                            <i class="bi bi-lightbulb-fill me-2"></i>
                             "Kreativitas dan keberanian Anda membangun masa depan yang cerah!"
                         @elseif ($alumni->status == 'Tidak Bekerja')
                             <i class="bi bi-hourglass-split me-2"></i>

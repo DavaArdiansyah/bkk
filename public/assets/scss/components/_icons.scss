@@ -1,48 +1,60 @@
 .bi {
     width: 1rem;
     height: 1rem;
-    &.bi-middle {
-        &:before {
-            vertical-align: middle;
-        }
+
+    &.bi-middle:before {
+        vertical-align: middle;
     }
-    &.bi-sub {
-        &:before {
-            vertical-align: sub;
-        }
+
+    &.bi-sub:before {
+        vertical-align: sub;
     }
 }
+
 .stats-icon {
     width: 3rem;
-    height:3rem;
+    height: 3rem;
+    aspect-ratio: 1;
     border-radius: .5rem;
     background-color: black;
-    float: right;
     display: flex;
     align-items: center;
     justify-content: center;
-    i {
-        color: #fff;
-        font-size: 1.7rem;
-    }
-    &.purple {
-        background-color: #9694ff;
-    }
-    &.blue {
-        background-color: #57caeb;
-    }
-    &.red {
-        background-color: #ff7976;
-    }
-    &.green {
-        background-color: #5ddab4;
-    }
+
+    /* Gunakan media query untuk tampilan mobile */
     @media (max-width: 767px) {
         float: left;
         margin-bottom: .4rem;
     }
+
+    /* Hilangkan float untuk tampilan desktop */
+    @media (min-width: 768px) {
+        float: none;
+        margin-bottom: 0;
+    }
+
+    i {
+        color: #fff;
+        font-size: 1.7rem;
+    }
+
+    &.purple {
+        background-color: #9694ff;
+    }
+
+    &.blue {
+        background-color: #57caeb;
+    }
+
+    &.red {
+        background-color: #ff7976;
+    }
+
+    &.green {
+        background-color: #5ddab4;
+    }
 }
 
 .burger-btn {
-    display:none;
+    display: none;
 }

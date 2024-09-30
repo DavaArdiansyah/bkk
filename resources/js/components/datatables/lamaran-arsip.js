@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 targets: [1], //target kolom index 2, 3
             },
-        ],
-        buttons: ["copy", "csv", "excel", "pdf", "print"],
+        ]
     });
 });

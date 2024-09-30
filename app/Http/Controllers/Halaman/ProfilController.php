@@ -55,14 +55,26 @@ class ProfilController extends Controller
         $alamat = [];
 
         $provinsi = $this->wilayahController->provinsi();
-        if ($user->alumni?->alamat) {
-            $alamat = $this->wilayahController->alamat($user->alumni->alamat);
+        if ($user->role == 'Alumni') {
+            if ($user->alumni->alamat) {
+                $alamat = $this->wilayahController->alamat($user->alumni->alamat);
+            } else {
+                $alamat = [];
+            }
             return view('profil.alumni.edit', compact('user', 'provinsi', 'alamat'));
-        } elseif ($user->perusahaan?->alamat) {
-            $alamat = $this->wilayahController->alamat($user->perusahaan->alamat);
+        } elseif ($user->role == 'Perusahaan') {
+            if ($user->perusahaan->alamat) {
+                $alamat = $this->wilayahController->alamat($user->perusahaan->alamat);
+            } else {
+                $alamat = [];
+            }
             return view('profil.perusahaan.edit', compact('user', 'provinsi', 'alamat'));
-        } elseif ($user->admin->alamat) {
-            $alamat = $this->wilayahController->alamat($user->admin->alamat);
+        } elseif ($user->role == 'Admin BKK') {
+            if ($user->admin->alamat) {
+                $alamat = $this->wilayahController->alamat($user->admin->alamat);
+            } else {
+                $alamat = [];
+            }
             return view('profil.admin.edit', compact('user', 'provinsi', 'alamat'));
         }
     }
@@ -89,15 +101,15 @@ class ProfilController extends Controller
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
-        if ($user->alumni) {
+        if ($user->role == 'Alumni') {
             $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
             $user->alumni->kontak = $request->input('kontak');
             $user->alumni->deskripsi = $request->input('deskripsi');
-        } elseif ($user->perusahaan) {
+        } elseif ($user->role == 'Perusahaan') {
             $user->perusahaan->alamat = $this->wilayahController->alamatLengkap($request);
             $user->perusahaan->bidang_usaha = $request->input('bidang-usaha');
             $user->perusahaan->no_telepon = $request->input('no-telepon');
-        } elseif ($user->admin) {
+        } elseif ($user->role == 'Admin BKK') {
             $user->admin->nama = $request->input('nama');
             $user->admin->jenis_kelamin = $request->input('jenis-kelamin');
             $user->admin->kontak = $request->input('kontak');
@@ -151,11 +163,11 @@ class ProfilController extends Controller
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
-        if ($user->alumni) {
+        if ($user->role == 'Alumni') {
             $user->alumni->save();
-        } elseif ($user->perusahaan) {
+        } elseif ($user->role == 'Perusahaan') {
             $user->perusahaan->save();
-        } elseif ($user->admin) {
+        } elseif ($user->role == 'Admin Bkk') {
             $user->admin->save();
         }
 
@@ -169,17 +181,17 @@ class ProfilController extends Controller
             ]);
         }
 
-        if ($user->alumni) {
+        if ($user->role == 'Alumni') {
             Aktivitas::create([
                 'username' => Auth::user()->username,
                 'keterangan' => 'Memperbaharui Data Alumni',
             ]);
-        } elseif ($user->perusahaan) {
+        } elseif ($user->role == 'Perusahaan') {
             Aktivitas::create([
                 'username' => Auth::user()->username,
                 'keterangan' => 'Memperbaharui Data Perusahaan',
             ]);
-        } elseif ($user->admin) {
+        } elseif ($user->role == 'Admin BKK') {
             Aktivitas::create([
                 'username' => Auth::user()->username,
                 'keterangan' => 'Memperbaharui Data Admin BKK',

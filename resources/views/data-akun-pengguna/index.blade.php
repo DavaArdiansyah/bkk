@@ -17,12 +17,16 @@
     <section>
         <div class="card">
             <div class="card-body">
-                <div class="row py-3 justify-content-end">
-                    <div class="col-12 col-md-6 text-end">
-                        <a href="{{ route('admin.akun-pengguna.perusahaan.create') }}" class="btn btn-outline-success">Tambah
-                            Akun Perusahaan</a>
-                        <a href="{{ route('admin.akun-pengguna.admin.create') }}" class="btn btn-outline-primary">Tambah
-                            Akun Admin</a>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-2">
+                        <a href="{{ route('admin.akun-pengguna.perusahaan.create') }}" class="btn btn-outline-success w-100">
+                            <i class="bi bi-plus-circle"></i> Tambah Akun Perusahaan
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-6 mb-2">
+                        <a href="{{ route('admin.akun-pengguna.admin.create') }}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-plus-circle"></i> Tambah Akun Admin
+                        </a>
                     </div>
                 </div>
                 <!-- table data akun pengguna  -->

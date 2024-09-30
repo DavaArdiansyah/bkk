@@ -42,20 +42,25 @@ class DashboardController extends Controller
 
     public function admin($tahun)
     {
-        $alumni = Alumni::all();
+        // $alumni = Alumni::all();
 
-        $kerja = 0;
-        $tidakKerja = $alumni->count();
+        // $kerja = 0;
+        // $tidakKerja = $alumni->count();
 
-        foreach ($alumni as $al) {
-            $jumlahLamaran = Lamaran::where('nik', $al->nik)->where('status', 'Diterima')->count();
-            $jumlahPengalamanKerja = Kerja::where('nik', $al->nik)->where('tahun_akhir', '<=', $tahun)->count();
+        // foreach ($alumni as $al) {
+        //     $jumlahLamaran = Lamaran::where('nik', $al->nik)->where('status', 'Diterima')->count();
+        //     $jumlahPengalamanKerja = Kerja::where('nik', $al->nik)->where('tahun_akhir', '<=', $tahun)->count();
 
-            if (($jumlahLamaran + $jumlahPengalamanKerja) > 0) {
-                $kerja++;
-                $tidakKerja--;
-            }
-        }
+        //     if (($jumlahLamaran + $jumlahPengalamanKerja) > 0) {
+        //         $kerja++;
+        //         $tidakKerja--;
+        //     }
+        // }
+
+        $bekerja = Alumni::where('status', 'Bekerja')->count();
+        $kuliah = Alumni::where('status', 'Kuliah')->count();
+        $wirausaha = Alumni::where('status', 'Wirausaha')->count();
+        $tidakBekerja = Alumni::where('status', 'Tidak Bekerja')->count();
 
         $perusahaan = Perusahaan::all();
         $namaPerusahaan = [];
@@ -80,8 +85,10 @@ class DashboardController extends Controller
             ->setDataset('Jumlah Alumni Yang Bekerja', 'bar', $jumlahPekerja);
 
         return $data = [
-            'kerja' => $kerja,
-            'tidakKerja' => $tidakKerja,
+            'bekerja' => $bekerja,
+            'kuliah' => $kuliah,
+            'wirausaha' => $wirausaha,
+            'tidak-bekerja' => $tidakBekerja,
             'chart' => $chart,
         ];
     }
