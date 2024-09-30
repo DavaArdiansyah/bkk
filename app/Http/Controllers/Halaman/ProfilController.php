@@ -45,7 +45,7 @@ class ProfilController extends Controller
             $kerja = Kerja::where('nik', $alumni->nik)->orderby('tahun_awal', 'desc')->get();
             return view('profil.alumni.index', compact(['alumni', 'pendidikanFormal', 'pendidikanNonFormal', 'kerja']));
         } elseif (Auth::user()->role == 'Perusahaan') {
-            $perusahaan = Perusahaan::where('username', Auth::user()->username)->first();
+            $perusahaan = Perusahaan::find(Auth::user()->id_data_perusahaan);
             return view('profil.perusahaan.index', compact('perusahaan'));
         }
     }

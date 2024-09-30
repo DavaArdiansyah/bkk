@@ -26,7 +26,7 @@
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
                         <x-modal.avatar id="{{ $perusahaan->id_data_perusahaan }}" title="Perbaharui Logo Perusahaan"
-                            action="{{ route('profil.update', $perusahaan->user->username) }}" for="Perusahaan" />
+                            action="{{ route('profil.update', Auth::user()->username) }}" for="Perusahaan" />
                     </div>
                 </div>
                 <!-- End Avatar -->
@@ -38,12 +38,12 @@
                             <h5 class="font-weight-bold mb-2">{{ $perusahaan->nama }}</h5>
                         </div>
                         <div class="col-2 text-end">
-                            <a href="{{ route('profil.edit', $perusahaan->user->username) }}" class="btn btn-link me-2">
+                            <a href="{{ route('profil.edit', Auth::user()->username) }}" class="btn btn-link me-2">
                                 <i class="bi bi-pencil fs-5 me-1"></i>
                             </a>
                         </div>
                     </div>
-                    <p class="mb-1"><strong>Username:</strong> {{ $perusahaan->user->username }}</p>
+                    <p class="mb-1"><strong>Username:</strong> {{ Auth::user()->username }}</p>
                     <p class="mb-1"><strong>Bidang Usaha:</strong> {{ $perusahaan->bidang_usaha }}</p>
                     <p class="mb-1"><strong>No Telepon:</strong> {{ $perusahaan->no_telepon }}</p>
                     <p class="mb-1"><strong>Alamat:</strong> {{ $perusahaan->alamat }}</p>

@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\DataAlumni;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 

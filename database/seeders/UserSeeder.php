@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Perusahaan;
 use App\Models\User;
@@ -21,21 +22,32 @@ class UserSeeder extends Seeder
             'role' => 'Admin BKK',
         ]);
 
-        User::create([
-            'username' => 'perusahaan@mail.com',
-            'password' => 'perusahaan',
-            'role' => 'Perusahaan',
+        Admin::create([
+            'nip' => '123456789',
+            'username' => 'adminbkk@mail.com',
+            'nama' => 'Dava',
+            'jenis_kelamin' => 'Laki Laki',
+            'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
+            'kontak' => '123456789',
+            'nama_file_foto' => 'admin.jpg',
         ]);
 
         Perusahaan::create([
             'id_data_perusahaan' => 'P000001',
-            'username' => 'perusahaan@mail.com',
+            // 'username' => 'perusahaan@mail.com',
             'nama' => 'Perusahaan',
             'bidang_usaha' => 'Bidang Teknologi, Informasi, dan Komunikasi',
             'no_telepon' => '123456789',
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
             'nama_file_logo' => 'perusahaan.jpg',
             'status' => 'Aktif',
+        ]);
+
+        User::create([
+            'username' => 'perusahaan@mail.com',
+            'password' => 'perusahaan',
+            'role' => 'Perusahaan',
+            'id_data_perusahaan' => 'P000001',
         ]);
 
         User::create([

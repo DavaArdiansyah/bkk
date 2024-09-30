@@ -8,8 +8,6 @@
     @apexchartsScripts
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {{-- <li class="breadcrumb-item"><a href="{{route ('admin.data-alumni.index')}}">Data Alumni</a></li> --}}
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
             <li class="breadcrumb-item active" aria-current="page">Admin</li>
             <li class="breadcrumb-item active" aria-current="page">{{ Auth::user()->username }}</li>
         </ol>

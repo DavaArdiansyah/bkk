@@ -6,6 +6,7 @@ use App\Models\Loker;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Storage;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,9 +17,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             while (true) {
-                Loker::where('tanggal_akhir', '<', Carbon::now())
-                    ->where('status', 'Dipublikasi')
-                    ->update(['status' => 'Tidak Dipublikasi']);
+                $loker = Loker::where('tanggal_akhir', '<', Carbon::now())
+                    ->where('status', 'Dipublikasi')->get();
+                foreach ($loker as $lk) {
+                    $lk->update(['status' => 'Tidak Dipublikasi']);
+                    Storage::put("public/files/" . $lk->id_lowongan_pekerjaan . $lk->perusahaan->nama . '.txt', 'Waktu Lowongan Sudah Kadaluarsa');
+                }
                 sleep(1);
             }
         })->everyMinute();
@@ -29,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

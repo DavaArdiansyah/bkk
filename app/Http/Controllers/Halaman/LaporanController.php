@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DetailAlumniBekerjaExport;
+use App\Exports\LacakAlumniExport;
 use Maatwebsite\Excel\Excel as ExportType;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -15,35 +16,43 @@ class LaporanController extends Controller
 {
     public function index(Request $request)
     {
+        $request->validate(['angkatan' => 'integer|digits:4']);
+        $kategori = $request->input('kategori') ?? null;
         $periode = $request->input('waktu') ?? Carbon::now()->translatedFormat('j F Y');
+        $angkatan = $request->input('angkatan') ?? Carbon::now()->translatedFormat('Y');
         $periodeAwal = $this->periodeAwal($periode);
         $periodeAkhir = $this->periodeAkhir($periode);
         $data = [];
         $data['detail-alumni-bekerja'] = $this->detailALumniBekerja($periodeAwal, $periodeAkhir);
-        $tahunLulus = Carbon::parse($periode)->format('Y');
 
         $data['lacak-alumni'] = [
-            'bekerja' => Alumni::where('status', 'Bekerja')->where('tahun_lulus', $tahunLulus)->count(),
-            'kuliah' => Alumni::where('status', 'Kuliah')->where('tahun_lulus', $tahunLulus)->count(),
-            'wirausaha' => Alumni::where('status', 'Wirausaha')->where('tahun_lulus', $tahunLulus)->count(),
-            'tidak bekerja' => Alumni::where('status', 'Tidak Bekerja')->where('tahun_lulus', $tahunLulus)->count(),
+            'bekerja' => Alumni::where('status', 'Bekerja')->where('tahun_lulus', $angkatan)->count(),
+            'kuliah' => Alumni::where('status', 'Kuliah')->where('tahun_lulus', $angkatan)->count(),
+            'wirausaha' => Alumni::where('status', 'Wirausaha')->where('tahun_lulus', $angkatan)->count(),
+            'tidak bekerja' => Alumni::where('status', 'Tidak Bekerja')->where('tahun_lulus', $angkatan)->count(),
         ];
 
-        $namaFile = $request->input('data') . '_periode_' . $periode;
-
         if ($request->input('type-file')) {
-            if ($request->input('type-file') == 'pdf') {
-                $title = 'Laporan Detail Alumni Bekerja';
-                $pdf = Pdf::loadView('partials.laporan', ['title' => $title, 'periode' => $periode, 'data' => $data]);
+            $typeFile = $request->input('type-file');
+            $isDetailAlumniBekerja = $request->input('data') === 'detail-alumni-bekerja';
+            $namaFile = $isDetailAlumniBekerja ? "detail-alumni-bekerja_periode_{$periode}" : "lacak-alumni_angkatan_{$angkatan}";
+            $kategori = $isDetailAlumniBekerja ? 'detail-alumni-bekerja' : 'lacak-alumni';
+            $title = $isDetailAlumniBekerja ? 'Laporan Detail Alumni Bekerja' : 'Laporan Lacak Kegiatan Alumni';
+            $headers = $isDetailAlumniBekerja ? ['No.', 'NIK', 'NAMA LENGKAP', 'NAMA PERUSAHAAN'] : ['STATUS', 'JUMLAH ALUMNI'];
+
+            if ($typeFile == 'pdf') {
+                $pdf = Pdf::loadView('partials.laporan', compact('title', 'periode', 'headers', 'data', 'kategori'));
                 return $pdf->download("{$namaFile}.pdf");
-            } elseif ($request->input('type-file') == 'csv') {
-                return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.csv", ExportType::CSV);
-            } elseif ($request->input('type-file') == 'xlsx') {
-                return Excel::download(new DetailAlumniBekerjaExport($data), "{$namaFile}.xlsx", ExportType::XLSX);
+            } elseif ($typeFile == 'csv') {
+                $exportClass = $isDetailAlumniBekerja ? DetailAlumniBekerjaExport::class : LacakAlumniExport::class;
+                return Excel::download(new $exportClass($data[$kategori]), "{$namaFile}.csv", ExportType::CSV);
+            } elseif ($typeFile == 'xlsx') {
+                $exportClass = $isDetailAlumniBekerja ? DetailAlumniBekerjaExport::class : LacakAlumniExport::class;
+                return Excel::download(new $exportClass($data[$kategori]), "{$namaFile}.xlsx", ExportType::XLSX);
             }
         }
 
-        return view('laporan', compact('periode', 'data'));
+        return view('laporan', compact('periode', 'data', 'angkatan', 'kategori'));
     }
 
     public function periodeAwal($periode)

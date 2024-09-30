@@ -163,21 +163,39 @@
     <table class="main-table">
         <thead>
             <tr>
-                <th>No</th>
-                <th>NIK</th>
-                <th>NAMA LENGKAP</th>
-                <th>NAMA PERUSAHAAN</th>
+                @foreach ($headers as $header)
+                    <th>{{ $header }}</th>
+                @endforeach
             </tr>
         </thead>
         <tbody>
-            @foreach ($data['detail-alumni-bekerja'] as $dt)
+            @if ($kategori == 'detail-alumni-bekerja')
+                @foreach ($data['detail-alumni-bekerja'] as $dt)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>{{ $dt['nik'] }}</td>
+                        <td>{{ $dt['nama'] }}</td>
+                        <td>{{ $dt['nama-perusahaan'] }}</td>
+                    </tr>
+                @endforeach
+            @elseif ($kategori == 'lacak-alumni')
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
-                    <td>{{ $dt['nik'] }}</td>
-                    <td>{{ $dt['nama'] }}</td>
-                    <td>{{ $dt['nama-perusahaan'] }}</td>
+                    <td>BEKERJA</td>
+                    <td>{{ $data['lacak-alumni']['bekerja'] }}</td>
                 </tr>
-            @endforeach
+                <tr>
+                    <td>KULIAH</td>
+                    <td>{{ $data['lacak-alumni']['kuliah'] }}</td>
+                </tr>
+                <tr>
+                    <td>WIRAUSAHA</td>
+                    <td>{{ $data['lacak-alumni']['wirausaha'] }}</td>
+                </tr>
+                <tr>
+                    <td>TIDAK BEKERJA</td>
+                    <td>{{ $data['lacak-alumni']['tidak bekerja'] }}</td>
+                </tr>
+            @endif
         </tbody>
     </table>
 

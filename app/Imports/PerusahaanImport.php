@@ -15,24 +15,24 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
 {
     use Importable;
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function model(array $row)
     {
-        $user = User::create([
-            'username' => $row['email'],
-            'password' => $row['password'],
-            'role' => 'Perusahaan',
-        ]);
-
-        return new Perusahaan([
-            'username' => $user->username,
+        $perusahaan = Perusahaan::create([
             'nama' => $row['nama_perusahaan'],
             'bidang_usaha' => $row['bidang_usaha'],
             'no_telepon' => $row['no_telepon'],
             'alamat' => $row['alamat'],
+        ]);
+
+        return new User([
+            'username' => $row['email'],
+            'password' => $row['password'],
+            'role' => 'Perusahaan',
+            'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
         ]);
     }
 

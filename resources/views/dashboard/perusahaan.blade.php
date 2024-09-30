@@ -8,7 +8,8 @@
     @apexchartsScripts
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            <li class="breadcrumb-item">{{ Auth::user()->perusahaan->nama }}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ Auth::user()->username }}</li>
         </ol>
     </nav>
 

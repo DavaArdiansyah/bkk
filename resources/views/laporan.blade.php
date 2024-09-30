@@ -10,18 +10,23 @@
             <li class="breadcrumb-item active" aria-current="page">Laporan</li>
         </ol>
     </nav>
+
     <div class="container">
         <section>
             <div id="periode" data-periode="{{ $periode }}"></div>
             <article class="card mb-4">
-                <header class="card-header">
+                <header class="card-header periode d-block">
                     <h4>Laporan periode {{ $periode }}</h4>
                 </header>
+                <header class="card-header angkatan d-none">
+                    <h4>Laporan Angkatan {{ $angkatan }}</h4>
+                </header>
                 <div class="card-body">
-                    <form action="{{ route('admin.laporan') }}" method="GET" id="periode">
+                    <form action="{{ route('admin.laporan') }}" method="GET" class="periode d-block">
                         <div class="row py-3">
                             <div class="col-lg-4 col-md-6">
                                 <label for="waktu" class="form-label">Rentang Waktu:</label>
+                                <input type="hidden" name="kategori" value="detail-alumni-bekerja">
                             </div>
                             <div class="col-lg-8 col-md-6">
                                 <div class="input-group">
@@ -37,14 +42,41 @@
                         </div>
                     </form>
 
+                    <form action="{{ route('admin.laporan') }}" method="GET" class="angkatan d-none">
+                        <div class="row py-3">
+                            <div class="col-lg-4 col-md-6">
+                                <label for="waktu" class="form-label">Angkatan:</label>
+                                <input type="hidden" name="kategori" value="lacak-alumni">
+                            </div>
+                            <div class="col-lg-8 col-md-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="angkatan" placeholder="Pilih angkatan.."
+                                        name="angkatan" value="{{ $angkatan }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-arrow-right d-none d-md-inline"></i>
+                                        <span class="d-none d-md-inline">Terapkan</span>
+                                        <i class="bi bi-arrow-right d-inline d-md-none"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
                     <div class="row py-3">
+                        <div id="data-kategori" class="d-none">{{ isset($kategori) ? $kategori : '' }}</div>
                         <div class="col-lg-4 col-md-6">
                             <label for="kategori" class="form-label">Kategori:</label>
                         </div>
                         <div class="col-lg-8 col-md-6">
                             <select class="form-select" id="kategori" name="kategori">
-                                <option value="detail-alumni-bekerja" selected>Detail Alumni Bekerja</option>
-                                <option value="lacak-alumni">Lacak Alumni</option>
+                                <option value="detail-alumni-bekerja"
+                                    {{ old('kategori', $kategori ?? '') == 'detail-alumni-bekerja' ? 'selected' : '' }}>
+                                    Detail Alumni Bekerja
+                                </option>
+                                <option value="lacak-alumni"
+                                    {{ old('kategori', $kategori ?? '') == 'lacak-alumni' ? 'selected' : '' }}>
+                                    Lacak Alumni
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -53,6 +85,7 @@
                         <div class="col-12 col-md-6 text-end">
                             <form id="export-form" action="{{ route('admin.laporan') }}" method="GET">
                                 <input type="hidden" name="waktu" value="{{ $periode }}">
+                                <input type="hidden" name="angkatan" value="{{ $angkatan }}">
                                 <input type="hidden" name="data" id="export-data">
                                 <input type="hidden" name="type-file" id="type-file">
                                 <button class="btn btn-outline-danger m-1" data-type="pdf">
@@ -128,19 +161,19 @@
                                 @endforeach --}}
                                 <tr>
                                     <td>BEKERJA</td>
-                                    <td>{{$data['lacak-alumni']['bekerja']}}</td>
+                                    <td>{{ $data['lacak-alumni']['bekerja'] }}</td>
                                 </tr>
                                 <tr>
                                     <td>KULIAH</td>
-                                    <td>{{$data['lacak-alumni']['kuliah']}}</td>
+                                    <td>{{ $data['lacak-alumni']['kuliah'] }}</td>
                                 </tr>
                                 <tr>
                                     <td>WIRAUSAHA</td>
-                                    <td>{{$data['lacak-alumni']['wirausaha']}}</td>
+                                    <td>{{ $data['lacak-alumni']['wirausaha'] }}</td>
                                 </tr>
                                 <tr>
                                     <td>TIDAK BEKERJA</td>
-                                    <td>{{$data['lacak-alumni']['tidak bekerja']}}</td>
+                                    <td>{{ $data['lacak-alumni']['tidak bekerja'] }}</td>
                                 </tr>
                             @else
                                 <tr>

@@ -18,7 +18,7 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
-        $loker = Loker::all();
+        $loker = Loker::where('id_data_perusahaan', Auth::user()->id_data_perusahaan)->get();
         $loker->transform(function ($item) {
             $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
             return $item;
