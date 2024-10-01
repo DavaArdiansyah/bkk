@@ -61,23 +61,25 @@ class DataPerusahaanController extends Controller
             $path = public_path('storage/tmp/files/');
             $files = $request->input('files');
 
-            try {
-                foreach ($files as $file) {
+            foreach ($files as $file) {
+                try {
                     Excel::import(new PerusahaanImport, $path . '/' . $file);
                     Storage::delete("public/tmp/files/" . $file);
-                }
-                return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil di impor.']);
-            } catch (ValidationException $e) {
-                $errors = $e->errors();
-                $errorMessages = [];
-                foreach ($errors as $messages) {
-                    if (is_array($messages)) {
-                        $errorMessages[] = implode(', ', $messages);
+                    return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil di impor.']);
+                } catch (ValidationException $e) {
+                    $errors = $e->errors();
+                    $errorMessages = [];
+                    foreach ($errors as $messages) {
+                        if (is_array($messages)) {
+                            $errorMessages[] = implode(', ', $messages);
+                        }
                     }
+                    Storage::delete("public/tmp/files/" . $file);
+                    return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Kesalahan validasi: ' . implode('', $errorMessages)]);
+                } catch (\Exception $e) {
+                    Storage::delete("public/tmp/files/" . $file);
+                    return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Terjadi kesalahan saat mengimpor file.']);
                 }
-                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Kesalahan validasi: ' . implode('', $errorMessages)]);
-            } catch (\Exception $e) {
-                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Terjadi kesalahan saat mengimpor file.']);
             }
         }
         $username = $request->input('username');

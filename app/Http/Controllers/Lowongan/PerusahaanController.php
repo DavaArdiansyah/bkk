@@ -72,6 +72,7 @@ class PerusahaanController extends Controller
      */
     public function edit(Loker $loker)
     {
+        $loker->tanggal_akhir = Carbon::parse($loker->tanggal_akhir)->format('j M Y H:i');
         return view ('lowongan.perusahaan.edit', compact('loker'));
     }
 

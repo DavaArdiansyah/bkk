@@ -41,6 +41,9 @@ class AlumniController extends Controller
     {
         $alumni = Alumni::find(Auth::user()->alumni->nik);
         if ($alumni->alamat == null || $alumni->keahlian == null|| $alumni->deskripsi == null) {
+            foreach ($request->input('files') as $file) {
+                Storage::delete("public/tmp/files/" . $file);
+            }
             return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap lengkapi informasi utama terlebih dahulu.']);
         }
         $lamaran = Lamaran::create([
