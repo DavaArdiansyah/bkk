@@ -66,7 +66,7 @@
                                 </form> --}}
                                 </div>
                             </td>
-                            <td class="text-start">{{$lk->waktu}}</td>
+                            <td class="text-start">{{$lk->waktu->format('j M Y H:i')}}</td>
                             {{-- <td class="text-start">{{$lk->updated_at->format('Y-m-d')}}</td> --}}
                         </tr>
                     @endforeach

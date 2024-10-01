@@ -7,8 +7,8 @@
                     </div>
                 </div>
                 <div class="col-10 mt-1">
-                    <h6 class="text-muted font-semibold">{{ $title }}</h6>
-                    <h6 class="font-extrabold mb-0">{{ $data }}</h6>
+                    <h6 class="ms-md-0 ms-2 text-muted font-semibold">{{ $title }}</h6>
+                    <h6 class="ms-md-0 ms-2 font-extrabold mb-0">{{ $data }}</h6>
                 </div>
             </div>
         </div>

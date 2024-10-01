@@ -104,6 +104,7 @@ class DashboardController extends Controller
 
         $lokerIds = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->pluck('id_lowongan_pekerjaan');
 
+        $totalLamaran = Lamaran::where('id_lowongan_pekerjaan', $lokerIds)->count();
         $lamaran = Lamaran::whereIn('status', ['Terkirim'])
             ->whereIn('id_lowongan_pekerjaan', $lokerIds)
             ->count();
@@ -128,6 +129,7 @@ class DashboardController extends Controller
         return $data = [
             'loker' => $loker,
             'lokerPublikasi' => $lokerPublikasi,
+            'total-lamaran' => $totalLamaran,
             'lamaran' => $lamaran,
             'chart' => $chart,
         ];

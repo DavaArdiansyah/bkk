@@ -10,11 +10,11 @@ import "datatables.net-responsive-bs5";
 
 document.addEventListener("DOMContentLoaded", function () {
     $("#detail-alumni-bekerja").DataTable({
-        "paging": false,        // Menonaktifkan paginasi
-        "searching": false,     // Menonaktifkan fitur pencarian
-        "ordering": false,      // Menonaktifkan fitur sorting
-        "info": false,          // Menonaktifkan informasi jumlah data
-        "lengthChange": false,  // Menonaktifkan pilihan jumlah data yang ditampilkan
+        "paging": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "lengthChange": false,
         "bFilter": false,
         "responsive": true,
     });

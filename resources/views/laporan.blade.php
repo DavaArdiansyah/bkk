@@ -116,7 +116,7 @@
                     @endphp --}}
 
                     {{-- <x-table id="detail-alumni-bekerja" :labels="['NIK', 'NAMA LENGKAP', 'NAMA PERUSAHAAN']" :keys="['nik', 'nama', 'nama-perusahaan']" :rows="$data" /> --}}
-                    <table class="table table-striped nowrap table-bordered" id="detail-alumni-bekerja">
+                    <table class="table table-striped nowrap table-bordered" @if ($data['detail-alumni-bekerja']) id="detail-alumni-bekerja" @endif>
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:5%">NO</th>

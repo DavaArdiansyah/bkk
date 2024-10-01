@@ -5,7 +5,7 @@
 @endphp
 @section('title', 'Aktivitas Pengguna')
 @section('assets')
-    @vite(['resources/js/components/datatables.aktivitas-pengguna.js'])
+    @vite(['resources/js/components/datatables/aktivitas-pengguna.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">

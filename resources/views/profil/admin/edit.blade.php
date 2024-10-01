@@ -23,11 +23,9 @@
                     @csrf @method('PUT')
                     <div id="data-provinsi" class="d-none">{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : '' }}</div>
                     <div id="data-kota" class="d-none">{{ isset($alamat['kota']) ? $alamat['kota'] : '' }}</div>
-                    <div id="data-kecamatan" class="d-none">{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : '' }}
-                    </div>
-                    <div id="data-kelurahan" class="d-none">{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : '' }}
-                    </div>
-                    <div class="row">
+                    <div id="data-kecamatan" class="d-none">{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : '' }}</div>
+                    <div id="data-kelurahan" class="d-none">{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : '' }}</div>
+                        <div class="row">
                         <div class="col-12">
                             <x-input type="text" name="nama" label="Nama Admin BKK" placeholder="Nama Admin BKK"
                                 class="mandatory" required="true" value="{{ $user->admin->nama }}" />

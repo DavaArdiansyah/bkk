@@ -24,7 +24,12 @@
                 <x-statistics title="Lowongan Yang Dipublikasi" icon="person-fill" data="{{ $data['lokerPublikasi'] }}" />
             </a>
         </div>
-        <div class="col-12">
+        <div class="col-md-6 col-12">
+            <a href="{{route ('perusahaan.lamaran.terbaru')}}">
+                <x-statistics title="Total Lamaran" icon="person-fill" data="{{ $data['total-lamaran'] }}" />
+            </a>
+        </div>
+        <div class="col-md-6 col-12">
             <a href="{{route ('perusahaan.lamaran.terbaru')}}">
                 <x-statistics title="Lamaran Terbaru" icon="person-fill" data="{{ $data['lamaran'] }}" />
             </a>

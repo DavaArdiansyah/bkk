@@ -56,7 +56,7 @@
                                 @method('PUT')
                                 <input type="hidden" name="status" value="Dipublikasi">
                                 <button type="submit" class="btn btn-success w-100"
-                                    {{ $data->tanggal_akhir < now() ? 'disabled' : '' }}>
+                                    {{ $data->tanggal_akhir < now()->format('j M Y H:i') ? 'disabled' : '' }}>
                                     <i class="bi bi-check-circle me-1"></i> Publikasi
                                 </button>
                             </form>
