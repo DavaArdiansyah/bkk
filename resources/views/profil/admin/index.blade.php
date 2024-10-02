@@ -28,6 +28,7 @@
                         </a>
                         <x-modal.avatar id="{{ $admin->nip }}" title="Perbaharui Avatar Anda"
                             action="{{ route('profil.update', $admin->user->username) }}" for="Admin BKK" />
+                            <div id="nama_path_file_image" class="d-none">{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : '' }}</div>
                     </div>
                 </div>
                 <!-- End Avatar -->

@@ -27,6 +27,7 @@
                         </a>
                         <x-modal.avatar id="{{ $perusahaan->id_data_perusahaan }}" title="Perbaharui Logo Perusahaan"
                             action="{{ route('profil.update', Auth::user()->username) }}" for="Perusahaan" />
+                            <div id="nama_path_file_image" class="d-none">{{ isset($perusahaan->nama_file_logo) ? asset('storage/images/' . $perusahaan->nama_file_logo) : '' }}</div>
                     </div>
                 </div>
                 <!-- End Avatar -->

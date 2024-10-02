@@ -17,7 +17,7 @@ FilePond.registerPlugin(
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
-FilePond.create(document.querySelector('.filepond'), {
+const filePond = FilePond.create(document.querySelector('.filepond'), {
     acceptedFileTypes: ['image/jpeg', 'image/png'],
     credits: null,
     maxFileSize: '2MB',
@@ -29,10 +29,17 @@ FilePond.create(document.querySelector('.filepond'), {
     imageCropCircle: true,
     server: {
         process: {
-            url: '/tmp/images',
+            url: '/tmp/images', 
+            method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': csrfToken
-            },
+            }
         }
-    },
+    }
 });
+
+const existingFileUrl = document.getElementById('nama_path_file_image')?.innerText || '';
+
+if (existingFileUrl) {
+    filePond.addFile(existingFileUrl);
+}

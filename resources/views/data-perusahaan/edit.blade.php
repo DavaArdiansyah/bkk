@@ -34,6 +34,7 @@
                                 style="height: 12rem; width: 12rem" alt="logo{{ $perusahaan->nama }}">
                         </a>
                         <x-modal.avatar id="{{ $perusahaan->id_data_perusahaan }}" title="Perbaharui Logo" />
+                            <div id="nama_path_file_image" class="d-none">{{ isset($perusahaan->nama_file_logo) ? asset('storage/images/' . $perusahaan->nama_file_logo) : '' }}</div>
                     </div>
                     <div class="col-md-6 col-12">
                         <x-input type="text" name="nama" label="Nama Perusahaan" placeholder="Nama Perusahaan"

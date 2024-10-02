@@ -15,16 +15,27 @@
 
     <section class="row">
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Bekerja" icon="briefcase-fill" data="{{ $data['bekerja'] }}" />
+            <form action="{{ route('admin.laporan') }}" method="get" class="d-none" id="laporan">
+                <input type="hidden" name="kategori" value="lacak-alumni">
+            </form>
+            <a href="" onclick="event.preventDefault(); document.getElementById('laporan').submit();">
+                <x-statistics title="Alumni Yang Bekerja" icon="briefcase-fill" data="{{ $data['bekerja'] }}" />
+            </a>
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Kuliah" icon="mortarboard-fill" data="{{ $data['kuliah'] }}" />
+            <a href="" onclick="event.preventDefault(); document.getElementById('laporan').submit();">
+                <x-statistics title="Alumni Yang Kuliah" icon="mortarboard-fill" data="{{ $data['kuliah'] }}" />
+            </a>
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Wirausaha" icon="lightbulb-fill" data="{{ $data['wirausaha'] }}" />
+            <a href="" onclick="event.preventDefault(); document.getElementById('laporan').submit();">
+                <x-statistics title="Alumni Yang Wirausaha" icon="lightbulb-fill" data="{{ $data['wirausaha'] }}" />
+            </a>
         </div>
         <div class="col-12 col-md-6">
-            <x-statistics title="Alumni Yang Tidak Bekerja" icon="hourglass-split" data="{{ $data['tidak-bekerja'] }}" />
+            <a href="" onclick="event.preventDefault(); document.getElementById('laporan').submit();">
+                <x-statistics title="Alumni Yang Tidak Bekerja" icon="hourglass-split" data="{{ $data['tidak-bekerja'] }}" />
+            </a>
         </div>
         <div class="col-12">
             <!-- Grafik Garis -->

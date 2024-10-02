@@ -30,7 +30,7 @@
                         </a>
                         <x-modal.avatar id="{{ $alumni->nik }}" title="Perbaharui Foto Profil"
                             action="{{ route('profil.update', $alumni->user->username) }}" for="Alumni" />
-
+                            <div id="nama_path_file_image" class="d-none">{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : '' }}</div>
                         {{-- <x-edit-foto id="{{ $alumni->nik }}" /> --}}
                     </div>
                 </div>

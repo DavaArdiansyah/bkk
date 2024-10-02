@@ -18,6 +18,7 @@
 
     <div class="card">
         <div class="card-body">
+            <div id="tanggal-akhir" data-tanggal-akhir="{{ $loker->tanggal_akhir }}"></div>
             <p>Silakan perbaharui Informasi Lowongan di bawah ini:</p>
             <form class="form" action="{{ route('perusahaan.info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
                 method="post" data-parsley-validate>

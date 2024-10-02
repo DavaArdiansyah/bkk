@@ -83,14 +83,23 @@ class ProfilController extends Controller
     {
         if ($request->input('file')) {
             if ($request->input('for') == 'Alumni') {
+                if ($user->alumni->nama_file_foto == $request->input('file')) {
+                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+                }
                 $data = Alumni::find(Auth::user()->alumni->nik);
                 $this->avatar($data, $request, 'Alumni');
                 return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
             } elseif ($request->input('for') == 'Perusahaan') {
+                if ($user->perusahaan->nama_file_logo == $request->input('file')) {
+                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+                }
                 $data = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
                 $this->avatar($data, $request, 'Perusahaan');
                 return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
             } elseif ($request->input('for') == 'Admin BKK') {
+                if ($user->admin->nama_file_foto == $request->input('file')) {
+                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+                }
                 $data = Admin::find(Auth::user()->admin->nip);
                 $this->avatar($data, $request, 'Admin BKK');
                 return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
@@ -98,7 +107,7 @@ class ProfilController extends Controller
         }
 
         if ($request->input('for')) {
-            return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+            return redirect()->back()->with(['status' => 'error', 'message' => 'Inputan harus diisi.']);
         }
 
         if ($user->role == 'Alumni') {
