@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Lowongan;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LowonganRequest;
 use App\Models\Aktivitas;
 use App\Models\Loker;
 use App\Models\Perusahaan;
@@ -41,10 +42,10 @@ class PerusahaanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LowonganRequest $request)
     {
         Loker::create([
-            'id_data_perusahaan' => Perusahaan::where('username', Auth::user()->username)->first()->id_data_perusahaan,
+            'id_data_perusahaan' => Auth::user()->id_data_perusahaan,
             'jabatan' => $request->input('jabatan'),
             'jenis_waktu_pekerjaan' => $request->input('jenis-waktu-pekerjaan'),
             'tanggal_akhir' => Carbon::parse($request->input('tanggal-akhir'))->format('Y-m-d H:i:s'),
@@ -79,35 +80,36 @@ class PerusahaanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Loker $loker)
+    public function update(LowonganRequest $request, Loker $loker)
     {
-        if ($request->input('status')) {
-            $loker->update(['status' => $request->input('status')]);
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Info Lowongan',
-            ]);
-            return redirect()->back()->with(['toast' => 'true','status' => 'success','message' => 'Berhasil mengubah status info loker menjadi: Tidak Dipublikasi.']);
-        } else {
-            $loker->jabatan = $request->input('jabatan');
-            $loker->jenis_waktu_pekerjaan = $request->input('jenis-waktu-pekerjaan');
-            $loker->tanggal_akhir = Carbon::parse($request->input('tanggal-akhir'))->format('Y-m-d H:i:s');
-            $loker->deskripsi = $request->input('deskripsi');
+        $loker->jabatan = $request->input('jabatan');
+        $loker->jenis_waktu_pekerjaan = $request->input('jenis-waktu-pekerjaan');
+        $loker->tanggal_akhir = Carbon::parse($request->input('tanggal-akhir'))->format('Y-m-d H:i:s');
+        $loker->deskripsi = $request->input('deskripsi');
 
-            if (!$loker->isDirty()) {
-                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak Ada Data Yang Diperbaharui']);
-            }
-
-            $loker->status = 'Tertunda';
-            $loker->save();
-
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Info Lowongan',
-            ]);
-
-            return redirect()->route('perusahaan.info-lowongan.index')->with(['status' => 'success', 'message' => 'Data Berhasil Diperbaharui Dan Telah Diajuakan Kembali.']);
+        if (!$loker->isDirty()) {
+            return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak Ada Data Yang Diperbaharui']);
         }
+
+        $loker->status = 'Tertunda';
+        $loker->save();
+
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Memperbaharui Info Lowongan',
+        ]);
+
+        return redirect()->route('perusahaan.info-lowongan.index')->with(['status' => 'success', 'message' => 'Data Berhasil Diperbaharui Dan Telah Diajuakan Kembali.']);
+    }
+
+    public function status (Request $request, Loker $loker)
+    {
+        $loker->update(['status' => $request->input('status')]);
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Memperbaharui Info Lowongan',
+        ]);
+        return redirect()->back()->with(['toast' => 'true','status' => 'success','message' => 'Berhasil mengubah status info loker menjadi: Tidak Dipublikasi.']);
     }
 
     /**

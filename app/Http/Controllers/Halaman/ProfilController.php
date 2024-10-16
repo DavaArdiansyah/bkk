@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Halaman;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WilayahController;
+use App\Http\Requests\Profil\UpdateRequest;
 use App\Models\Admin;
 use App\Models\Aktivitas;
 use App\Models\Alumni;
@@ -13,8 +14,6 @@ use App\Models\PendidikanNonFormal;
 use App\Models\Perusahaan;
 use App\Models\User;
 use Carbon\Carbon;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -36,6 +35,7 @@ class ProfilController extends Controller
             return view('profil.admin.index', compact('admin'));
         } elseif (Auth::user()->role == 'Alumni') {
             $alumni = Alumni::where('username', Auth::user()->username)->first();
+            // return $alumni->deskripsi;
             $pendidikanFormal = PendidikanFormal::where('nik', $alumni->nik)->orderby('tahun_awal', 'desc')->get();
             $pendidikanNonFormal = PendidikanNonFormal::where('nik', $alumni->nik)->orderby('tanggal', 'desc')->get();
             $pendidikanNonFormal->transform(function ($item) {
@@ -52,68 +52,28 @@ class ProfilController extends Controller
 
     public function edit(User $user)
     {
-        $alamat = [];
-
         $provinsi = $this->wilayahController->provinsi();
         if ($user->role == 'Alumni') {
-            if ($user->alumni->alamat) {
-                $alamat = $this->wilayahController->alamat($user->alumni->alamat);
-            } else {
-                $alamat = [];
-            }
+            $alamat = $user->alumni->alamat ? $this->wilayahController->alamat($user->alumni->alamat) : [];
             return view('profil.alumni.edit', compact('user', 'provinsi', 'alamat'));
         } elseif ($user->role == 'Perusahaan') {
-            if ($user->perusahaan->alamat) {
-                $alamat = $this->wilayahController->alamat($user->perusahaan->alamat);
-            } else {
-                $alamat = [];
-            }
+            $alamat = $user->perusahaan->alamat ? $this->wilayahController->alamat($user->perusahaan->alamat) : [];
             return view('profil.perusahaan.edit', compact('user', 'provinsi', 'alamat'));
         } elseif ($user->role == 'Admin BKK') {
-            if ($user->admin->alamat) {
-                $alamat = $this->wilayahController->alamat($user->admin->alamat);
-            } else {
-                $alamat = [];
-            }
+            $alamat = $user->admin->alamat ? $this->wilayahController->alamat($user->admin->alamat) : [];
             return view('profil.admin.edit', compact('user', 'provinsi', 'alamat'));
         }
     }
 
-    public function update(Request $request, user $user)
+    public function update(UpdateRequest $request, user $user)
     {
         if ($request->input('file')) {
-            if ($request->input('for') == 'Alumni') {
-                if ($user->alumni->nama_file_foto == $request->input('file')) {
-                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
-                }
-                $data = Alumni::find(Auth::user()->alumni->nik);
-                $this->avatar($data, $request, 'Alumni');
-                return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
-            } elseif ($request->input('for') == 'Perusahaan') {
-                if ($user->perusahaan->nama_file_logo == $request->input('file')) {
-                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
-                }
-                $data = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
-                $this->avatar($data, $request, 'Perusahaan');
-                return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
-            } elseif ($request->input('for') == 'Admin BKK') {
-                if ($user->admin->nama_file_foto == $request->input('file')) {
-                    return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
-                }
-                $data = Admin::find(Auth::user()->admin->nip);
-                $this->avatar($data, $request, 'Admin BKK');
-                return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
-            }
-        }
-
-        if ($request->input('for')) {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Inputan harus diisi.']);
+            return $this->avatar($user, $request);
         }
 
         if ($user->role == 'Alumni') {
             $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
             $user->alumni->kontak = $request->input('kontak');
-            $user->alumni->deskripsi = $request->input('deskripsi');
         } elseif ($user->role == 'Perusahaan') {
             $user->perusahaan->alamat = $this->wilayahController->alamatLengkap($request);
             $user->perusahaan->bidang_usaha = $request->input('bidang-usaha');
@@ -125,50 +85,12 @@ class ProfilController extends Controller
             $user->admin->alamat = $this->wilayahController->alamatLengkap($request);
         }
 
-        $username = $request->input('username');
-        $passwordBaru = $request->input('password-baru');
-        $konfirmasiPassword = $request->input('konfirmasi-password');
-        $passwordSaatIni = $request->input('password-saat-ini');
-
-        if ($username != $user->username) {
-            $client = new Client();
-            $hunter_api_key = env('HUNTER_API_KEY');
-            $result = $client->get("https://api.hunter.io/v2/email-verifier?email={$username}&api_key={$hunter_api_key}");
-            $status = json_decode($result->getBody(), true)['data']['status'];
-
-            if ($status == 'invalid') {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Email tidak valid.']);
-            }
+        $user->username = $request->input('username');
+        if ($request->input('password-baru')) {
+            $user->password = Hash::make($request->input('password-baru'));
         }
 
-        if (User::where('username', $username)->where('username', '!=', $user->username)->exists()) {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Username sudah ada.']);
-        }
-
-        $user->username = $username;
-
-
-        if ($passwordBaru || $konfirmasiPassword || $passwordSaatIni) {
-            if (!$konfirmasiPassword) {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Konfirmasi password harus diisi.']);
-            }
-
-            if ($passwordBaru !== $konfirmasiPassword) {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Konfirmasi password harus sama dengan password baru.']);
-            }
-
-            if (!$passwordSaatIni) {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Password saat ini harus diisi.']);
-            }
-
-            $user->password = Hash::make($passwordBaru);
-        }
-
-        if ($user->alumni && !$user->alumni->isDirty() && !$user->isDirty()) {
-            return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
-        } elseif ($user->perusahaan && !$user->perusahaan->isDirty() && !$user->isDirty()) {
-            return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
-        } elseif ($user->admin && !$user->admin->isDirty() && !$user->isDirty()) {
+        if (($user->alumni && !$user->alumni->isDirty()) || ($user->perusahaan && !$user->perusahaan->isDirty()) || ($user->admin && !$user->admin->isDirty()) && !$user->isDirty()) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
@@ -176,12 +98,12 @@ class ProfilController extends Controller
             $user->alumni->save();
         } elseif ($user->role == 'Perusahaan') {
             $user->perusahaan->save();
-        } elseif ($user->role == 'Admin Bkk') {
+        } elseif ($user->role == 'Admin BKK') {
             $user->admin->save();
         }
 
-        $user->save();
-        if ($user->save()) {
+        if ($user->isDirty(['username', 'password'])) {
+            $user->save();
             Auth::logout();
             Auth::login($user);
             Aktivitas::create([
@@ -189,49 +111,46 @@ class ProfilController extends Controller
                 'keterangan' => 'Memperbaharui Data Akun',
             ]);
         }
-
-        if ($user->role == 'Alumni') {
+        if ($user->role == 'Alumni' && $user->alumni->save() || $user->role == 'Perusahaan' && $user->perusahaan->save() || $user->role == 'Admin BKK' && $user->admin->save()) {
             Aktivitas::create([
                 'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Data Alumni',
-            ]);
-        } elseif ($user->role == 'Perusahaan') {
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Data Perusahaan',
-            ]);
-        } elseif ($user->role == 'Admin BKK') {
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Data Admin BKK',
+                'keterangan' => 'Memperbaharui Data ' . $user->role,
             ]);
         }
 
-        return redirect()->route('profil')->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
+        return redirect()->route('profil.edit', ['user' => $user])->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
 
-    public function avatar($data, $request, $for)
+    public function avatar($data, $request)
     {
-        if ($for == 'Alumni' | $for == 'Admin BKK') {
-            Storage::delete('public/images/' . $data->nama_file_foto);
-            $data->nama_file_foto = $request->input('file');
-        } elseif ($for == 'Perusahaan') {
-            Storage::delete('public/images' . $data->nama_file_logo);
-            $data->nama_file_logo = $request->input('file');
+        if ($data->role == 'Alumni') {
+            if ($data->alumni->nama_file_foto === $request->input('file')) {
+                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+            }
+            Storage::delete('public/images/' . $data->alumni->nama_file_foto);
+            $data->alumni->nama_file_foto = $request->input('file');
+            $data->alumni->save();
+        } elseif ($data->role == 'Admin BKK') {
+            if ($data->admin->nama_file_foto === $request->input('file')) {
+                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+            }
+            Storage::delete('public/images/' . $data->admin->nama_file_foto);
+            $data->admin->nama_file_foto = $request->input('file');
+            $data->admin->save();
+        } elseif ($data->role == 'Perusahaan') {
+            if ($data->perusahaan->nama_file_logo === $request->input('file')) {
+                return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
+            }
+            Storage::delete('public/images/' . $data->perusahaan->nama_file_logo);
+            $data->perusahaan->nama_file_logo = $request->input('file');
+            $data->perusahaan->save();
         }
 
-        $data->save();
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Memperbaharui ' . ($data->role === 'Perusahaan' ? 'Logo' : 'Foto Profil'),
+        ]);
 
-        if ($for == 'Alumni' | $for == 'Admin BKK') {
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Foto Profil',
-            ]);
-        } elseif ($for == 'Perusahaan') {
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Logo',
-            ]);
-        }
+        return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
 }

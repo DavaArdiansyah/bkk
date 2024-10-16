@@ -2,9 +2,9 @@
 @section('meta')
 <meta name="csrf-token" content="{{ csrf_token() }}">@endsection
 @section('title', 'Cari Lowongan')
-@php $fileRoute = 'dashboard'; @endphp
+@php $fileRoute = 'alumni.cari-lowongan.index'; @endphp
 @section('assets')
-    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/pdf.js'])
+    @vite(['resources/js/components/sweetalert2.js', 'resources/js/components/filepond/pdf.js'])
 @endsection
 
 @section('content')
@@ -18,7 +18,7 @@
         <div class="col">
             <form class="d-flex" action="{{ route('alumni.cari-lowongan.index') }}" method="GET">
                 <input class="form-control me-2" name="kata-kunci" type="search" placeholder="Cari pekerjaan..."
-                    aria-label="Search" value="{{ isset($kataKunci) ? $kataKunci : '' }}">
+                    aria-label="Search" value="{{ isset($kataKunci) ? $kataKunci : null }}">
                 <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
             </form>
         </div>

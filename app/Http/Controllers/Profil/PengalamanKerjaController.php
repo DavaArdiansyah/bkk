@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profil;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WilayahController;
+use App\Http\Requests\PengalamanKerjaRequest;
 use App\Models\Aktivitas;
 use App\Models\Alumni;
 use App\Models\Kerja;
@@ -39,7 +40,7 @@ class PengalamanKerjaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PengalamanKerjaRequest $request)
     {
         $alamat = $this->wilayahController->alamatLengkap($request);
         $alumni = Alumni::where('username', Auth::user()->username)->first();
@@ -85,12 +86,10 @@ class PengalamanKerjaController extends Controller
      */
     public function update(Request $request, Kerja $kerja)
     {
-        $alamat = $this->wilayahController->alamatLengkap($request);
-
         $kerja->jabatan = $request->input('jabatan');
         $kerja->nama_perusahaan = $request->input('nama-perusahaan');
         $kerja->jenis_waktu_pekerjaan = $request->input('jenis-waktu-pekerjaan');
-        $kerja->alamat = $alamat;
+        $kerja->alamat = $this->wilayahController->alamatLengkap($request);
         $kerja->tahun_awal = $request->input('tahun-awal');
         $kerja->tahun_akhir = $request->input('tahun-akhir');
         $kerja->deskripsi = $request->input('deskripsi');

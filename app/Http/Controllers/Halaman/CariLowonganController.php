@@ -10,27 +10,37 @@ use Illuminate\Http\Request;
 
 class CariLowonganController extends Controller
 {
-    public function data($request)
+    public function data($request = null)
     {
-        $perusahaan = Perusahaan::where('nama', 'LIKE', '%' . $request . '%')->get();
+        if ($request) {
+            $perusahaan = Perusahaan::where('nama', 'LIKE', '%' . $request . '%')->get();
 
-        $perusahaanId = $perusahaan->pluck('id_data_perusahaan')->toArray();
+            $perusahaanId = $perusahaan->pluck('id_data_perusahaan')->toArray();
 
-        $lokerBySearch = Loker::where(function ($query) use ($request) {
-            $query->where('jabatan', 'LIKE', '%' . $request . '%')
-                ->orWhere('jenis_waktu_pekerjaan', 'LIKE', '%' . $request . '%');
-        })
-            ->where('status', 'Dipublikasi')
-            ->paginate(10);
+            $lokerBySearch = Loker::where(function ($query) use ($request) {
+                $query->where('jabatan', 'LIKE', '%' . $request . '%')
+                    ->orWhere('jenis_waktu_pekerjaan', 'LIKE', '%' . $request . '%');
+            })
+                ->where('status', 'Dipublikasi')
+                ->paginate(10);
 
-        if ($perusahaanId) {
-            $lokerBySearch = Loker::where('id_data_perusahaan', $perusahaanId)->where('status', 'Dipublikasi')->paginate(10);
+            if ($perusahaanId) {
+                $lokerBySearch = Loker::where('id_data_perusahaan', $perusahaanId)->where('status', 'Dipublikasi')->paginate(10);
+            }
+            $lokerBySearch->getCollection()->transform(function ($item) {
+                $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
+                return $item;
+            });
+            return $lokerBySearch;
         }
-        $lokerBySearch->getCollection()->transform(function ($item) {
+
+        $data = Loker::where('status', 'Dipublikasi')->paginate(10);
+        $data->getCollection()->transform(function ($item) {
             $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
             return $item;
         });
-        return $lokerBySearch;
+
+        return $data;
     }
 
     public function index(Request $request)
@@ -42,12 +52,13 @@ class CariLowonganController extends Controller
                 'kataKunci' => $request->input('kata-kunci'),
             ]);
         }
-        return redirect()->route('dashboard');
+        $data = $this->data();
+        return view ('lowongan.alumni.index', compact('data'));
     }
 
     public function show(Loker $loker)
     {
-        $loker->tanggal_akhir = Carbon::parse($loker->tanggal_akhir)->format('j M Y H:i');
+        $loker->tanggal_akhir = Carbon::parse($loker->tanggal_akhir);
         return view('lowongan.alumni.show', compact('loker'));
     }
 }

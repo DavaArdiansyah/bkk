@@ -5,9 +5,6 @@
     $fileRoute = 'admin.data-perusahaan.create';
 @endphp
 @section('title', 'Tambah Data Perusahaan')
-@section('assets')
-    @vite('resources/js/components/parsley.js')
-@endsection
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -20,21 +17,18 @@
     <section class="tambah">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('admin.data-perusahaan.store') }}" method="POST" data-parsley-validate>
+                <form action="{{ route('admin.data-perusahaan.store') }}" method="POST">
                     @csrf
-                    <input type="hidden" name="nama" value="{{ $request['nama'] }}">
-                    <input type="hidden" name="bidang-usaha" value="{{ $request['bidang-usaha'] }}">
-                    <input type="hidden" name="no-telepon" value="{{ $request['no-telepon'] }}">
-                    <input type="hidden" name="alamat" value="{{ $request['alamat'] }}">
-                    <input type="hidden" name="logo" value="{{ $request['nama-file-logo'] }}">
                     <div class="row">
                         <div class="col-md-6 col-12">
-                            <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory"
-                                required="true" />
+                            <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory"/>
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="password" name="password" label="Password" placeholder="Password"
-                                class="mandatory" required="true" min="8" />
+                            <x-input type="password" name="password" label="Password" placeholder="Password" class="mandatory" />
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <x-input type="password" name="konfirmasi-password" label="Konfirmasi Password"
+                                placeholder="Konfirmasi Password" match="password-baru" />
                         </div>
                     </div>
                     <div class="row">

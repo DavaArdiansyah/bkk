@@ -6,7 +6,7 @@
 @php $fileRoute = 'profil'; @endphp
 
 @section('assets')
-    @vite(['resources/js/components/filepond/images.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/filepond/images.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -22,13 +22,12 @@
                 <!-- Avatar -->
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
                     <div class="avatar avatar-2xl border border-4 border-light">
-                        <a data-bs-toggle="modal" data-bs-target="#modal-avatar-edit-{{ $admin->nip }}">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit-{{ $admin->nip }}">
                             <img src="{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : ($admin->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}"
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
-                        <x-modal.avatar id="{{ $admin->nip }}" title="Perbaharui Avatar Anda"
-                            action="{{ route('profil.update', $admin->user->username) }}" for="Admin BKK" />
-                            <div id="nama_path_file_image" class="d-none">{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : '' }}</div>
+                        <x-modal.avatar id="{{ $admin->nip }}" title="Perbaharui Avatar Anda" action="{{ route('profil.update', $admin->user->username) }}" for="Admin BKK" />
+                        <div id="path_file_image" data-path-image="{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : null }}" class="d-none"></div>
                     </div>
                 </div>
                 <!-- End Avatar -->

@@ -17,9 +17,11 @@ class DetailLowongan extends Component
     public $pelamar;
     public $diterima;
     public $ditolak;
+    public $status;
     public function __construct($data)
     {
         $this->data = $data;
+        $this->status = Lamaran::where('nik', Auth::user()->alumni->nik)->where('id_lowongan_pekerjaan', $this->data->id_lowongan_pekerjaan)->whereIn('status', ['Terkirim', 'Lolos Ketahap Selanjutnya'])->orderby('waktu', 'desc')->first();
         if (Auth::user()->role == 'Admin BKK') {
             $this->pelamar = Lamaran::where('id_lowongan_pekerjaan', $data->id_lowongan_pekerjaan)->count();
             $this->diterima = Lamaran::where('id_lowongan_pekerjaan', $data->id_lowongan_pekerjaan)->where('status', 'Diterima')->count();
@@ -34,6 +36,7 @@ class DetailLowongan extends Component
     {
         return view('components.detail-lowongan', [
             'data' => $this->data,
+            'status' => $this->status,
         ]);
     }
 }

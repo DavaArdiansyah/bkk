@@ -5,7 +5,7 @@
     $fileRoute = 'perusahaan.lamaran.arsip';
 @endphp
 @section('assets')
-    @vite(['resources/js/components/datatables/lamaran-arsip.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/datatables/lamaran-arsip.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 
 @section('content')

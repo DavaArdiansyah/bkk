@@ -40,13 +40,13 @@
             @elseif (Route::is('admin.ajuan-info-lowongan.detail', $loker->id_lowongan_pekerjaan))
                 <div class="btn-group" role="group" aria-label="Aksi">
                     <form action="{{ route('admin.ajuan-info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
-                        method="post">
+                        method="POST">
                         @csrf
                         @method('put')
                         <input type="hidden" name="status" value="Dipublikasi">
                         @if ($loker->status == 'Tertunda')
                             <button type="submit" class="btn btn-success m-1"
-                                {{ $loker->status == 'Dipublikasi' || $loker->tanggal_akhir < now() ? 'disabled' : '' }}>
+                                {{ $loker->status == 'Dipublikasi' || $loker->tanggal_akhir < now() ? 'disabled' : null }}>
                                 <i class="bi bi-check-circle me-1"></i>Publikasi
                             </button>
                         @endif
@@ -54,7 +54,7 @@
                             <button type="button" data-bs-toggle="modal"
                                 data-bs-target="#modal-input-pesan-{{ $loker->id_lowongan_pekerjaan }}"
                                 class="btn btn-danger m-1"
-                                {{ $loker->status == 'Tidak Dipublikasi' ? 'disabled' : '' }}>
+                                {{ $loker->status == 'Tidak Dipublikasi' ? 'disabled' : null }}>
                                 <i class="bi bi-check-circle me-1"></i>Tidak Dipublikasi
                             </button>
                         @endif
@@ -72,11 +72,11 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <form action="{{ route('admin.ajuan-info-lowongan.update', $loker->id_lowongan_pekerjaan) }}"
-                                    method="POST" data-parsley-validate>
+                                    method="POST">
                                     @csrf @method('PUT')
                                     <div class="modal-body">
                                         <input type="hidden" name="status" value="Tidak Dipublikasi">
-                                        <textarea class="form-control" id="pesan" rows="10" data-parsley-required="true" name="pesan" required></textarea>
+                                        <textarea class="form-control" id="pesan" rows="10" name="pesan" required></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary ms-1">

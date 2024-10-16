@@ -5,13 +5,13 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js'])
+    @vite(['resources/js/wilayah.js'])
 @endsection
 
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route ('profil')}}">Profil</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profil') }}">Profil</a></li>
             <li class="breadcrumb-item active" aria-current="page">Riwayat Pendidikan Formal</li>
         </ol>
     </nav>
@@ -51,79 +51,114 @@
                 @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create')) action="{{ route('alumni.profil.riwayat-pendidikan-formal.update', $pendidikanFormal->id_riwayat_pendidikan_formal) }}"
                 @else
                     action="{{ route('alumni.profil.riwayat-pendidikan-formal.store') }}" @endif
-                method="POST" data-parsley-validate>
+                method="POST">
                 @csrf
                 @if (!Route::is('alumni.profil.riwayat-pendidikan-formal.create'))
                     @method('PUT')
-                    <div id="data-provinsi" class="d-none">{{ $alamat['provinsi'] }}</div>
-                    <div id="data-kota" class="d-none">{{ $alamat['kota'] }}</div>
-                    <div id="data-kecamatan" class="d-none">{{ $alamat['kecamatan'] }}</div>
-                    <div id="data-kelurahan" class="d-none">{{ $alamat['kelurahan'] }}</div>
+                    <div id="data-provinsi" class="d-none"
+                        data-provinsi="{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : null }}"></div>
+                    <div id="data-kota" class="d-none" data-kota="{{ isset($alamat['kota']) ? $alamat['kota'] : null }}">
+                    </div>
+                    <div id="data-kecamatan" class="d-none"
+                        data-kecamatan="{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : null }}"></div>
+                    <div id="data-kelurahan" class="d-none"
+                        data-kelurahan="{{ isset($alamat['kelurahan']) ? $alamat['kota'] : null }}"></div>
                 @endif
                 <div class="row">
                     <div class="mb-3 col-md-6 col-12">
                         <x-input type="text" name="nama-sekolah" label="Nama Sekolah Atau Universitas"
-                            placeholder="Nama Sekolah Atau Universitas" value="{{ $pendidikanFormal->nama_sekolah ?? '' }}"
-                            class="mandatory" required="true" />
+                            placeholder="Nama Sekolah Atau Universitas"
+                            value="{{ $pendidikanFormal->nama_sekolah ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-md-6 col-12">
                         <x-input type="text" name="alamat-lengkap" label="Alamat Lengkap" placeholder="Alamat Lengkap"
-                            value="{{ $alamat['alamat-lengkap'] ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $alamat['alamat-lengkap'] ?? null }}" class="mandatory" />
                     </div>
-                    <div class="mb-3 col-md-6 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="provinsi" class="form-label">Provinsi</label>
-                            <select name="provinsi" id="provinsi" class="form-select" required="true">
+                            <select name="provinsi" id="provinsi"
+                                class="form-select @error('provinsi') is-invalid @enderror">
                                 <option selected disabled>Pilih Provinsi</option>
                                 @foreach ($provinsi as $pr)
-                                    <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}</option>
+                                    <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('provinsi')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                    <div class="mb-3 col-md-6 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kota" class="form-label">Kota/Kabupaten</label>
-                            <select name="kota" id="kota" class="form-select" required="true" disabled>
-                                <option selected disabled>Pilih Kota/Kabupaten</option>
+                            <select name="kota" id="kota" class="form-select @error('kota') is-invalid @enderror"
+                                disabled>
+                                <option class="d-none" selected disabled>Pilih Kota/Kabupaten</option>
                             </select>
+                            @error('kota')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                    <div class="mb-3 col-md-6 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan" class="form-select" required="true" disabled>
-                                <option selected disabled>Pilih Kecamatan</option>
+                            <select name="kecamatan" id="kecamatan"
+                                class="form-select @error('kecamatan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kecamatan</option>
                             </select>
+                            @error('kecamatan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                    <div class="mb-3 col-md-6 col-12">
+                    <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
-                            <select name="kelurahan" id="kelurahan" class="form-select" required="true" disabled>
-                                <option selected disabled>Pilih Kelurahan</option>
+                            <select name="kelurahan" id="kelurahan"
+                                class="form-select @error('kelurahan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kelurahan</option>
                             </select>
+                            @error('kelurahan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 col-12">
                         <x-input type="text" name="gelar" label="Gelar" placeholder="Gelar"
-                            value="{{ $pendidikanFormal->gelar ?? '' }}" />
+                            value="{{ $pendidikanFormal->gelar ?? null }}" />
                     </div>
                     <div class="mb-3 col-12">
                         <x-input type="text" name="bidang-studi" label="Bidang Studi/Jurusan"
-                            placeholder="Bidang Studi/Jurusan" value="{{ $pendidikanFormal->bidang_studi ?? '' }}" />
+                            placeholder="Bidang Studi/Jurusan" value="{{ $pendidikanFormal->bidang_studi ?? null }}" />
                     </div>
                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                         <x-input type="text" name="tahun-awal" label="Tahun Awal" placeholder="Tahun Awal"
-                            value="{{ $pendidikanFormal->tahun_awal ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $pendidikanFormal->tahun_awal ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                         <x-input type="text" name="tahun-akhir" label="Tahun Akhir" placeholder="Tahun Akhir"
-                            value="{{ $pendidikanFormal->tahun_akhir ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $pendidikanFormal->tahun_akhir ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-12 form-group">
                         <label for="deskripsi" class="form-label">Deskripsi Singkat</label>
-                        <textarea class="form-control" id="deskripsi" rows="5" name="deskripsi" required="true">{{ $pendidikanFormal->deskripsi ?? '' }}</textarea>
+                        <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" rows="5"
+                            name="deskripsi">{{ old('deskripsi', isset($pendidikanFormal->deskripsi) ? $pendidikanFormal->deskripsi : null) }}</textarea>
+                        @error('deskripsi')
+                            <span class="invalid-feedback d-block mt-2" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>

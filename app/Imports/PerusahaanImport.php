@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -30,7 +31,7 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
 
         return new User([
             'username' => $row['email'],
-            'password' => $row['password'],
+            'password' => Hash::make('bursakerja'),
             'role' => 'Perusahaan',
             'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
         ]);
@@ -44,7 +45,6 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
             'bidang_usaha' => ['required'],
             'alamat' => ['required'],
             'no_telepon' => ['required'],
-            'password' => ['required']
         ];
     }
 

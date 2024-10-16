@@ -44,7 +44,7 @@
                                             <h6 class="text-muted font-semibold mt-1">{{ $data->nama }}</h6>
                                             <h6 class="text-muted font-semibold mt-1">{{ $data->jurusan }} - {{ $data->tahun_lulus }}</h6>
                                             <h6 class="text-muted font-semibold mt-1">{{ $data->kontak }}</h6>
-                                            <h6 class="text-muted font-semibold mt-1">{{ isset($data->alamat) ? $data->alamat : '' }}</h6>
+                                            <h6 class="text-muted font-semibold mt-1">{{ isset($data->alamat) ? $data->alamat : null }}</h6>
                                         </div>
                                         <div class="col-1"></div>
                                     </div>
@@ -53,6 +53,37 @@
                         </div>
                     </div>
                     <!-- end accordion data personal  -->
+
+                    {{-- accordion deskrispi personal  --}}
+                    <div class="accordion-item">
+                        <div class="accordion-header" id="headerDeskripsiPersonal">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#deskripsiInformasiDiri" aria-expanded="false" aria-controls="collapseTwo"
+                                class="row">
+                                <div class="col-2">
+                                    <i class="bi bi-person-fill fs-2"></i>
+                                </div>
+                                <div class="col-9 d-flex align-items-center font-extrabold">
+                                    Deskripsi Singkat
+                                </div>
+                            </button>
+                        </div>
+                        <div id="deskripsiInformasiDiri" class="accordion-collapse collapse"
+                            aria-labelledby="headerDeskripsiPersonal" data-bs-parent="#accordionDataAlumni">
+                            <div class="accordion-body">
+                                <div class="card">
+                                    @if (isset($data->deskripsi))
+                                        <h6 class="font-extrabold mt-3 d-flex justify-content-center">
+                                            {{ $data->deskripsi }}</h6>
+                                    @else
+                                        <h6 class="font-extrabold mt-3 d-flex justify-content-center">Alumni Belum
+                                            Menambahkan Data</h6>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- end accordion deskrispi personal  --}}
 
                     <!-- accordion riwayat pendidikan formal -->
                     <div class="accordion-item">
@@ -70,14 +101,14 @@
                             <div class="accordion-body">
                                 <div class="card">
                                     @if ($pendidikanFormal->isNotEmpty())
-                                    @foreach ($pendidikanFormal as $pdf)
-                                        <h6 class="font-extrabold mt-3 d-flex justify-content-center">{{$pdf->nama_sekolah}} {{isset($pdf->bidang_studi) ? ' - '. $pdf->bidang_studi : ''}}</h6>
-                                        <h6 class="font-extrabold mt-3 d-flex justify-content-center">{{ $pdf->tahun_awal . '-' . $pdf->tahun_akhir }}</h6>
-                                    @endforeach
-                                @else
-                                    <h6 class="font-extrabold mt-3 d-flex justify-content-center">Alumni Belum Menambahkan Data</h6>
-                                @endif
-                            </div>
+                                        @foreach ($pendidikanFormal as $pdf)
+                                            <h6 class="font-extrabold mt-3 d-flex justify-content-center">{{$pdf->nama_sekolah}} {{isset($pdf->bidang_studi) ? ' - '. $pdf->bidang_studi : null}}</h6>
+                                            <h6 class="font-extrabold mt-3 d-flex justify-content-center">{{ $pdf->tahun_awal . '-' . $pdf->tahun_akhir }}</h6>
+                                        @endforeach
+                                    @else
+                                        <h6 class="font-extrabold mt-3 d-flex justify-content-center">Alumni Belum Menambahkan Data</h6>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,9 +196,9 @@
                             data-bs-parent="#accordionDataAlumni">
                             <div class="accordion-body">
                                 <div class="card">
-                                    @if (isset($lamaran->dataAlumni->keahlian))
+                                    @if (isset($data->keahlian))
                                         <h6 class="font-extrabold mt-3 d-flex justify-content-center">
-                                            {{ $lamaran->dataAlumni->keahlian }}</h6>
+                                            {{ $data->keahlian }}</h6>
                                     @else
                                         <h6 class="font-extrabold mt-3 d-flex justify-content-center">Alumni Belum
                                             Menambahkan Data</h6>

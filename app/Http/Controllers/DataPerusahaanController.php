@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DataPerusahaan\ImportRequest;
+use App\Http\Requests\DataPerusahaan\StoreRequest;
+use App\Http\Requests\DataPerusahaanRequest;
 use App\Imports\PerusahaanImport;
 use App\Models\Loker;
 use App\Models\Perusahaan;
@@ -22,109 +25,94 @@ class DataPerusahaanController extends Controller
         $this->wilayahController = $wilayahController;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $perusahaan = Perusahaan::all();
         return view('data-perusahaan.index', compact('perusahaan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $provinsi = $this->wilayahController->provinsi();
         return view('data-perusahaan.create', compact('provinsi'));
     }
 
-    public function akun(Request $request)
+    public function tmp(DataPerusahaanRequest $request)
     {
-        $request = [
-            'nama' => $request->input('nama'),
-            'bidang-usaha' => $request->input('bidang-usaha'),
-            'no-telepon' => $request->input('no-telepon'),
-            'alamat' => $this->wilayahController->alamatlengkap($request),
-            'nama-file-logo' => $request->input('file'),
-        ];
+        session([
+            'nama' => $request->input('nama') ?? session('nama'),
+            'bidang-usaha' => $request->input('bidang-usaha') ?? session('bidang-usaha'),
+            'no-telepon' => $request->input('no-telepon') ?? session('no-telepon'),
+            'alamat' => $this->wilayahController->alamatlengkap($request) ?? session('alamat'),
+            'nama-file-logo' => $request->input('file') ?? session('nama-file-logo'),
+        ]);
 
-        return view('data-perusahaan.akun', compact('request'));
+        return redirect()->route('admin.data-perusahaan.akun.create');
     }
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        if ($request->input('files')) {
-            $path = public_path('storage/tmp/files/');
-            $files = $request->input('files');
 
-            foreach ($files as $file) {
-                try {
-                    Excel::import(new PerusahaanImport, $path . '/' . $file);
-                    Storage::delete("public/tmp/files/" . $file);
-                    return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil di impor.']);
-                } catch (ValidationException $e) {
-                    $errors = $e->errors();
-                    $errorMessages = [];
-                    foreach ($errors as $messages) {
-                        if (is_array($messages)) {
-                            $errorMessages[] = implode(', ', $messages);
-                        }
+    public function akun()
+    {
+        return view('data-perusahaan.akun');
+    }
+
+    public function import(ImportRequest $request)
+    {
+        $path = public_path('storage/tmp/files/');
+        $files = $request->input('files');
+
+        foreach ($files as $file) {
+            try {
+                Excel::import(new PerusahaanImport, $path . '/' . $file);
+                Storage::delete("public/tmp/files/" . $file);
+                return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil di impor.']);
+            } catch (ValidationException $e) {
+                $errors = $e->errors();
+                $errorMessages = [];
+                foreach ($errors as $messages) {
+                    if (is_array($messages)) {
+                        $errorMessages[] = implode(', ', $messages);
                     }
-                    Storage::delete("public/tmp/files/" . $file);
-                    return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Kesalahan validasi: ' . implode('', $errorMessages)]);
-                } catch (\Exception $e) {
-                    Storage::delete("public/tmp/files/" . $file);
-                    return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Terjadi kesalahan saat mengimpor file.']);
                 }
+                Storage::delete("public/tmp/files/" . $file);
+                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Kesalahan validasi: ' . implode('', $errorMessages)]);
+            } catch (\Exception $e) {
+                Storage::delete("public/tmp/files/" . $file);
+                return redirect()->back()->with(['toast' => 'true', 'status' => 'error', 'message' => 'Terjadi kesalahan saat mengimpor file.']);
             }
         }
-        $username = $request->input('username');
+    }
 
-        $client = new Client();
-        $hunter_api_key = env('HUNTER_API_KEY');
-        $result = $client->get("https://api.hunter.io/v2/email-verifier?email={$username}&api_key={$hunter_api_key}");
-        $status = json_decode($result->getBody(), true)['data']['status'];
+    public function store(StoreRequest $request)
+    {
+        try {
+            $perusahaan = Perusahaan::create([
+                'nama' => session('nama'),
+                'bidang_usaha' => session('bidang-usaha'),
+                'no_telepon' => session('no-telepon'),
+                'alamat' => session('alamat'),
+                'nama_file_logo' => session('nama-file-logo'),
+            ]);
 
-        if ($status == 'invalid') {
-            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Email tidak valid.']);
+            session()->forget(['nama', 'bidang-usaha', 'no-telepon', 'alamat', 'nama-file-logo']);
+
+            User::create([
+                'username' => $request->input('username'),
+                'password' => Hash::make($request->input('password')),
+                'role' => 'Perusahaan',
+                'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
+            ]);
+        } catch (\Exception) {
+            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Harap tidak melewati proses yang ada.']);
         }
 
-        if (User::where('username', $username)->exists()) {
-            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Username sudah ada.']);
-        }
-
-        $user = User::create([
-            'username' => $username,
-            'password' => Hash::make($request->input('password')),
-            'role' => 'Perusahaan',
-        ]);
-
-        Perusahaan::create([
-            'username' => $user->username,
-            'nama' => $request->input('nama'),
-            'bidang_usaha' => $request->input('bidang-usaha'),
-            'no_telepon' => $request->input('no-telepon'),
-            'alamat' => $request->input('alamat'),
-            'nama_file_logo' => $request->input('logo'),
-        ]);
         return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Perusahaan $perusahaan)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Perusahaan $perusahaan)
     {
         $alamat = $this->wilayahController->alamat($perusahaan->alamat);
@@ -132,19 +120,8 @@ class DataPerusahaanController extends Controller
         return view('data-perusahaan.edit', compact('perusahaan', 'alamat', 'provinsi'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Perusahaan $perusahaan)
+    public function update(DataPerusahaanRequest $request, Perusahaan $perusahaan)
     {
-        if ($request->input('status')) {
-            $perusahaan->update($request->all());
-            if ($perusahaan->status == 'Tidak Aktif') {
-                Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->update(['status' => 'Tidak Dipublikasi']);
-            }
-            return redirect()->back()->with(['status' => 'success', 'message' => "Status perusahaan berhasil diubah menjadi {$request->input('status')}"]);
-        }
-
         $perusahaan->nama = $request->input('nama');
         $perusahaan->bidang_usaha = $request->input('bidang-usaha');
         $perusahaan->no_telepon = $request->input('no-telepon');
@@ -162,9 +139,15 @@ class DataPerusahaanController extends Controller
         return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function status(Request $request, Perusahaan $perusahaan)
+    {
+        $perusahaan->update(['status' => $request->input('status')]);
+        if ($perusahaan->status == 'Tidak Aktif') {
+            Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->update(['status' => 'Tidak Dipublikasi']);
+        }
+        return redirect()->back()->with(['status' => 'success', 'message' => "Status perusahaan berhasil diubah menjadi {$request->input('status')}"]);
+    }
+
     public function destroy(Perusahaan $perusahaan)
     {
         //

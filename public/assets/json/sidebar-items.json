@@ -47,6 +47,11 @@
             ]
         },
         {
+            "name": "Lacak Alumni",
+            "icon": "person-vcard",
+            "route": "admin.lacak-alumni.index"
+        },
+        {
             "name": "Akun Pengguna",
             "icon": "person-fill",
             "route": "admin.akun-pengguna.index"
@@ -68,9 +73,14 @@
             "isTitle": true
         },
         {
-            "name": "Cari Lowongan",
+            "name": "Dashboard",
             "icon": "grid-fill",
             "route": "dashboard"
+        },
+        {
+            "name": "Cari Lowongan",
+            "icon": "search",
+            "route": "alumni.cari-lowongan.index"
         },
         {
             "name": "Profil",

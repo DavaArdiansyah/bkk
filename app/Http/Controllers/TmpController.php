@@ -13,7 +13,8 @@ class TmpController extends Controller
         $this->middleware('auth');
     }
 
-    public function files(Request $request) {
+    public function files(Request $request)
+    {
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             $fileNames = [];
@@ -24,13 +25,15 @@ class TmpController extends Controller
                 $fileNames[] = $fileName;
             }
             return implode(', ', $fileNames);
-        } return '';
+        }
+        return '';
     }
 
-    public function images (Request $request) {
+    public function images(Request $request)
+    {
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $ImagePath = 'images/'. $file->getClientOriginalName();
+            $ImagePath = 'images/' . $file->getClientOriginalName();
 
             if (Storage::disk('public')->exists($ImagePath)) {
                 return $file->getClientOriginalName();

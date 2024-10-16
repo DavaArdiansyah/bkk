@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profil;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WilayahController;
+use App\Http\Requests\PendidikanNonFormalRequest;
 use App\Models\Aktivitas;
 use App\Models\Alumni;
 use App\Models\PendidikanNonFormal;
@@ -39,14 +40,13 @@ class PendidikanNonFormalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PendidikanNonFormalRequest $request)
     {
-        $alamat = $this->wilayahController->alamatLengkap($request);
         $alumni = Alumni::where('username', Auth::user()->username)->first();
         PendidikanNonFormal::create([
             'nik' => $alumni->nik,
             'nama_lembaga' => $request->input('nama-lembaga'),
-            'alamat' => $alamat,
+            'alamat' => $this->wilayahController->alamatLengkap($request),
             'nama_kursus' => $request->input('nama-kursus'),
             'tanggal' => Carbon::parse($request->input('tanggal'))->format('Y-m-d H:i:s'),
         ]);
@@ -80,12 +80,10 @@ class PendidikanNonFormalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PendidikanNonFormal $pendidikanNonFormal)
+    public function update(PendidikanNonFormalRequest $request, PendidikanNonFormal $pendidikanNonFormal)
     {
-        $alamat = $this->wilayahController->alamatLengkap($request);
-
         $pendidikanNonFormal->nama_lembaga = $request->input('nama-lembaga');
-        $pendidikanNonFormal->alamat = $alamat;
+        $pendidikanNonFormal->alamat = $this->wilayahController->alamatLengkap($request);
         $pendidikanNonFormal->nama_kursus = $request->input('nama-kursus');
         $pendidikanNonFormal->tanggal = $request->input('tanggal');
 

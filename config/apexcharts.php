@@ -19,7 +19,7 @@ return [
 
         'plotOptions' => [
             'bar' => [
-                'horizontal' => false,
+                'horizontal' => true,
             ],
         ],
 
@@ -51,6 +51,8 @@ return [
             'title' => [
                 'text' => '',
             ],
+            'tickAmount' => 5,
+            'stepSize' => 1
         ],
 
         'yaxis' => [

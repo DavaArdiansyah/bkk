@@ -5,32 +5,37 @@ namespace App\Http\Controllers\Halaman;
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DetailAlumniBekerjaExport;
 use App\Exports\LacakAlumniExport;
+use App\Http\Requests\LaporanRequest;
 use Maatwebsite\Excel\Excel as ExportType;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
-    public function index(Request $request)
+    public function index(LaporanRequest $request)
     {
-        $request->validate(['angkatan' => 'integer|digits:4']);
         $kategori = $request->input('kategori') ?? null;
         $periode = $request->input('waktu') ?? Carbon::now()->translatedFormat('j F Y');
         $angkatan = $request->input('angkatan') ?? Carbon::now()->translatedFormat('Y');
         $periodeAwal = $this->periodeAwal($periode);
         $periodeAkhir = $this->periodeAkhir($periode);
-        $data = [];
         $data['detail-alumni-bekerja'] = $this->detailALumniBekerja($periodeAwal, $periodeAkhir);
 
-        $data['lacak-alumni'] = [
-            'bekerja' => Alumni::where('status', 'Bekerja')->where('tahun_lulus', $angkatan)->count(),
-            'kuliah' => Alumni::where('status', 'Kuliah')->where('tahun_lulus', $angkatan)->count(),
-            'wirausaha' => Alumni::where('status', 'Wirausaha')->where('tahun_lulus', $angkatan)->count(),
-            'tidak bekerja' => Alumni::where('status', 'Tidak Bekerja')->where('tahun_lulus', $angkatan)->count(),
-        ];
+        $jurusan = ['AK', 'BR', 'DKV', 'MLOG', 'MP', 'RPL', 'TKJ'];
+        $status = ['Bekerja', 'Kuliah', 'Wirausaha', 'Tidak Bekerja'];
+
+        foreach ($status as $s) {
+            $data['lacak-alumni'][$s] = [
+                'Semua' => Alumni::where('status', $s)->where('tahun_lulus', $angkatan)->count()
+            ];
+
+            foreach ($jurusan as $j) {
+                $data['lacak-alumni'][$s][$j] = Alumni::where('status', $s)->where('tahun_lulus', $angkatan)->where('jurusan', $j)->count();
+            }
+        }
+
 
         if ($request->input('type-file')) {
             $typeFile = $request->input('type-file');
@@ -79,7 +84,7 @@ class LaporanController extends Controller
 
     public function detailALumniBekerja($periodeAwal, $periodeAkhir)
     {
-        $alumni = Alumni::with('lamaran.loker.perusahaan')->get();
+        $alumni = Alumni::all();
         $data = [];
 
         foreach ($alumni as $al) {
@@ -98,7 +103,6 @@ class LaporanController extends Controller
             }
 
             $namaPerusahaan = implode(', ', $perusahaan);
-
             if (!empty($namaPerusahaan)) {
                 $data[] = [
                     'nik' => $al->nik,

@@ -4,13 +4,13 @@
     $fileRoute = 'profil';
 @endphp
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/components/sweetalert2/master'])
+    @vite(['resources/js/components/sweetalert2/master'])
 @endsection
 
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route ('profil')}}">Profil</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profil') }}">Profil</a></li>
             <li class="breadcrumb-item active" aria-current="page">Keahlian</li>
         </ol>
     </nav>
@@ -39,14 +39,18 @@
             </div>
         </div>
         <div class="card-body">
-            <p>Silakan isi informasi keahlian di bawah ini:</p>
-            <form class="form" action="{{ route('alumni.profil.keahlian.update', $alumni->nik) }}" method="post"
-                data-parsley-validate>
+            <p>Silakan isi informasi keahlian/portofolio di bawah ini:</p>
+            <form class="form" action="{{ route('alumni.profil.keahlian.update', $alumni->nik) }}" method="POST">
                 @csrf @method('PUT')
                 <div class="row">
                     <div class="mb-3 col-12 form-group">
                         <label for="keahlian" class="form-label">Keahlian</label>
-                        <textarea class="form-control" id="keahlian" rows="5" data-parsley-required="true" name="keahlian">{{ isset($alumni->keahlian) ? $alumni->keahlian : '' }}</textarea>
+                        <textarea class="form-control @error('keahlian') is-invalid @enderror" id="keahlian" rows="5" name="keahlian">{{ old('keahlian', isset($alumni->keahlian) ? $alumni->keahlian : null) }}</textarea>
+                        @error('keahlian')
+                            <span class="invalid-feedback d-block mt-2" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>

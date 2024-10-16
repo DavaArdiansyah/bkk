@@ -7,7 +7,7 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/datatables/lowongan.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/datatables/lowongan.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 
 @section('content')
@@ -56,23 +56,24 @@
                                     </a>
                                     @if ($lk->status === 'Dipublikasi')
                                         <form
-                                            action="{{ route('perusahaan.info-lowongan.update', $lk->id_lowongan_pekerjaan) }}"
-                                            method="post">
+                                            action="{{ route('perusahaan.info-lowongan.status.update', $lk->id_lowongan_pekerjaan) }}" method="POST">
                                             @csrf
                                             @method('put')
                                             <input type="hidden" name="status" value="Tidak Dipublikasi">
                                             <button type="submit" class="btn btn-danger m-1"
-                                                {{ $lk->status == 'Tidak Dipublikasi' || $lk->status == 'Tertunda' ? 'disabled' : '' }}>
+                                                {{ $lk->status == 'Tidak Dipublikasi' || $lk->status == 'Tertunda' ? 'disabled' : null }}>
                                                 <i class="bi bi-x-circle me-1"></i> Tidak Dipublikasi
                                             </button>
                                         </form>
                                     @else
+                                    @if ($lk->pesan != 'Pesan Tidak Ditemukan.')
                                         <button data-bs-toggle="modal"
                                             data-bs-target="#modal-pesan-{{ $lk->id_lowongan_pekerjaan }}"
-                                            class="btn btn-warning m-1
-                                            {{ $lk->status == 'Tertunda' ? 'disabled' : '' }}">
-                                            <i class="bi bi-envelope me-1"></i> Pesan Admin BKK
+                                            class="btn btn-secondary m-1
+                                            {{ $lk->status == 'Tertunda' ? 'disabled' : null }}">
+                                            <i class="bi bi-envelope me-1"></i>
                                         </button>
+                                    @endif
                                         <!-- Modal -->
                                         <x-modal.pesan id="{{ $lk->id_lowongan_pekerjaan }}" title="Pesan Admin BKK"
                                             pesan="{{ $lk->pesan }}" />

@@ -18,7 +18,7 @@ class AlumniController extends Controller
      */
     public function index()
     {
-        $lamaran = Lamaran::where('nik', Alumni::where('username', Auth::user()->username)->value('nik'))->orderBy('waktu', 'desc')->get();
+        $lamaran = Lamaran::where('nik', Auth::user()->alumni->nik)->orderBy('waktu', 'desc')->get();
         foreach ($lamaran as $lm) {
             $fileName = 'public/files/' . $lm->id_lamaran . $lm->alumni->nama . '.txt';
             $lm['pesan'] = Storage::exists($fileName) ? Storage::get($fileName) : 'Pesan Tidak Ditemukan.';
@@ -40,9 +40,14 @@ class AlumniController extends Controller
     public function store(Request $request)
     {
         $alumni = Alumni::find(Auth::user()->alumni->nik);
-        if ($alumni->alamat == null || $alumni->keahlian == null|| $alumni->deskripsi == null) {
-            foreach ($request->input('files') as $file) {
-                Storage::delete("public/tmp/files/" . $file);
+        if (Auth::user()->username == $alumni->nik) {
+            return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap ganti username menjadi email yang valid terlebih dahulu.']);
+        }
+        if ($alumni->alamat == null || $alumni->kontak == null || $alumni->keahlian == null || $alumni->nama_file_foto == null || $alumni->deskripsi == null || $alumni->pendidikanFormal->isEmpty()) {
+            if ($request->input('files')) {
+                foreach ($request->input('files') as $file) {
+                    Storage::delete("public/tmp/files/" . $file);
+                }
             }
             return redirect()->back()->with(['status' => 'warning', 'message' => 'Harap lengkapi informasi utama terlebih dahulu.']);
         }

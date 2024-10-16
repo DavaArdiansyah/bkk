@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['Admin BKK', 'Perusahaan', 'Alumni']);
             $table->string('id_data_perusahaan')->nullable();
+            $table->timestamps();
 
             $table->foreign('id_data_perusahaan')->references('id_data_perusahaan')->on('data_perusahaan')->onUpdate('cascade');
         });

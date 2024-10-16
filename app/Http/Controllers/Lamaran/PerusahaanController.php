@@ -23,6 +23,11 @@ class PerusahaanController extends Controller
 
     public function update(Request $request, Lamaran $lamaran)
     {
+        if (!$request->input('pesan'))
+        {
+            return back()->with(['status' => 'error', 'message' =>  'Pesan wajib diisi.'])->withErrors(['pesan' => 'Pesan wajib diisi.'])->withInput();
+        }
+        
         $status = $request->input('status');
         $pesan = $request->input('pesan');
         $idLamaran = $lamaran->id_lamaran;

@@ -2,7 +2,7 @@
 @section('title', 'Profil')
 <?php $fileRoute = 'profil'; ?>
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js', 'resources/js/components/sweetalert2/master.js', 'resources/js/bidang-usaha.js'])
+    @vite(['resources/js/wilayah.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 
 @section('content')
@@ -27,13 +27,15 @@
         </div>
         <div class="card-body">
             <p>Silakan perbaharui informasi utama di bawah ini:</p>
-            <form class="form" action="{{ route('profil.update', $user->username) }}" method="POST"
-                data-parsley-validate>
+            <form class="form" action="{{ route('profil.update', $user->username) }}" method="POST">
                 @csrf @method('PUT')
-                <div id="data-provinsi" class="d-none">{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : '' }}</div>
-                <div id="data-kota" class="d-none">{{ isset($alamat['kota']) ? $alamat['kota'] : '' }}</div>
-                <div id="data-kecamatan" class="d-none">{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : '' }}</div>
-                <div id="data-kelurahan" class="d-none">{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : '' }}</div>
+                <div id="data-provinsi" class="d-none"
+                    data-provinsi="{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : null }}"></div>
+                <div id="data-kota" class="d-none" data-kota="{{ isset($alamat['kota']) ? $alamat['kota'] : null }}"></div>
+                <div id="data-kecamatan" class="d-none"
+                    data-kecamatan="{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : null }}"></div>
+                <div id="data-kelurahan" class="d-none"
+                    data-kelurahan="{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : null }}"></div>
                 <div class="row">
                     <div class="mb-3 col-md-6 col-12">
                         <x-input type="email" name="username" label="Username" placeholder="Username"
@@ -43,42 +45,44 @@
                         <div class="form-group">
                             <label for="bidang-usaha" class="form-label">Bidang Usaha</label>
                             <select name="bidang-usaha" id="bidang-usaha" class="form-select" required>
-                                <option disabled>Pilih Bidang Usaha</option>
-                                <option value="tambah" {{ $user->perusahaan->bidang_usaha == 'tambah' ? 'selected' : '' }}>
+                                <option class="d-none" disabled>Pilih Bidang Usaha</option>
+                                <option value="tambah"
+                                    {{ $user->perusahaan->bidang_usaha == 'tambah' ? 'selected' : null }}>
                                     Tambah
                                     Opsi Baru</option>
                                 <option value="Perdagangan"
-                                    {{ $user->perusahaan->bidang_usaha == 'Perdagangan' ? 'selected' : '' }}>Perdagangan
+                                    {{ $user->perusahaan->bidang_usaha == 'Perdagangan' ? 'selected' : null }}>Perdagangan
                                 </option>
                                 <option value="Makanan dan Minuman"
-                                    {{ $user->perusahaan->bidang_usaha == 'Makanan dan Minuman' ? 'selected' : '' }}>Makanan
+                                    {{ $user->perusahaan->bidang_usaha == 'Makanan dan Minuman' ? 'selected' : null }}>
+                                    Makanan
                                     dan
                                     Minuman</option>
                                 <option value="Pertanian dan Perkebunan"
-                                    {{ $user->perusahaan->bidang_usaha == 'Pertanian dan Perkebunan' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Pertanian dan Perkebunan' ? 'selected' : null }}>
                                     Pertanian dan Perkebunan</option>
-                                <option value="Jasa" {{ $user->perusahaan->bidang_usaha == 'Jasa' ? 'selected' : '' }}>
+                                <option value="Jasa" {{ $user->perusahaan->bidang_usaha == 'Jasa' ? 'selected' : null }}>
                                     Jasa
                                 </option>
                                 <option value="Properti dan Konstruksi"
-                                    {{ $user->perusahaan->bidang_usaha == 'Properti dan Konstruksi' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Properti dan Konstruksi' ? 'selected' : null }}>
                                     Properti
                                     dan Konstruksi</option>
                                 <option value="Industri Kreatif"
-                                    {{ $user->perusahaan->bidang_usaha == 'Industri Kreatif' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Industri Kreatif' ? 'selected' : null }}>
                                     IndustriKreatif
                                 </option>
                                 <option value="Teknologi Informasi dan Komunikasi"
-                                    {{ $user->perusahaan->bidang_usaha == 'Teknologi Informasi dan Komunikasi' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Teknologi Informasi dan Komunikasi' ? 'selected' : null }}>
                                     Teknologi Informasi dan Komunikasi</option>
                                 <option value="Pariwisata dan Perhotelan"
-                                    {{ $user->perusahaan->bidang_usaha == 'Pariwisata dan Perhotelan' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Pariwisata dan Perhotelan' ? 'selected' : null }}>
                                     Pariwisata dan Perhotelan</option>
                                 <option value="Transportasi dan Logistik"
-                                    {{ $user->perusahaan->bidang_usaha == 'Transportasi dan Logistik' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Transportasi dan Logistik' ? 'selected' : null }}>
                                     Transportasi dan Logistik</option>
                                 <option value="Industri Manufaktur"
-                                    {{ $user->perusahaan->bidang_usaha == 'Industri Manufaktur' ? 'selected' : '' }}>
+                                    {{ $user->perusahaan->bidang_usaha == 'Industri Manufaktur' ? 'selected' : null }}>
                                     Industri
                                     Manufaktur</option>
 
@@ -109,7 +113,7 @@
                     </div>
                     <div class="col-md-6 col-12">
                         <x-input type="text" name="alamat-lengkap" label="Alamat Lengkap" placeholder="Alamat Lengkap"
-                            value="{{ isset($alamat['alamat-lengkap']) ? $alamat['alamat-lengkap'] : '' }}"
+                            value="{{ isset($alamat['alamat-lengkap']) ? $alamat['alamat-lengkap'] : null }}"
                             class="mandatory" required="true" />
                     </div>
                     <div class="col-md-6 col-12">
@@ -121,32 +125,53 @@
                                     <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}</option>
                                 @endforeach
                             </select>
+                            @error('provinsi')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kota" class="form-label">Kota/Kabupaten</label>
-                            <select name="kota" id="kota" class="form-select" data-parsley-required="true" disabled>
-                                <option selected disabled>Pilih Kota/Kabupaten</option>
+                            <select name="kota" id="kota" class="form-select @error('kota') is-invalid @enderror"
+                                disabled>
+                                <option class="d-none" selected disabled>Pilih Kota/Kabupaten</option>
                             </select>
+                            @error('kota')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan" class="form-select" data-parsley-required="true"
-                                disabled>
-                                <option selected disabled>Pilih Kecamatan</option>
+                            <select name="kecamatan" id="kecamatan"
+                                class="form-select @error('kecamatan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kecamatan</option>
                             </select>
+                            @error('kecamatan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
-                    <div class="col-md-6 col-12 mb-3">
+                    <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
-                            <select name="kelurahan" id="kelurahan" class="form-select" data-parsley-required="true"
-                                disabled>
-                                <option selected disabled>Pilih Kelurahan</option>
+                            <select name="kelurahan" id="kelurahan"
+                                class="form-select @error('kelurahan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kelurahan</option>
                             </select>
+                            @error('kelurahan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 col-12">

@@ -25,6 +25,7 @@
                         <th class="text-start">JABATAN</th>
                         {{-- <th class="text-start">Waktu Pengajuan Lamaran</td> --}}
                         <th class="text-start">STATUS</th>
+                        <th class="text-start">PESAN</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,27 +35,18 @@
                             <td class="text-start">{{ $lm->loker->perusahaan->nama }}</td>
                             <td class="text-start">{{ $lm->loker->jabatan }}</td>
 
-                            @if ($lm->status == 'Diterima')
-                                <td>
-                                    <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#modal-pesan-{{ $lm->id_lamaran }}"
-                                        class="text-success text-decoration-none">Diterima</a>
-                                </td>
+                            <td class="text-start @if ($lm->status == 'Diterima')
+                                text-success
                             @elseif ($lm->status == 'Ditolak')
-                                <td>
-                                    <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#modal-pesan-{{ $lm->id_lamaran }}"
-                                        class="text-danger text-decoration-none">Ditolak</a>
-                                </td>
+                                text-danger
                             @elseif ($lm->status == 'Lolos Ketahap Selanjutnya')
-                                <td>
-                                    <a href="#" data-bs-toggle="modal"
-                                        data-bs-target="#modal-pesan-{{ $lm->id_lamaran }}"
-                                        class="text-warning text-decoration-none">Lolos Ketahap Selanjutnya</a>
-                                </td>
-                            @else
-                                <td class="text-start text-secondary">Terkirim</td>
-                            @endif
+                            text-warning
+                            @endif">{{$lm->status}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-pesan-{{ $lm->id_lamaran }}">
+                                    <i class="bi bi-envelope"></i>
+                                </button>
+                            </td>
 
                             {{-- Modal Pesan Perusahaan --}}
                             <x-modal.pesan id="{{ $lm->id_lamaran }}" title="Pesan Perusahaan"

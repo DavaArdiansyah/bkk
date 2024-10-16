@@ -11,7 +11,6 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
-                        <input type="hidden" name="for" value="{{ $for }}">
                         <input type="file" class="filepond" name="file">
                     </div>
                     <div class="modal-footer">

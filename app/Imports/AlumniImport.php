@@ -24,7 +24,7 @@ class AlumniImport implements ToModel, WithValidation, WithHeadingRow, WithProgr
     {
         $user = User::create([
             'username' => $row['nik'],
-            'password' => Hash::make($row['password']),
+            'password' => Hash::make('bursakerja'),
             'role' => 'Alumni',
         ]);
         return new Alumni([
@@ -45,9 +45,22 @@ class AlumniImport implements ToModel, WithValidation, WithHeadingRow, WithProgr
             'jenis_kelamin' => ['required', 'in:Laki Laki,Perempuan'],
             'jurusan' => ['required', 'in:AK,BR,DKV,MLOG,MP,RPL,TKJ'],
             'tahun_lulus' => ['required'],
-            'password' => ['required']
         ];
     }
+
+    // public function messages()
+    // {
+    //     return [
+    //         'nik.required' => 'Kolom NIK wajib diisi.',
+    //         'nik.unique' => 'Value NIK sudah ada.',
+    //         'nama_lengkap.required' => 'Kolom Nama Lengkap wajib diisi.',
+    //         'jenis_kelamin.required' => 'Kolom Jenis Kelamin wajib diisi.',
+    //         'jenis_kelamin.in' => 'Value Jenis Kelamin tidak valid.',
+    //         'jurusan.required' => 'Kolom Jurusan wajib diisi.',
+    //         'jurusan.in' => 'Value Jurusan tidak valid.',
+    //         'tahun_lulus.required' => 'Kolom Tahun Lulus wajib diisi.',
+    //     ];
+    // }
 
     public function withOutput(OutputStyle $output)
     {

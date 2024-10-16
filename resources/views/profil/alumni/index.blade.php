@@ -6,7 +6,7 @@
     $fileRoute = 'profil';
 @endphp
 @section('assets')
-    @vite(['resources/js/components/sweetalert2/master.js', 'resources/js/components/filepond/images.js'])
+    @vite(['resources/js/components/sweetalert2.js', 'resources/js/components/filepond/images.js'])
 @endsection
 
 @section('content')
@@ -23,14 +23,14 @@
                 <!-- Avatar -->
                 <div class="col-12 col-md-2 mb-3 mb-md-0 text-center">
                     <div class="avatar avatar-2xl border border-4 border-light">
-                        <a data-bs-toggle="modal" data-bs-target="#modal-avatar-edit-{{ $alumni->nik }}">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-avatar-edit-{{ $alumni->nik }}">
                             {{-- <a id="modal-edit-foto" data-update-url="/profil/foto/{{$alumni->id}}" > --}}
                             <img src="{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : ($alumni->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}"
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
                         <x-modal.avatar id="{{ $alumni->nik }}" title="Perbaharui Foto Profil"
                             action="{{ route('profil.update', $alumni->user->username) }}" for="Alumni" />
-                            <div id="nama_path_file_image" class="d-none">{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : '' }}</div>
+                            <div id="path_file_image" data-path-image="{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : null }}" class="d-none"></div>
                         {{-- <x-edit-foto id="{{ $alumni->nik }}" /> --}}
                     </div>
                 </div>
@@ -58,7 +58,42 @@
     </div>
     <!-- End Section 1 -->
 
-    <!-- Section 2: Riwayat Pendidikan Formal-->
+     <!-- Section 2: Keahlian -->
+     <div class="card">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col-2 col-md-1 text-center">
+                    <i class="bi bi-camera-fill fs-4"></i>
+                </div>
+                <div class="col-8 col-md-8">
+                    <a href="{{ route('alumni.profil.tentang-saya.edit', $alumni->nik) }}"
+                        class="btn btn-link text-decoration-none">
+                        <h5 class="font-weight-bold mb-0">Tentang Saya</h5>
+                    </a>
+                </div>
+                <div class="col-2 col-md-3 text-end">
+                    @if (!isset($alumni->deskripsi))
+                        <a href="{{ route('alumni.profil.tentang-saya.edit', $alumni->nik) }}"
+                            class="btn btn-lg btn-link fs-3">
+                            <i class="bi bi-plus fs-2"></i>
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (isset($alumni->deskripsi))
+                <div class="mb-3">
+                    <a href="{{ route('alumni.profil.tentang-saya.edit', $alumni->nik) }}">
+                        <h6 class="font-weight-bold">{!! nl2br(e($alumni->deskripsi)) !!}</h6>
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+    <!-- End Section 2 -->
+
+    <!-- Section 3: Riwayat Pendidikan Formal-->
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -81,19 +116,18 @@
         <div class="card-body">
             @foreach ($pendidikanFormal as $pdf)
                 <div class="mb-3">
-                    <a
-                        href="{{ route('alumni.profil.riwayat-pendidikan-formal.edit', $pdf->id_riwayat_pendidikan_formal) }}">
+                    <a href="{{ route('alumni.profil.riwayat-pendidikan-formal.edit', $pdf->id_riwayat_pendidikan_formal) }}">
                         <h6 class="font-weight-bold">{{ $pdf->nama_sekolah }}
-                            {{ isset($pdf->bidang_studi) ? ' - ' . $pdf->bidang_studi : '' }}</h6>
+                            {{ isset($pdf->bidang_studi) ? ' - ' . $pdf->bidang_studi : null }}</h6>
                     </a>
                     <p class="text-muted mb-0">{{ $pdf->tahun_awal }} - {{ $pdf->tahun_akhir }}</p>
                 </div>
             @endforeach
         </div>
     </div>
-    <!-- End Section 2 -->
+    <!-- End Section 3 -->
 
-    <!-- Section 3: Riwayat Pendidikan Non Formal-->
+    <!-- Section 4: Riwayat Pendidikan Non Formal-->
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -125,9 +159,9 @@
             @endforeach
         </div>
     </div>
-    <!-- End Section 3 -->
+    <!-- End Section 4 -->
 
-    <!-- Section 4: Pengalaman Kerja -->
+    <!-- Section 5: Pengalaman Kerja -->
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -158,9 +192,9 @@
             @endforeach
         </div>
     </div>
-    <!-- End Section 4 -->
+    <!-- End Section 5 -->
 
-    <!-- Section 5: Keahlian -->
+    <!-- Section 6: Keahlian -->
     <div class="card">
         <div class="card-header">
             <div class="row align-items-center">
@@ -193,5 +227,5 @@
             @endif
         </div>
     </div>
-    <!-- End Section 5 -->
+    <!-- End Section 6 -->
 @endsection

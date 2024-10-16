@@ -7,7 +7,7 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/datatables/lamaran-terbaru.js', 'resources/js/components/sweetalert2/master.js', 'resources/js/components/parsley.js'])
+    @vite(['resources/js/components/datatables/lamaran-terbaru.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 
 @section('content')
@@ -44,22 +44,19 @@
                                         <i class="bi bi-file-text m-1"></i>Detail
                                     </button>
 
-                                    <button data-bs-toggle="modal"
-                                        data-bs-target="#modal-input-pesan-lolos-kualifikasi-{{ $lm->id_lamaran }}"
-                                        class="btn btn-success m-1"
-                                        {{ $lm->status == 'Lolos Ketahap Selanjutnya' ? 'disabled' : '' }}>
+                                    @if ($lm->status == 'Terkirim')
+                                    <button data-bs-toggle="modal" data-bs-target="#modal-input-pesan-lolos-kualifikasi-{{ $lm->id_lamaran }}" class="btn btn-success m-1">
                                         <i class="bi bi-check-circle me-1"></i>Lolos Kualifikasi
                                     </button>
+                                    @endif
 
-                                    <button data-bs-toggle="modal"
-                                        data-bs-target="#modal-input-pesan-diterima-{{ $lm->id_lamaran }}"
-                                        class="btn btn-success m-1" {{ $lm->status == 'Terkirim' ? 'disabled' : '' }}>
+                                    @if ($lm->status == 'Lolos Ketahap Selanjutnya')
+                                    <button data-bs-toggle="modal" data-bs-target="#modal-input-pesan-diterima-{{ $lm->id_lamaran }}" class="btn btn-success m-1">
                                         <i class="bi bi-emoji-smile me-1"></i>Diterima
                                     </button>
+                                    @endif
 
-                                    <button data-bs-toggle="modal"
-                                        data-bs-target="#modal-input-pesan-ditolak-{{ $lm->id_lamaran }}"
-                                        class="btn btn-danger m-1" {{ $lm->status == 'Terkirim' ? 'disabled' : '' }}>
+                                    <button data-bs-toggle="modal" data-bs-target="#modal-input-pesan-ditolak-{{ $lm->id_lamaran }}" class="btn btn-danger m-1">
                                         <i class="bi bi-x-circle me-1"></i>Ditolak
                                     </button>
                                 </div>

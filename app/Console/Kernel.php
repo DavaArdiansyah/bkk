@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Models\Loker;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;

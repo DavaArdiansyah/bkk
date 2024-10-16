@@ -6,6 +6,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageCrop from 'filepond-plugin-image-crop';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 
 // Registrasi plugin
 FilePond.registerPlugin(
@@ -13,6 +14,7 @@ FilePond.registerPlugin(
     FilePondPluginImagePreview,
     FilePondPluginImageCrop,
     FilePondPluginFileValidateSize,
+    FilePondPluginImageTransform,
 );
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
@@ -23,13 +25,16 @@ const filePond = FilePond.create(document.querySelector('.filepond'), {
     maxFileSize: '2MB',
     labelMaxFileSizeExceeded: 'Ukuran maksimum file adalah 2 MB.',
     allowMultiple: false,
-    allowImagePreview: true,
-    allowImageCrop: true,
-    imageCropAspectRatio: 1,
-    imageCropCircle: true,
+    imageCropAspectRatio: '1:1',
+    imageResizeTargetWidth: 200,
+    imageResizeTargetHeight: 200,
+    // allowImagePreview: true,
+    // allowImageCrop: true,
+    // imageCropAspectRatio: 1,
+    // imageCropCircle: true,
     server: {
         process: {
-            url: '/tmp/images', 
+            url: '/tmp/images',
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': csrfToken
@@ -38,7 +43,8 @@ const filePond = FilePond.create(document.querySelector('.filepond'), {
     }
 });
 
-const existingFileUrl = document.getElementById('nama_path_file_image')?.innerText || '';
+const existingFileUrl = document.getElementById('path_file_image').getAttribute('data-path-image') || null;
+console.log(existingFileUrl);
 
 if (existingFileUrl) {
     filePond.addFile(existingFileUrl);

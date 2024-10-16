@@ -39,11 +39,20 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
     Route::get('laporan', [App\Http\Controllers\Halaman\LaporanController::class, 'index'])->name('laporan');
     Route::get('data-alumni/import', [App\Http\Controllers\DataAlumniController::class, 'import'])->name('data-alumni.import');
     Route::resource('data-alumni', App\Http\Controllers\DataAlumniController::class)->parameters(['data-alumni' => 'alumni'])->except('show', 'destroy');
-    Route::resource('data-perusahaan', App\Http\Controllers\DataPerusahaanController::class)->parameters(['data-perusahaan' => 'perusahaan']);
-    Route::post('data-perusahaan/akun', [App\Http\Controllers\DataPerusahaanController::class, 'akun'])->name('data-perusahaan.akun.create');
-    Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'destroy');
-    Route::get('akun-perusahaan', [App\Http\Controllers\AkunPengguna::class, 'perusahaan'])->name('akun-pengguna.perusahaan.create');
-    Route::get('akun-admin', [App\Http\Controllers\AkunPengguna::class, 'admin'])->name('akun-pengguna.admin.create');
+    Route::resource('data-perusahaan', App\Http\Controllers\DataPerusahaanController::class)->parameters(['data-perusahaan' => 'perusahaan'])->except('show', 'destroy');
+    Route::prefix('data-perusahaan')->name('data-perusahaan.')->group(function () {
+        Route::post('tmpData', [App\Http\Controllers\DataPerusahaanController::class, 'tmp'])->name('tmp-data');
+        Route::post('import', [App\Http\Controllers\DataPerusahaanController::class, 'import'])->name('import');
+        Route::get('account/create', [App\Http\Controllers\DataPerusahaanController::class, 'akun'])->name('akun.create');
+        Route::put('status/{perusahaan}', [App\Http\Controllers\DataPerusahaanController::class, 'status'])->name('status.update');
+    });
+    Route::get('lacak-alumni', [App\Http\Controllers\LacakAlumni::class, 'index'])->name('lacak-alumni.index');
+    Route::resource('akun-pengguna', App\Http\Controllers\AkunPengguna::class)->parameters(['akun-pengguna' => 'user'])->except('create', 'store', 'destroy');
+    Route::put('akun-pengguna/status/{user}', [App\Http\Controllers\AkunPengguna::class, 'status'])->name('akun-pengguna.status');
+    Route::get('akun-perusahaan/create', [App\Http\Controllers\AkunPengguna::class, 'perusahaan'])->name('akun-pengguna.perusahaan.create');
+    Route::post('akun-perusahaan/store', [App\Http\Controllers\AkunPengguna::class, 'akunPerusahaan'])->name('akun-pengguna.perusahaan.store');
+    Route::get('akun-admin/create', [App\Http\Controllers\AkunPengguna::class, 'admin'])->name('akun-pengguna.admin.create');
+    Route::post('akun-admin/store', [App\Http\Controllers\AkunPengguna::class, 'akunAdmin'])->name('akun-pengguna.admin.store');
     Route::resource('ajuan-info-lowongan', App\Http\Controllers\Lowongan\AdminController::class)->parameters(['ajuan-info-lowongan' => 'loker'])->only('index', 'show', 'update');
 });
 
@@ -51,6 +60,7 @@ Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
     Route::resource('cari-lowongan', App\Http\Controllers\Halaman\CariLowonganController::class)->parameters(['cari-lowongan' => 'loker'])->only('index', 'show');
     Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class)->only('index', 'store');
     Route::prefix('profil')->name('profil.')->group(function () {
+        Route::resource('tentang-saya', App\Http\Controllers\Profil\DeskripsiController::class)->parameters(['tentang-saya' => 'alumni'])->only('edit', 'update', 'destroy');
         Route::resource('riwayat-pendidikan-formal', App\Http\Controllers\Profil\PendidikanFormalController::class)->parameters(['riwayat-pendidikan-formal' => 'pendidikanFormal'])->except('index', 'show');
         Route::resource('riwayat-pendidikan-non-formal', App\Http\Controllers\Profil\PendidikanNonFormalController::class)->parameters(['riwayat-pendidikan-non-formal' => 'pendidikanNonFormal'])->except('index', 'show');
         Route::resource('pengalaman-kerja', App\Http\Controllers\Profil\PengalamanKerjaController::class)->parameters(['pengalaman-kerja' => 'kerja'])->except('index', 'show');
@@ -64,6 +74,7 @@ Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
 
 Route::middleware(['auth', 'role:Perusahaan'])->name('perusahaan.')->group(function () {
     Route::resource('info-lowongan', App\Http\Controllers\Lowongan\PerusahaanController::class)->parameters(['info-lowongan' => 'loker']);
+    Route::put('info-lowongan/status/{loker}', [App\Http\Controllers\Lowongan\PerusahaanController::class, 'status'])->name('info-lowongan.status.update');
     Route::prefix('lamaran')->name('lamaran.')->group(function () {
         Route::get('terbaru', [App\Http\Controllers\Lamaran\PerusahaanController::class, 'terbaru'])->name('terbaru');
         Route::put('update/{lamaran}', [App\Http\Controllers\Lamaran\PerusahaanController::class, 'update'])->name('update');

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('nama_file_foto')->nullable();
             $table->text('deskripsi')->nullable();
             $table->enum('status', ['Tidak Bekerja', 'Bekerja', 'Wirausaha', 'Kuliah'])->default('Tidak Bekerja');
+            $table->string('keterangan')->nullable();
 
             $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
         });

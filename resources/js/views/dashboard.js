@@ -1,5 +1,5 @@
 import $ from 'jquery';
 
-$('#tahun').change(function() {
+$('#periode').change(function() {
     $('#periode').submit();
 });

@@ -17,10 +17,7 @@ class Input extends Component
     public $placeholder;
     public $value;
     public $class;
-    public $required;
-    public $min;
-    public $matchPassword;
-    public function __construct($type = 'text', $name, $label = null, $placeholder = null, $value = null, $class = null, $required = null, $min = null, $matchPassword = null)
+    public function __construct($type = 'text', $name, $label = null, $placeholder = null, $value = null, $class = null)
     {
         $this->type = $type;
         $this->name = $name;
@@ -28,9 +25,6 @@ class Input extends Component
         $this->placeholder = $placeholder;
         $this->value = $value;
         $this->class = $class;
-        $this->required = $required;
-        $this->min = $min;
-        $this->matchPassword = $matchPassword;
     }
 
     /**

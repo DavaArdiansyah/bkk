@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\Admin;
 use App\Models\Perusahaan;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,33 +22,48 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $user = User::find($request->input('username'));
+
         if (!$user) {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+            return back()->withErrors(['username' => 'Username tidak terdaftar pada aplikasi.']);
         }
-        if ($user->perusahaan) {
+
+        if ($user->role == 'Perusahaan' && isset($user->perusahaan)) {
             $perusahaan = Perusahaan::find($user->perusahaan->id_data_perusahaan);
-            if ($user->role == 'Perusahaan' && $perusahaan->status == 'Tidak Aktif') {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+            if ($perusahaan && $perusahaan->status == 'Tidak Aktif') {
+                return back()->withErrors(['username' => 'Akun perusahaan Anda tidak aktif.']);
             }
-        } elseif ($user->admin) {
+        }
+
+        if ($user->role == 'Admin BKK' && isset($user->admin)) {
             $admin = Admin::find($user->admin->nip);
-            if ($user->role == 'Admin BKK' && $admin->status == 'Tidak Aktif') {
-                return redirect()->back()->with(['status' => 'error', 'message' => 'Username tidak terdaftar pada aplikasi.']);
+            if ($admin && $admin->status == 'Tidak Aktif') {
+                return back()->withErrors(['username' => 'Akun admin Anda tidak aktif.']);
             }
         }
+
         if (!Hash::check($request->input('password'), $user->password)) {
-            return redirect()->back()->with(['status' => 'error', 'message' => 'Password yang anda masukan salah.']);
+            return back()->withErrors(['password' => 'Password yang Anda masukkan salah.'])->withInput();
         }
+
+        $firstLogin = $user->created_at->eq($user->updated_at);
+
         Auth::login($user);
-        return redirect()->route('dashboard')->with(['status' => 'success', 'message' => 'Login berhasil!']);
+
+        $user->touch();
+
+        $messageLogin = ['status' => 'success', 'message' => 'Login berhasil!'];
+        $messagePassword = ['status' => 'info', 'message' => 'Login berhasil!, harap ganti password Anda!'];
+
+        return redirect()->route('dashboard')->with($firstLogin ? $messagePassword : $messageLogin);
     }
+
 
     public function logout()
     {
-        Auth::logout(Auth::user());
-        return redirect()->route('login');
+        Auth::logout();
+        return redirect()->back();
     }
 }

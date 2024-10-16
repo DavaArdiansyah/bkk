@@ -8,13 +8,13 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/filepond/pdf.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/filepond/pdf.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route ('dashboard')}}">Cari Lowongan</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Cari Lowongan</a></li>
             <li class="breadcrumb-item active" aria-current="page">Detail</li>
         </ol>
     </nav>

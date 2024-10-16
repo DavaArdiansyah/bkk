@@ -8,84 +8,92 @@ use Illuminate\Support\Facades\Http;
 
 class WilayahController extends Controller
 {
+    protected $client;
+    protected $baseApiUrl = 'https://emsifa.github.io/api-wilayah-indonesia/api/';
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->client = new Client();
     }
 
-    public function provinsi () {
-        // $client = New Client();
-        // $response = $client->get('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
-        // return  json_decode($response->getBody()->getContents());
-        $url = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
-        return $url->json();
+    private function fetchData($endpoint)
+    {
+        $response = $this->client->get($this->baseApiUrl . $endpoint);
+        return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function kota ($provinsiId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/$provinsiId.json");
-        return $url->json();
+    private function getWilayahName($data, $id)
+    {
+        $wilayah = collect($data)->firstWhere('id', $id);
+        return $wilayah ? ucwords(strtolower($wilayah['name'])) : null;
     }
 
-    public function kecamatan ($kotaId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/$kotaId.json");
-        return $url->json();
+    public function provinsi()
+    {
+        return $this->fetchData('provinces.json');
     }
 
-    public function kelurahan ($kecamatanId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/$kecamatanId.json");
-        return $url->json();
+    public function kota($provinsiId)
+    {
+        return $this->fetchData("regencies/$provinsiId.json");
     }
 
-    public function namaProvinsi ($provinsiId) {
-        $url = Http::get('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
-        $provinsiData = $url->json();
-        $provinsiCari = collect($provinsiData)->firstWhere('id', $provinsiId);
-        $provinsi = ucwords(strtolower($provinsiCari['name']));
-        return $provinsi;
+    public function kecamatan($kotaId)
+    {
+        return $this->fetchData("districts/$kotaId.json");
     }
 
-    public function namaKota ($provinsiId, $kotaId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/$provinsiId.json");
-        $kotaData = $url->json();
-        $kotaCari = collect($kotaData)->firstWhere('id', $kotaId);
-        $kota = ucwords(strtolower($kotaCari['name']));
-        return $kota;
+    public function kelurahan($kecamatanId)
+    {
+        return $this->fetchData("villages/$kecamatanId.json");
     }
 
-    public function namaKecamatan ($kotaId, $kecamatanId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/$kotaId.json");
-        $kecamatanData = $url->json();
-        $kecamatanCari = collect($kecamatanData)->firstWhere('id', $kecamatanId);
-        $kecamatan = ucwords(strtolower($kecamatanCari['name']));
-        return $kecamatan;
+    public function namaProvinsi($provinsiId)
+    {
+        $provinsiData = $this->provinsi();
+        return $this->getWilayahName($provinsiData, $provinsiId);
     }
 
-    public function namaKelurahan ($kecamatanId, $kelurahanId) {
-        $url = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/$kecamatanId.json");
-        $kelurahanData = $url->json();
-        $kelurahanCari = collect($kelurahanData)->firstWhere('id', $kelurahanId);
-        $kelurahan = ucwords(strtolower($kelurahanCari['name']));
-        return $kelurahan;
+    public function namaKota($provinsiId, $kotaId)
+    {
+        $kotaData = $this->kota($provinsiId);
+        return $this->getWilayahName($kotaData, $kotaId);
     }
 
-    public function alamatLengkap ($request) {
+    public function namaKecamatan($kotaId, $kecamatanId)
+    {
+        $kecamatanData = $this->kecamatan($kotaId);
+        return $this->getWilayahName($kecamatanData, $kecamatanId);
+    }
+
+    public function namaKelurahan($kecamatanId, $kelurahanId)
+    {
+        $kelurahanData = $this->kelurahan($kecamatanId);
+        return $this->getWilayahName($kelurahanData, $kelurahanId);
+    }
+
+    public function alamatLengkap(Request $request)
+    {
         $kelurahan = $this->namaKelurahan($request->input('kecamatan'), $request->input('kelurahan'));
         $kecamatan = $this->namaKecamatan($request->input('kota'), $request->input('kecamatan'));
         $kota = $this->namaKota($request->input('provinsi'), $request->input('kota'));
         $provinsi = $this->namaProvinsi($request->input('provinsi'));
-        $alamat = $request->input('alamat-lengkap') . ', ' . $kelurahan . ', ' . $kecamatan . ', ' . $kota . ', ' . $provinsi;
-        return $alamat;
+
+        $alamatLengkap = $request->input('alamat-lengkap');
+        return implode(', ', array_filter([$alamatLengkap, $kelurahan, $kecamatan, $kota, $provinsi]));
     }
 
-    public function alamat ($alamatData) {
+    public function alamat($alamatData)
+    {
         $alamatArray = explode(', ', $alamatData);
-        $alamat = [
-            'alamat-lengkap' => $alamatArray[0],
-            'kelurahan' => $alamatArray[1],
-            'kecamatan' => $alamatArray[2],
-            'kota' => $alamatArray[3],
-            'provinsi' => $alamatArray[4]
+
+        return [
+            'alamat-lengkap' => $alamatArray[0] ?? '',
+            'kelurahan' => $alamatArray[1] ?? '',
+            'kecamatan' => $alamatArray[2] ?? '',
+            'kota' => $alamatArray[3] ?? '',
+            'provinsi' => $alamatArray[4] ?? ''
         ];
-        return $alamat;
     }
 }

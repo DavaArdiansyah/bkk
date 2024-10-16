@@ -9,13 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class KegiatanSekarang extends Controller
 {
-    public function edit (){
+    public function edit()
+    {
         $alumni = Alumni::find(Auth::user()->alumni->nik);
-        return view ('kegiatan-sekarang', compact('alumni'));
+        return view('kegiatan-sekarang', compact('alumni'));
     }
 
-    public function update (Request $request, Alumni $alumni) {
+    public function update(Request $request, Alumni $alumni)
+    {
         $alumni->status = $request->input('kegiatan-sekarang');
+        $request->input('kegiatan-sekarang') != 'Tidak Bekerja' ? $request->validate(['keterangan' => 'required'], ['keterangan.required' => 'Keterangan wajib diisi.']) : null;
+        $alumni->keterangan = $request->input('kegiatan-sekarang') == 'Tidak Bekerja' ? null : $request->input('keterangan');
 
         if (!$alumni->isDirty()) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);

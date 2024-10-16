@@ -53,14 +53,14 @@
                                     {{-- <form action="{{route('admin.ajuan-pengguna.info-loker.update', $lk->id_lowongan_pekerjaan)}}" method="post">
                                     @csrf @method('put')
                                     <input type="hidden" name="status" value="Dipublikasi">
-                                    <button type="submit" class="btn btn-success m-1" {{$lk->status == 'Dipublikasi' || $lk->tanggal_akhir < now()->format('Y-m-d') ? 'disabled' : ''}}>
+                                    <button type="submit" class="btn btn-success m-1" {{$lk->status == 'Dipublikasi' || $lk->tanggal_akhir < now()->format('Y-m-d') ? 'disabled' : null}}>
                                         <i class="bi bi-check-circle me-1"></i>Publikasi
                                     </button>
                                 </form>
                                 <form action="{{route('admin.ajuan-pengguna.info-loker.update', $lk->id_lowongan_pekerjaan)}}" method="post">
                                     @csrf @method('put')
                                     <input type="hidden" name="status" value="Tidak Dipublikasi">
-                                    <button type="submit" class="btn btn-danger m-1" {{$lk->status == 'Tidak Dipublikasi' ? 'disabled' : ''}}>
+                                    <button type="submit" class="btn btn-danger m-1" {{$lk->status == 'Tidak Dipublikasi' ? 'disabled' : null}}>
                                         <i class="bi bi-x-circle me-1"></i>Tidak Dipublikasi
                                     </button>
                                 </form> --}}

@@ -3,10 +3,10 @@ import $ from 'jquery';
 $(document).ready(function () {
     // Initial data passed from the controller
     var alamat = {
-        provinsi: $('#data-provinsi').text(),
-        kota: $('#data-kota').text(),
-        kecamatan: $('#data-kecamatan').text(),
-        kelurahan: $('#data-kelurahan').text()
+        provinsi: $('#data-provinsi').attr('data-provinsi'),
+        kota: $('#data-kota').attr('data-kota'),
+        kecamatan: $('#data-kecamatan').attr('data-kecamatan'),
+        kelurahan: $('#data-kelurahan').attr('data-kelurahan')
     };
 
     // Function to select option

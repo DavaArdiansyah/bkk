@@ -6,7 +6,7 @@
 @endphp
 @section('title', 'Data Perusahaan')
 @section('assets')
-    @vite(['resources/js/components/datatables/data-perusahaan.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/datatables/data-perusahaan.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
@@ -45,21 +45,21 @@
                                             class="btn btn-warning m-1 w-100">
                                             <i class="bi bi-pencil me-1"></i>
                                         </a>
-                                        <form action="{{ route('admin.data-perusahaan.update', $pr->id_data_perusahaan) }}"
+                                        <form action="{{ route('admin.data-perusahaan.status.update', $pr->id_data_perusahaan) }}"
                                             method="POST" class="w-100 m-1">
                                             <input type="hidden" name="status" value="Aktif">
                                             @csrf @method('PUT')
                                             <button type="submit"
-                                                class="btn btn-success w-100 {{ $pr->status == 'Aktif' ? 'disabled' : '' }}">
+                                                class="btn btn-success w-100 {{ $pr->status == 'Aktif' ? 'disabled' : null }}">
                                                 <i class="bi bi-check-circle me-1"></i>Aktif
                                             </button>
                                         </form>
-                                        <form action="{{ route('admin.data-perusahaan.update', $pr->id_data_perusahaan) }}"
+                                        <form action="{{ route('admin.data-perusahaan.status.update', $pr->id_data_perusahaan) }}"
                                             method="POST" class="w-100 m-1">
                                             <input type="hidden" name="status" value="Tidak Aktif">
                                             @csrf @method('PUT')
                                             <button type="submit"
-                                                class="btn btn-danger w-100 {{ $pr->status == 'Tidak Aktif' ? 'disabled' : '' }}">
+                                                class="btn btn-danger w-100 {{ $pr->status == 'Tidak Aktif' ? 'disabled' : null }}">
                                                 <i class="bi bi-x-circle me-1"></i>Non Aktif
                                             </button>
                                         </form>

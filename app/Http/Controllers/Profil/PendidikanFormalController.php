@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Profil;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\WilayahController;
+use App\Http\Requests\PendidikanFormalRequest;
 use App\Models\Aktivitas;
 use App\Models\Alumni;
 use App\Models\PendidikanFormal;
@@ -38,14 +39,14 @@ class PendidikanFormalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PendidikanFormalRequest $request)
     {
-        $alamat = $this->wilayahController->alamatLengkap($request);
         $alumni = Alumni::where('username', Auth::user()->username)->first();
         PendidikanFormal::create([
             'nik' => $alumni->nik,
             'nama_sekolah' => $request->input('nama-sekolah'),
-            'alamat' => $alamat,
+            'alamat' => $this->wilayahController->alamatLengkap($request),
+            'gelar' => $request->input('gelar'),
             'bidang_studi' => $request->input('bidang-studi'),
             'tahun_awal' => $request->input('tahun-awal'),
             'tahun_akhir' => $request->input('tahun-akhir'),
@@ -81,12 +82,11 @@ class PendidikanFormalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PendidikanFormal $pendidikanFormal)
+    public function update(PendidikanFormalRequest $request, PendidikanFormal $pendidikanFormal)
     {
-        $alamat = $this->wilayahController->alamatLengkap($request);
-
         $pendidikanFormal->nama_sekolah = $request->input('nama-sekolah');
-        $pendidikanFormal->alamat = $alamat;
+        $pendidikanFormal->alamat = $this->wilayahController->alamatLengkap($request);
+        $pendidikanFormal->gelar = $request->input('gelar');
         $pendidikanFormal->bidang_studi = $request->input('bidang-studi');
         $pendidikanFormal->tahun_awal = $request->input('tahun-awal');
         $pendidikanFormal->tahun_akhir = $request->input('tahun-akhir');

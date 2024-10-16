@@ -2,16 +2,10 @@
     @if(isset($label))
         <label for="{{ $name }}" class="form-label">{{ $label }}</label>
     @endif
-    <input
-        type="{{ $type ?? 'text' }}"
-        name="{{ $name }}"
-        id="{{ $name }}"
-        class="form-control {{ $attributes->get('class', '') }}"
-        value="{{ old($name, $value ?? '') }}"
-        @if(isset($placeholder)) placeholder="{{ $placeholder }}" @endif
-        @if(isset($required) && $required) data-parsley-required="true" @endif
-        @if(isset($min)) data-parsley-minlength="{{ $min }}" @endif
-        @if(isset($match)) data-parsley-passwordMatch="#{{ $match }}" @endif
-        {{ $attributes->except('class') }}
-    >
+    <input type="{{ $type ?? 'text' }}" name="{{ $name }}" id="{{ $name }}" class="form-control {{ $attributes->get('class', '') }} @error($name) is-invalid @enderror" value="{{ old($name, $value ?? '') }}" @if(isset($placeholder)) placeholder="{{ $placeholder }}" @endif {{ $attributes->except('class') }}>
+    @error($name)
+        <span class="invalid-feedback d-block mt-2" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
 </div>

@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         order: [
             [5, "desc"],
             [4, "asc"],
+            [1, "asc"],
         ],
         responsive: true,
         layout: {

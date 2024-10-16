@@ -5,13 +5,13 @@
 @endphp
 
 @section('assets')
-    @vite(['resources/js/components/parsley.js', 'resources/js/wilayah.js'])
+    @vite(['resources/js/wilayah.js'])
 @endsection
 
 @section('content')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{route ('profil')}}">Profil</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('profil') }}">Profil</a></li>
             <li class="breadcrumb-item active" aria-current="page">Pengalaman Kerja</li>
         </ol>
     </nav>
@@ -32,8 +32,8 @@
                             <i class="bi bi-trash fs-4"></i>
                         </a>
                         <form id="destroy-form"
-                            action="{{ route('alumni.profil.pengalaman-kerja.destroy', $kerja->id_pengalaman_kerja) }}"
-                            method="POST" class="d-none">
+                            action="{{ route('alumni.profil.pengalaman-kerja.destroy', $kerja->id_pengalaman_kerja) }}"method="POST"
+                            class="d-none">
                             @csrf @method('DELETE')
                         </form>
                     </div>
@@ -46,88 +46,126 @@
             </p>
             <form class="form"
                 action="{{ Route::is('alumni.profil.pengalaman-kerja.create') ? route('alumni.profil.pengalaman-kerja.store') : route('alumni.profil.pengalaman-kerja.update', $kerja->id_pengalaman_kerja) }}"
-                method="POST" data-parsley-validate>
+                method="POST">
                 @csrf
                 @if (!Route::is('alumni.profil.pengalaman-kerja.create'))
                     @method('PUT')
-                    <div id="data-provinsi" class="d-none">{{ $alamat['provinsi'] }}</div>
-                    <div id="data-kota" class="d-none">{{ $alamat['kota'] }}</div>
-                    <div id="data-kecamatan" class="d-none">{{ $alamat['kecamatan'] }}</div>
-                    <div id="data-kelurahan" class="d-none">{{ $alamat['kelurahan'] }}</div>
+                    <div id="data-provinsi" class="d-none"
+                        data-provinsi="{{ isset($alamat['provinsi']) ? $alamat['provinsi'] : null }}"></div>
+                    <div id="data-kota" class="d-none" data-kota="{{ isset($alamat['kota']) ? $alamat['kota'] : null }}">
+                    </div>
+                    <div id="data-kecamatan" class="d-none"
+                        data-kecamatan="{{ isset($alamat['kecamatan']) ? $alamat['kecamatan'] : null }}"></div>
+                    <div id="data-kelurahan" class="d-none"
+                        data-kelurahan="{{ isset($alamat['kelurahan']) ? $alamat['kota'] : null }}"></div>
                 @endif
                 <div class="row">
                     <div class="mb-3 col-12">
                         <x-input type="text" name="jabatan" label="Jabatan Pekerjaan" placeholder="Jabatan Pekerjaan"
-                            value="{{ $kerja->jabatan ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $kerja->jabatan ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-12">
                         <x-input type="text" name="nama-perusahaan" label="Nama Perusahaan" placeholder="Nama Perusahaan"
-                            value="{{ $kerja->nama_perusahaan ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $kerja->nama_perusahaan ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-md-6 col-12 form-group">
                         <label for="jenis-waktu-pekerjaan" class="form-label">Jenis Waktu Pekerjaan</label>
-                        <select name="jenis-waktu-pekerjaan" id="jenis-waktu-pekerjaan" class="form-select"
-                            data-parsley-required="true">
-                            <option selected disabled>Pilih Jenis Waktu Pekerjaan</option>
+                        <select name="jenis-waktu-pekerjaan" id="jenis-waktu-pekerjaan"
+                            class="form-select @error('jenis-waktu-pekerjaan') is-invalid @enderror">
+                            <option class="d-none" selected disabled>Pilih Jenis Waktu Pekerjaan</option>
                             @foreach (['Waktu Kerja Standar (Full-Time)', 'Waktu Kerja Paruh Waktu (Part-Time)', 'Waktu Kerja Fleksibel (Flexible Hours)', 'Shift Kerja (Shift Work)', 'Waktu Kerja Bergilir (Rotating Shifts)', 'Waktu Kerja Jarak Jauh (Remote Work)', 'Waktu Kerja Kontrak (Contract Work)', 'Waktu Kerja Proyek (Project-Based Work)', 'Waktu Kerja Tidak Teratur (Irregular Hours)', 'Waktu Kerja Sementara (Temporary Work)'] as $jenis)
-                                <option value="{{ $jenis }}"
-                                    {{ isset($kerja) && $kerja->jenis_waktu_pekerjaan == $jenis ? 'selected' : '' }}>
+                                <option
+                                    value="{{ $jenis }}"{{ old('jenis-waktu-pekerjaan', isset($kerja) ? $kerja->jenis_waktu_pekerjaan : null) == $jenis ? 'selected' : null }}>
                                     {{ $jenis }}</option>
                             @endforeach
                         </select>
+                        @error('jenis-waktu-pekerjaan')
+                            <span class="invalid-feedback d-block mt-2" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="col-md-6 col-12">
                         <x-input type="text" name="alamat-lengkap" label="Alamat Lengkap" placeholder="Alamat Lengkap"
-                            value="{{ $alamat['alamat-lengkap'] ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $alamat['alamat-lengkap'] ?? null }}" class="mandatory" />
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="provinsi" class="form-label">Provinsi</label>
-                            <select name="provinsi" id="provinsi" class="form-select" data-parsley-required="true">
+                            <select name="provinsi" id="provinsi"
+                                class="form-select @error('provinsi') is-invalid @enderror">
                                 <option selected disabled>Pilih Provinsi</option>
                                 @foreach ($provinsi as $pr)
-                                    <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}</option>
+                                    <option value="{{ $pr['id'] }}">{{ ucwords(strtolower($pr['name'])) }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('provinsi')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kota" class="form-label">Kota/Kabupaten</label>
-                            <select name="kota" id="kota" class="form-select" data-parsley-required="true" disabled>
-                                <option selected disabled>Pilih Kota/Kabupaten</option>
+                            <select name="kota" id="kota" class="form-select @error('kota') is-invalid @enderror"
+                                disabled>
+                                <option class="d-none" selected disabled>Pilih Kota/Kabupaten</option>
                             </select>
+                            @error('kota')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kecamatan" class="form-label">Kecamatan</label>
-                            <select name="kecamatan" id="kecamatan" class="form-select" data-parsley-required="true"
-                                disabled>
-                                <option selected disabled>Pilih Kecamatan</option>
+                            <select name="kecamatan" id="kecamatan"
+                                class="form-select @error('kecamatan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kecamatan</option>
                             </select>
+                            @error('kecamatan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group mandatory">
                             <label for="kelurahan" class="form-label">Kelurahan</label>
-                            <select name="kelurahan" id="kelurahan" class="form-select" data-parsley-required="true"
-                                disabled>
-                                <option selected disabled>Pilih Kelurahan</option>
+                            <select name="kelurahan" id="kelurahan"
+                                class="form-select @error('kelurahan') is-invalid @enderror" disabled>
+                                <option class="d-none" selected disabled>Pilih Kelurahan</option>
                             </select>
+                            @error('kelurahan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                         <x-input type="text" name="tahun-awal" label="Tahun Awal" placeholder="Tahun Awal"
-                            value="{{ $kerja->tahun_awal ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $kerja->tahun_awal ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
                         <x-input type="text" name="tahun-akhir" label="Tahun Akhir" placeholder="Tahun Akhir"
-                            value="{{ $kerja->tahun_akhir ?? '' }}" class="mandatory" required="true" />
+                            value="{{ $kerja->tahun_akhir ?? null }}" class="mandatory" />
                     </div>
                     <div class="mb-3 col-12 form-group">
                         <label for="deskripsi" class="form-label">Deskripsi Singkat</label>
-                        <textarea class="form-control" id="deskripsi" rows="5" data-parsley-required="true" name="deskripsi">{{ isset($kerja) ? $kerja->deskripsi : '' }}</textarea>
+                        <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" rows="5"
+                            name="deskripsi">{{ old('deskripsi', isset($kerja->deskripsi) ? $kerja->deskripsi : null) }}</textarea>
+                        @error('deskripsi')
+                            <span class="invalid-feedback d-block mt-2" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>

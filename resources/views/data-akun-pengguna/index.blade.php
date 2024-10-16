@@ -5,7 +5,7 @@
 @endphp
 @section('title', 'Akun Pengguna')
 @section('assets')
-    @vite(['resources/js/components/datatables/akun-pengguna.js', 'resources/js/components/sweetalert2/master.js'])
+    @vite(['resources/js/components/datatables/akun-pengguna.js', 'resources/js/components/sweetalert2.js'])
 @endsection
 @section('content')
     <nav aria-label="breadcrumb">
