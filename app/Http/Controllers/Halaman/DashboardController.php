@@ -116,6 +116,9 @@ class DashboardController extends Controller
         $jabatanLowonganList = [];
         $jumlahLamaranPerLowongan = [];
         $jumlahDiterimaPerLowongan = [];
+        $chartLamaranLowongan = null;
+        $chartLowonganBulan = null;
+
         foreach (range(1, 12) as $month) {
             $jumlahLowonganPerBulan[] = Loker::whereYear('waktu', $tahun)
                 ->whereMonth('waktu', $month)
@@ -151,21 +154,25 @@ class DashboardController extends Controller
             }
         }
 
-        $chartLamaranLowongan = (new Chart)
-            ->setType('bar')
-            ->setWidth('100%')
-            ->setHeight(400)
-            ->setLabels($jabatanLowonganList)
-            ->setDataset('Jumlah Lamaran', 'bar', array_values($jumlahLamaranPerLowongan))
-            ->setDataset('Jumlah Lamaran Diterima', 'bar', array_values($jumlahDiterimaPerLowongan));
+        if (!empty($jabatanLowonganList) && !empty($jumlahLamaranPerLowongan)) {
+            $chartLamaranLowongan = (new Chart)
+                ->setType('bar')
+                ->setWidth('100%')
+                ->setHeight(400)
+                ->setLabels($jabatanLowonganList)
+                ->setDataset('Jumlah Lamaran', 'bar', array_values($jumlahLamaranPerLowongan))
+                ->setDataset('Jumlah Lamaran Diterima', 'bar', array_values($jumlahDiterimaPerLowongan));
+        }
 
-        $chartLowonganBulan = (new Chart)
-            ->setType('bar')
-            ->setWidth('100%')
-            ->setHeight(400)
-            ->setLabels($bulan)
-            ->setDataset('Jumlah Lowongan', 'bar', $jumlahLowonganPerBulan)
-            ->setDataset('Jumlah Lamaran', 'bar', $jumlahLamaranPerBulan);
+        if (!empty($bulan) && !empty($jumlahLowonganPerBulan) && !empty($jumlahLamaranPerBulan)) {
+            $chartLowonganBulan = (new Chart)
+                ->setType('bar')
+                ->setWidth('100%')
+                ->setHeight(400)
+                ->setLabels($bulan)
+                ->setDataset('Jumlah Lowongan', 'bar', $jumlahLowonganPerBulan)
+                ->setDataset('Jumlah Lamaran', 'bar', $jumlahLamaranPerBulan);
+        }
 
         $chart = [
             'lamaran' => $chartLamaranLowongan,
@@ -186,39 +193,40 @@ class DashboardController extends Controller
         $alumni = Alumni::find(Auth::user()->alumni->nik);
         $jabatanLowonganList = [];
         $jumlahDiterimaPerLowongan = [];
+        $chart = null;
 
-        if ($alumni && $alumni->lamaran) {
+        if ($alumni && !empty($alumni->lamaran)) {
             foreach ($alumni->lamaran as $lamaran) {
-                foreach ($lamaran->loker->perusahaan->loker as $lowonganPerusahaan) {
-                    $lowongan = Loker::where('id_lowongan_pekerjaan', $lowonganPerusahaan->id_lowongan_pekerjaan)
-                        ->whereYear('waktu', Carbon::now())
-                        ->whereMonth('waktu', $month)
-                        ->where('status', 'Dipublikasi')
-                        ->first();
+                $lowongan = Loker::where('id_lowongan_pekerjaan', $lamaran->loker->id_lowongan_pekerjaan)
+                    ->whereYear('waktu', Carbon::now())
+                    ->whereMonth('waktu', $month)
+                    ->where('status', 'Dipublikasi')
+                    ->first();
 
-                    if ($lowongan) {
-                        if (!in_array($lowongan->jabatan, $jabatanLowonganList)) {
-                            $jabatanLowonganList[] = $lowongan->jabatan;
-                        }
+                if ($lowongan) {
+                    if (!in_array($lowongan->jabatan, $jabatanLowonganList)) {
+                        $jabatanLowonganList[] = $lowongan->jabatan;
+                    }
 
-                        if (!isset($jumlahDiterimaPerLowongan[$lowongan->jabatan])) {
-                            $jumlahDiterimaPerLowongan[$lowongan->jabatan] = Lamaran::where('id_lowongan_pekerjaan', $lowongan->id_lowongan_pekerjaan)
-                                ->whereYear('waktu', Carbon::now())
-                                ->whereMonth('waktu', $month)
-                                ->where('status', 'Diterima')
-                                ->count();
-                        }
+                    if (!isset($jumlahDiterimaPerLowongan[$lowongan->jabatan])) {
+                        $jumlahDiterimaPerLowongan[$lowongan->jabatan] = Lamaran::where('id_lowongan_pekerjaan', $lowongan->id_lowongan_pekerjaan)
+                            ->whereYear('waktu', Carbon::now())
+                            ->whereMonth('waktu', $month)
+                            ->where('status', 'Diterima')
+                            ->count();
                     }
                 }
             }
-        }
 
-        $chart = (new Chart)
-            ->setType('bar')
-            ->setWidth('100%')
-            ->setHeight(400)
-            ->setLabels($jabatanLowonganList)
-            ->setDataset('Jumlah Lamaran Diterima', 'bar', array_values($jumlahDiterimaPerLowongan));
+            if (!empty($jabatanLowonganList) && !empty($jumlahDiterimaPerLowongan)) {
+                $chart = (new Chart)
+                    ->setType('bar')
+                    ->setWidth('100%')
+                    ->setHeight(400)
+                    ->setLabels($jabatanLowonganList)
+                    ->setDataset('Jumlah Lamaran Diterima', 'bar', array_values($jumlahDiterimaPerLowongan));
+            }
+        }
 
         return [
             'chart' => $chart,

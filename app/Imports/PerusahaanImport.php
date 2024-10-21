@@ -26,12 +26,11 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
             'nama' => $row['nama_perusahaan'],
             'bidang_usaha' => $row['bidang_usaha'],
             'no_telepon' => $row['no_telepon'],
-            'alamat' => $row['alamat'],
         ]);
 
         return new User([
             'username' => $row['email'],
-            'password' => Hash::make('bursakerja'),
+            'password' => Hash::make(env('DEFAULT_PASSWORD')),
             'role' => 'Perusahaan',
             'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
         ]);

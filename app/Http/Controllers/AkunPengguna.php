@@ -58,7 +58,7 @@ class AkunPengguna extends Controller
             'username' => $request->input('username'),
             'password' => Hash::make($request->input('password')),
             'role' => 'Perusahaan',
-            'id_data_perusahaan' => $request->input('id_data_perusahaan'),
+            'id_data_perusahaan' => $request->input('id-data-perusahaan'),
         ]);
 
         return redirect()->back()->with(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
@@ -94,6 +94,10 @@ class AkunPengguna extends Controller
 
     public function edit(User $user)
     {
+        if ($user->role == 'Perusahaan') {
+            $perusahaan = Perusahaan::where('status', 'Aktif')->get();
+            return view ('data-akun-pengguna.edit', compact('user', 'perusahaan'));
+        }
         return view('data-akun-pengguna.edit', compact('user'));
     }
 

@@ -21,9 +21,30 @@
                 @csrf
                 @method('PUT')
                 <div class="row">
+                    @if ($user->role == 'Perusahaan')
+                        <div class="col-md-6 col-12">
+                            <div class="form-group mandatory">
+                                <label for="id-data-perusahaan" class="form-label">Nama Perusahaan</label>
+                                <select name="id-data-perusahaan" id="id-data-perusahaan"
+                                    class="form-select @error('id-data-perusahaan') is-invalid @enderror">
+                                    <option class="d-none" selected disabled>Pilih Perusahaan</option>
+                                    @foreach ($perusahaan as $p)
+                                        <option value="{{ $p->id_data_perusahaan }}"
+                                            {{ old('id-data-perusahaan', $user->id_data_perusahaan) == $p->id_data_perusahaan ? 'selected' : null }}>
+                                            {{ $p->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('id-data-perusahaan')
+                                    <span class="invalid-feedback d-block mt-2" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                    @endif
                     <div class="col-md-6 col-12">
                         <x-input type="string" name="username" label="Username" placeholder="Username"
-                            value="{{ $user->username }}" class="mandatory" disabled/>
+                            value="{{ $user->username }}" class="mandatory" disabled />
                     </div>
                     <div class="col-md-6 col-12">
                         <x-input type="password" name="password-baru" label="Password Baru" placeholder="Password Baru" />

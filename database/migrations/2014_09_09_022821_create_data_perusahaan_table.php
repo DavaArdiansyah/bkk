@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->string('bidang_usaha');
             $table->string('no_telepon');
-            $table->text('alamat');
+            $table->text('alamat')->nullable();
             $table->string('nama_file_logo')->nullable();
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
 

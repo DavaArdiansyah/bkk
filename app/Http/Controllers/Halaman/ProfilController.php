@@ -65,7 +65,7 @@ class ProfilController extends Controller
         }
     }
 
-    public function update(UpdateRequest $request, user $user)
+    public function update(UpdateRequest $request, User $user)
     {
         if ($request->input('file')) {
             return $this->avatar($user, $request);
@@ -90,7 +90,8 @@ class ProfilController extends Controller
             $user->password = Hash::make($request->input('password-baru'));
         }
 
-        if (($user->alumni && !$user->alumni->isDirty()) || ($user->perusahaan && !$user->perusahaan->isDirty()) || ($user->admin && !$user->admin->isDirty()) && !$user->isDirty()) {
+
+        if (!$user->isDirty() || ($user->alumni && $user->alumni->isDirty()) || ($user->perusahaan && $user->perusahaan->isDirty()) || ($user->admin && $user->admin->isDirty())) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
@@ -111,12 +112,11 @@ class ProfilController extends Controller
                 'keterangan' => 'Memperbaharui Data Akun',
             ]);
         }
-        if ($user->role == 'Alumni' && $user->alumni->save() || $user->role == 'Perusahaan' && $user->perusahaan->save() || $user->role == 'Admin BKK' && $user->admin->save()) {
-            Aktivitas::create([
-                'username' => Auth::user()->username,
-                'keterangan' => 'Memperbaharui Data ' . $user->role,
-            ]);
-        }
+
+        Aktivitas::create([
+            'username' => Auth::user()->username,
+            'keterangan' => 'Memperbaharui Data ' . $user->role,
+        ]);
 
         return redirect()->route('profil.edit', ['user' => $user])->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }

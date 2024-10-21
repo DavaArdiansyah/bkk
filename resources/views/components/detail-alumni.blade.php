@@ -230,7 +230,7 @@
                                 <div class="card">
                                     @if (!$data->file->isEmpty())
                                     @foreach ($data->file as $flm)
-                                    <a href="{{asset('storage/tmp/files/' . $flm->nama_file)}}" class="mb-3">{{$flm->nama_file}}.pdf</a>
+                                    <a href="{{asset('storage/tmp/files/' . $flm->nama_file)}}" target="blank" class="mb-3">{{$flm->nama_file}}.pdf</a>
                                     @endforeach
                                     {{-- <iframe src="{{asset('storage/tmp/files/' . $lamaran->file)}}" width="413" height="200" frameborder="0"></iframe> --}}
                                     @else
