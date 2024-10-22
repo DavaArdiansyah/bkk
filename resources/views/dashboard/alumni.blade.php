@@ -44,7 +44,8 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12 col-md-9">
-                            <h4>Data Lowongan Pekerjaan yang Anda Lamar Pada Bulan {{ now()->month($bulan)->format('F') . ' ' . now()->format('Y') }}</h4>
+                            <h4>Data Lowongan Pekerjaan yang Anda Lamar Pada Bulan
+                                {{ now()->month($bulan)->format('F') . ' ' . now()->format('Y') }}</h4>
                         </div>
                         <div class="col-12 col-md-3">
                             <form action="{{ route('dashboard') }}" method="GET" id="periode">
@@ -61,11 +62,26 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {!! $data['chart']->container() !!}
+                    @if ($data['chart'])
+                        {!! $data['chart']->container() !!}
+                    @else
+                        <div class="error-page container">
+                            <div class="col-md-8 col-12 offset-md-2">
+                                <div class="text-center">
+                                    <img class="img-error" src="{{ asset('assets/static/images/samples/error-404.svg') }}"
+                                        alt="Not Found" style="height: 10rem; width: auto">
+                                    <h1 class="error-title">Oops! Gak Ketemu</h1>
+                                    <p class='fs-5 text-gray-600'>Data yang kamu cari nggak ada, nih.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- Akhir Grafik Garis -->
         </div>
     </section>
-    {!! $data['chart']->script() !!}
+    @if ($data['chart'])
+        {!! $data['chart']->script() !!}
+    @endif
 @endsection

@@ -34,7 +34,16 @@
     @else
         <section class="card">
             <div class="card-body">
-                <h5 class="card-title text-center">Data tidak ditemukan berdasarkan query.</h5>
+                <div class="error-page container">
+                    <div class="col-md-8 col-12 offset-md-2">
+                        <div class="text-center">
+                            <img class="img-error" src="{{ asset('assets/static/images/samples/error-404.svg') }}"
+                                alt="Not Found" style="height: 10rem; width: auto">
+                            <h1 class="error-title">Oops! Gak Ketemu</h1>
+                            <p class='fs-5 text-gray-600'>Data yang kamu cari nggak ada, nih.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     @endif

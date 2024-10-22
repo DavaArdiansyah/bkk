@@ -52,7 +52,11 @@ class DataPerusahaanController extends Controller
 
     public function akun()
     {
-        return view('data-perusahaan.akun');
+        if (session('nama') !== null) {
+            return view('data-perusahaan.akun');
+        } else {
+            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Hey itu ilegal!']);
+        }
     }
 
     public function import(ImportRequest $request)
