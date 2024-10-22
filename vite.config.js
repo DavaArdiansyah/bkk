@@ -33,6 +33,7 @@ export default defineConfig({
                 "resources/js/components/datatables/lamaran-saya.js",
                 "resources/js/components/filepond/images.js",
                 "resources/js/components/datatables/lowongan.js",
+                "resources/js/components/datatables/lacak-alumni.js",
             ],
             refresh: true,
         }),
