@@ -42,7 +42,6 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
             'email' => ['required', 'unique:users,username'],
             'nama_perusahaan' => ['required'],
             'bidang_usaha' => ['required'],
-            'alamat' => ['required'],
             'no_telepon' => ['required'],
         ];
     }
