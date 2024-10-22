@@ -62,7 +62,20 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3">Jumlah Lowongan dan Lamaran</h5>
-                    {!! $data['chart']['lowongan-lamaran']->container() !!}
+                    @if ($data['chart']['lowongan-lamaran'])
+                        {!! $data['chart']['lowongan-lamaran']->container() !!}
+                    @else
+                        <div class="error-page container">
+                            <div class="col-md-8 col-12 offset-md-2">
+                                <div class="text-center">
+                                    <img class="img-error" src="{{ asset('assets/static/images/samples/error-404.svg') }}"
+                                        alt="Not Found" style="height: 10rem; width: auto">
+                                    <h1 class="error-title">Oops! Gak Ketemu</h1>
+                                    <p class='fs-5 text-gray-600'>Data yang kamu cari nggak ada, nih.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -70,11 +83,28 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3">Lamaran Yang Masuk</h5>
-                    {!! $data['chart']['lamaran']->container() !!}
+                    @if ($data['chart']['lamaran'])
+                        {!! $data['chart']['lamaran']->container() !!}
+                    @else
+                        <div class="error-page container">
+                            <div class="col-md-8 col-12 offset-md-2">
+                                <div class="text-center">
+                                    <img class="img-error" src="{{ asset('assets/static/images/samples/error-404.svg') }}"
+                                        alt="Not Found" style="height: 10rem; width: auto">
+                                    <h1 class="error-title">Oops! Gak Ketemu</h1>
+                                    <p class='fs-5 text-gray-600'>Data yang kamu cari nggak ada, nih.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </section>
-    {!! $data['chart']['lamaran']->script() !!}
-    {!! $data['chart']['lowongan-lamaran']->script() !!}
+    @if ($data['chart']['lamaran'])
+        {!! $data['chart']['lamaran']->script() !!}
+    @endif
+    @if ($data['chart']['lowongan-lamaran'])
+        {!! $data['chart']['lowongan-lamaran']->script() !!}
+    @endif
 @endsection

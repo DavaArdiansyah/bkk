@@ -23,31 +23,21 @@ class PerusahaanController extends Controller
 
     public function update(Request $request, Lamaran $lamaran)
     {
-        if (!$request->input('pesan'))
-        {
+
+        if (!$request->input('pesan')) {
             return back()->with(['status' => 'error', 'message' =>  'Pesan wajib diisi.'])->withErrors(['pesan' => 'Pesan wajib diisi.'])->withInput();
         }
-        
+
         $status = $request->input('status');
         $pesan = $request->input('pesan');
-        $idLamaran = $lamaran->id_lamaran;
-        $filePath = 'public/files/' . $idLamaran . $lamaran->alumni->nama . '.txt';
-
-        if ($status !== 'Diterima' && $status !== 'Ditolak' && !$pesan) {
-            return redirect()->back()->with(['status' => 'warning', 'message' => "Harap Tambahkan Pesan Untuk Pelamar."]);
-        }
+        $filePath = 'public/files/' . $lamaran->id_lamaran . $lamaran->alumni->nama . '.txt';
 
         $lamaran->update(['status' => $status]);
-
-        if ($pesan) {
-            Storage::put($filePath, $pesan);
-            return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil Mengubah Status Lamaran Menjadi: {$status} Dan Mengirimkan Pesan Kepada Pelamar."]);
-        }
-
-        return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil Mengubah Status Lamaran Menjadi: {$status}."]);
+        Storage::put($filePath, $pesan);
+        return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil Mengubah Status Lamaran Menjadi: {$status} Dan Mengirimkan Pesan Kepada Pelamar."]);
     }
 
-    public function arsip ()
+    public function arsip()
     {
         $perusahaan = Perusahaan::find(Auth::user()->id_data_perusahaan);
         $loker = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->get();

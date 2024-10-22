@@ -24,7 +24,7 @@ class AlumniImport implements ToModel, WithValidation, WithHeadingRow, WithProgr
     {
         $user = User::create([
             'username' => $row['nik'],
-            'password' => Hash::make('bursakerja'),
+            'password' => Hash::make(env('DEFAULT_PASSWORD')),
             'role' => 'Alumni',
         ]);
         return new Alumni([

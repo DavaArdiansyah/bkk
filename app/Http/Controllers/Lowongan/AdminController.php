@@ -20,7 +20,7 @@ class AdminController extends Controller
             $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
             return $item;
         });
-        return view ('lowongan.admin.index', compact('loker'));
+        return view('lowongan.admin.index', compact('loker'));
     }
 
     /**
@@ -45,7 +45,7 @@ class AdminController extends Controller
     public function show(Loker $loker)
     {
         $loker->tanggal_akhir = Carbon::parse($loker->tanggal_akhir);
-        return view ('lowongan.admin.show', compact('loker'));
+        return view('lowongan.admin.show', compact('loker'));
     }
 
     /**
@@ -61,18 +61,13 @@ class AdminController extends Controller
      */
     public function update(Request $request, Loker $loker)
     {
-        if ($request->input('status') == 'Tidak Dipublikasi' && !$request->input('pesan'))
-        {
+        if ($request->input('status') == 'Tidak Dipublikasi' && !$request->input('pesan')) {
             return back()->with(['status' => 'error', 'message' =>  'Pesan wajib diisi.'])->withErrors(['pesan' => 'Pesan wajib diisi.'])->withInput();
         }
 
         $loker->update(['status' => $request->input('status')]);
-
-        if ($request->input('pesan')) {
-            Storage::put("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama . '.txt', $request->input('pesan'));
-            return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil mengubah status lowongan menjadi: {$request->input('status')} dan mengirimkan pesan kepada perusahaan terkait."]);;
-        }
-        return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil mengubah status lowongan menjadi: {$request->input('status')}."]);;
+        Storage::put("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama . '.txt', $request->input('pesan'));
+        return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil mengubah status lowongan menjadi: {$request->input('status')} dan mengirimkan pesan kepada perusahaan terkait."]);;
     }
 
     /**

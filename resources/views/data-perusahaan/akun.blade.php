@@ -21,6 +21,9 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-6 col-12">
+                            <x-input type="text" name="nama" label="Nama Perusahaan" placeholder="Nama Perusahaan" value="{{session('nama')}}" disabled/>
+                        </div>
+                        <div class="col-md-6 col-12">
                             <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory"/>
                         </div>
                         <div class="col-md-6 col-12">

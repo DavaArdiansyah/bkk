@@ -11,10 +11,12 @@ use App\Exports\LacakAlumniExport;
 use App\Http\Requests\LaporanRequest;
 use Maatwebsite\Excel\Excel as ExportType;
 use Barryvdh\DomPDF\Facade\Pdf;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    public function index(LaporanRequest $request)
+    public function index(Request $request)
     {
         $kategori = $request->input('kategori') ?? null;
         $periode = $request->input('waktu') ?? Carbon::now()->translatedFormat('j F Y');
@@ -44,15 +46,14 @@ class LaporanController extends Controller
             $kategori = $isDetailAlumniBekerja ? 'detail-alumni-bekerja' : 'lacak-alumni';
             $title = $isDetailAlumniBekerja ? 'Laporan Detail Alumni Bekerja' : 'Laporan Lacak Kegiatan Alumni';
             $headers = $isDetailAlumniBekerja ? ['No.', 'NIK', 'NAMA LENGKAP', 'NAMA PERUSAHAAN'] : ['STATUS', 'JUMLAH ALUMNI'];
+            $exportClass = $isDetailAlumniBekerja ? DetailAlumniBekerjaExport::class : LacakAlumniExport::class;
 
             if ($typeFile == 'pdf') {
                 $pdf = Pdf::loadView('partials.laporan', compact('title', 'periode', 'headers', 'data', 'kategori'));
                 return $pdf->download("{$namaFile}.pdf");
             } elseif ($typeFile == 'csv') {
-                $exportClass = $isDetailAlumniBekerja ? DetailAlumniBekerjaExport::class : LacakAlumniExport::class;
                 return Excel::download(new $exportClass($data[$kategori]), "{$namaFile}.csv", ExportType::CSV);
             } elseif ($typeFile == 'xlsx') {
-                $exportClass = $isDetailAlumniBekerja ? DetailAlumniBekerjaExport::class : LacakAlumniExport::class;
                 return Excel::download(new $exportClass($data[$kategori]), "{$namaFile}.xlsx", ExportType::XLSX);
             }
         }

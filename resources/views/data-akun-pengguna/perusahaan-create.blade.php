@@ -25,10 +25,13 @@
                         <div class="col-md-6 col-12">
                             <div class="form-group mandatory">
                                 <label for="id-data-perusahaan" class="form-label">Nama Perusahaan</label>
-                                <select name="id-data-perusahaan" id="id-data-perusahaan" class="form-select @error('id-data-perusahaan') is-invalid @enderror">
+                                <select name="id-data-perusahaan" id="id-data-perusahaan"
+                                    class="form-select @error('id-data-perusahaan') is-invalid @enderror">
                                     <option class="d-none" selected disabled>Pilih Perusahaan</option>
                                     @foreach ($perusahaan as $p)
-                                        <option value="{{ $p->id_data_perusahaan }}" {{old ('id-data-perusahaan') == $p->id_data_perusahaan ? 'selected' : null}}>{{ $p->nama }}</option>
+                                        <option value="{{ $p->id_data_perusahaan }}"
+                                            {{ old('id-data-perusahaan') == $p->id_data_perusahaan ? 'selected' : null }}>
+                                            {{ $p->nama }}</option>
                                     @endforeach
                                 </select>
                                 @error('id-data-perusahaan')
@@ -39,10 +42,15 @@
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory"/>
+                            <x-input type="email" name="username" label="Email" placeholder="Email" class="mandatory" />
                         </div>
                         <div class="col-md-6 col-12">
-                            <x-input type="password" name="password" label="Password" placeholder="Password" class="mandatory"/>
+                            <x-input type="password" name="password" label="Password" placeholder="Password"
+                                class="mandatory" />
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <x-input type="password" name="konfirmasi-password" label="Konfirmasi Password"
+                                placeholder="Konfirmasi Password" class="mandatory" />
                         </div>
                     </div>
                     <div class="row">
