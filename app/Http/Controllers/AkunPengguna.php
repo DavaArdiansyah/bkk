@@ -103,7 +103,6 @@ class AkunPengguna extends Controller
 
     public function update(UpdateRequest $request, User $user)
     {
-        $user->username = $request->input('username');
         if ($request->input('password-baru')) {
             $user->password = Hash::make($request->input('password-baru'));
         }
