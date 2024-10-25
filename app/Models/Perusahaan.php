@@ -33,8 +33,8 @@ class Perusahaan extends Model
         });
     }
 
-    public function user () :HasMany {
-        return $this->HasMany(User::class, 'id_data_perusahaan');
+    public function user () :BelongsTo {
+        return $this->belongsTo(User::class, 'username');
     }
 
     public function loker () : HasMany {

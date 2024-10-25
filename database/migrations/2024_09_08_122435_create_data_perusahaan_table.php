@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('data_perusahaan', function (Blueprint $table) {
             $table->string('id_data_perusahaan')->primary();
-            // $table->string('username');
+            $table->string('username');
             $table->string('nama');
             $table->string('bidang_usaha');
             $table->string('no_telepon');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nama_file_logo')->nullable();
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->default('Aktif');
 
-            // $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
+            $table->foreign('username')->references('username')->on('users')->onUpdate('cascade');
         });
     }
 

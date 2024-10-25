@@ -120,7 +120,7 @@ class DashboardController extends Controller
 
     public function perusahaan($tahun)
     {
-        $perusahaan = Perusahaan::find(Auth::user()->id_data_perusahaan);
+        $perusahaan = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
 
         $lokerCount = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->count();
         $lokerPublikasiCount = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)

@@ -22,18 +22,32 @@ class PerusahaanImport implements ToModel, WithValidation, WithHeadingRow, WithP
      */
     public function model(array $row)
     {
-        $perusahaan = Perusahaan::create([
+        $user = User::create([
+            'username' => $row['email'],
+            'password' => $row['password'],
+            'role' => 'Perusahaan',
+        ]);
+        
+        return new Perusahaan([
+            'username' => $user->username,
             'nama' => $row['nama_perusahaan'],
             'bidang_usaha' => $row['bidang_usaha'],
             'no_telepon' => $row['no_telepon'],
+            'alamat' => $row['alamat'],
         ]);
 
-        return new User([
-            'username' => $row['email'],
-            'password' => Hash::make(env('DEFAULT_PASSWORD')),
-            'role' => 'Perusahaan',
-            'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
-        ]);
+        // $perusahaan = Perusahaan::create([
+        //     'nama' => $row['nama_perusahaan'],
+        //     'bidang_usaha' => $row['bidang_usaha'],
+        //     'no_telepon' => $row['no_telepon'],
+        // ]);
+
+        // return new User([
+        //     'username' => $row['email'],
+        //     'password' => Hash::make(env('DEFAULT_PASSWORD')),
+        //     'role' => 'Perusahaan',
+        //     'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
+        // ]);
     }
 
     public function rules(): array

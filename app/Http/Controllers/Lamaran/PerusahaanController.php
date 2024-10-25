@@ -15,7 +15,7 @@ class PerusahaanController extends Controller
 {
     public function terbaru()
     {
-        $perusahaan = Perusahaan::find(Auth::user()->id_data_perusahaan);
+        $perusahaan = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
         $loker = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->get();
         $lamaran = Lamaran::whereIn('status', ['Terkirim', 'Lolos Ketahap Selanjutnya'])->whereIn('id_lowongan_pekerjaan', $loker->pluck('id_lowongan_pekerjaan'))->get();
 
@@ -44,7 +44,7 @@ class PerusahaanController extends Controller
 
     public function arsip()
     {
-        $perusahaan = Perusahaan::find(Auth::user()->id_data_perusahaan);
+        $perusahaan = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
         $loker = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->get();
         $lamaran = Lamaran::whereIn('status', ['Diterima', 'Ditolak'])->whereIn('id_lowongan_pekerjaan', $loker->pluck('id_lowongan_pekerjaan'))->get();
 

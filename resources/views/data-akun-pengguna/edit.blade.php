@@ -21,7 +21,7 @@
                 @csrf
                 @method('PUT')
                 <div class="row">
-                    @if ($user->role == 'Perusahaan')
+                    {{-- @if ($user->role == 'Perusahaan')
                         <div class="col-md-6 col-12">
                             <div class="form-group mandatory">
                                 <label for="id-data-perusahaan" class="form-label">Nama Perusahaan</label>
@@ -41,7 +41,7 @@
                                 @enderror
                             </div>
                         </div>
-                    @endif
+                    @endif --}}
                     <div class="col-md-6 col-12">
                         <x-input type="string" name="username" label="Username" placeholder="Username"
                             value="{{ $user->username }}" class="mandatory" disabled />

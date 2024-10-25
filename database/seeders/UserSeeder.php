@@ -32,22 +32,22 @@ class UserSeeder extends Seeder
             'nama_file_foto' => 'admin.jpg',
         ]);
 
+        User::create([
+            'username' => 'perusahaan@mail.com',
+            'password' => 'perusahaan',
+            'role' => 'Perusahaan',
+            // 'id_data_perusahaan' => 'P000001',
+        ]);
+
         Perusahaan::create([
             'id_data_perusahaan' => 'P000001',
-            // 'username' => 'perusahaan@mail.com',
+            'username' => 'perusahaan@mail.com',
             'nama' => 'Perusahaan',
             'bidang_usaha' => 'Bidang Teknologi, Informasi, dan Komunikasi',
             'no_telepon' => '123456789',
             'alamat' => 'Bandung, Cijerah, Bandung Kulon, Kota Bandung, Jawa Barat',
             'nama_file_logo' => 'perusahaan.jpg',
             'status' => 'Aktif',
-        ]);
-
-        User::create([
-            'username' => 'perusahaan@mail.com',
-            'password' => 'perusahaan',
-            'role' => 'Perusahaan',
-            'id_data_perusahaan' => 'P000001',
         ]);
 
         User::create([

@@ -19,7 +19,7 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
-        $loker = Loker::where('id_data_perusahaan', Auth::user()->id_data_perusahaan)->get();
+        $loker = Loker::where('id_data_perusahaan', Auth::user()->perusahaan->id_data_perusahaan)->get();
         $loker->transform(function ($item) {
             $item->tanggal_akhir = Carbon::parse($item->tanggal_akhir)->format('j M Y H:i');
             return $item;
@@ -45,7 +45,7 @@ class PerusahaanController extends Controller
     public function store(LowonganRequest $request)
     {
         Loker::create([
-            'id_data_perusahaan' => Auth::user()->id_data_perusahaan,
+            'id_data_perusahaan' => Auth::user()->perusahaan->id_data_perusahaan,
             'jabatan' => $request->input('jabatan'),
             'jenis_waktu_pekerjaan' => $request->input('jenis-waktu-pekerjaan'),
             'tanggal_akhir' => Carbon::parse($request->input('tanggal-akhir'))->format('Y-m-d H:i:s'),
