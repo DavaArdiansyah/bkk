@@ -90,16 +90,16 @@ class ProfilController extends Controller
             $user->password = Hash::make($request->input('password-baru'));
         }
 
-
-        if (!$user->isDirty() || ($user->alumni && $user->alumni->isDirty()) || ($user->perusahaan && $user->perusahaan->isDirty()) || ($user->admin && $user->admin->isDirty())) {
+        if (!$user->isDirty() && !($user->alumni && $user->alumni->isDirty()) && !($user->perusahaan && $user->perusahaan->isDirty()) && !($user->admin && $user->admin->isDirty())
+        ) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
 
-        if ($user->role == 'Alumni') {
+        if ($user->role == 'Alumni' && $user->alumni->isDirty()) {
             $user->alumni->save();
-        } elseif ($user->role == 'Perusahaan') {
+        } elseif ($user->role == 'Perusahaan' && $user->perusahaan->isDirty()) {
             $user->perusahaan->save();
-        } elseif ($user->role == 'Admin BKK') {
+        } elseif ($user->role == 'Admin BKK' && $user->admin->isDirty()) {
             $user->admin->save();
         }
 
@@ -118,8 +118,10 @@ class ProfilController extends Controller
             'keterangan' => 'Memperbaharui Data ' . $user->role,
         ]);
 
-        return redirect()->route('profil.edit', ['user' => $user])->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
+        return redirect()->route('profil.edit', ['user' => $user])
+            ->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
+
 
     public function avatar($data, $request)
     {
