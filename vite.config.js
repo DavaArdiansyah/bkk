@@ -35,6 +35,7 @@ export default defineConfig({
                 "resources/js/components/datatables/lowongan.js",
                 "resources/js/components/datatables/lacak-alumni.js",
                 "resources/js/loader.js",
+                "resources/js/views/kegiatan-sekarang.js",
             ],
             refresh: true,
         }),

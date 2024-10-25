@@ -66,7 +66,10 @@ class AdminController extends Controller
         }
 
         $loker->update(['status' => $request->input('status')]);
-        Storage::put("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama . '.txt', $request->input('pesan'));
+        
+        if ($request->input('pesan')) {
+            Storage::put("public/files/" . $loker->id_lowongan_pekerjaan . $loker->perusahaan->nama . '.txt', $request->input('pesan'));
+        }
         return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil mengubah status lowongan menjadi: {$request->input('status')} dan mengirimkan pesan kepada perusahaan terkait."]);;
     }
 

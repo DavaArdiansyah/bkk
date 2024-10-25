@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Lamaran;
 
 use App\Http\Controllers\Controller;
+use App\Models\Alumni;
 use App\Models\Lamaran;
 use App\Models\Loker;
 use App\Models\Perusahaan;
@@ -34,6 +35,10 @@ class PerusahaanController extends Controller
 
         $lamaran->update(['status' => $status]);
         Storage::put($filePath, $pesan);
+
+        if ($status == 'Diterima') {
+            Alumni::Find($lamaran->alumni->nik)->update(['status' => 'Bekerja', 'keterangan' => $lamaran->loker->perusahaan->nama]);
+        }
         return redirect()->back()->with(['status' => 'success', 'message' => "Berhasil Mengubah Status Lamaran Menjadi: {$status} Dan Mengirimkan Pesan Kepada Pelamar."]);
     }
 

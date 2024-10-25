@@ -27,10 +27,25 @@
                     class="btn btn-outline-primary hover:bg-primary hover:text-white">
                     <i class="bi bi-info-circle me-1"></i>Detail
                 </a>
-                @if ($status)
-                    <button class="btn btn-secondary" disabled>
-                        <i class="bi bi-send me-1"></i>{{$status->status}}
-                    </button>
+                @if ($lamaran)
+                    @if ($lamaran->status == 'Terkirim')
+                        <button class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#modal-input-cv-{{ $data->id_lowongan_pekerjaan }}">
+                            <i class="bi bi-send me-1"></i>{{ $lamaran->status }}
+                        </button>
+                    @else
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-pesan-{{ $lamaran->id_lamaran }}">
+                            <i class="bi bi-envelope me-1"></i>{{ $lamaran->status }}
+                        </button>
+                        <x-modal.pesan id="{{ $lamaran->id_lamaran }}" title="Pesan Perusahaan" pesan="{{ $lamaran->pesan }}" />
+                    @endif
+                    @if ($lamaran->fileLamaran)
+                        @foreach ($lamaran->fileLamaran as $fileLamaran)
+                            <div id="path_file_pdf_{{ $data->id_lowongan_pekerjaan }}"
+                                data-path-pdf-{{ $data->id_lowongan_pekerjaan }}="{{ isset($fileLamaran->nama_file) ? asset('storage/tmp/files/' . $fileLamaran->nama_file) : null }}"
+                                class="d-none"></div>
+                        @endforeach
+                    @endif
                 @else
                     <button class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#modal-input-cv-{{ $data->id_lowongan_pekerjaan }}">

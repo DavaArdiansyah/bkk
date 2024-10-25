@@ -83,9 +83,9 @@ class LaporanController extends Controller
         return Carbon::createFromFormat('j F Y', $tanggalAkhir)->format('Y-m-d');
     }
 
-    public function detailALumniBekerja($periodeAwal, $periodeAkhir)
+    public function detailAlumniBekerja($periodeAwal, $periodeAkhir)
     {
-        $alumni = Alumni::all();
+        $alumni = Alumni::with('lamaran.loker.perusahaan')->get();
         $data = [];
 
         foreach ($alumni as $al) {
@@ -95,7 +95,7 @@ class LaporanController extends Controller
                 $tanggalLamaran = Carbon::parse($lamaran->waktu)->format('Y-m-d');
 
                 if ($tanggalLamaran >= $periodeAwal && $tanggalLamaran <= $periodeAkhir) {
-                    $namaPerusahaan = $lamaran->loker->perusahaan->nama;
+                    $namaPerusahaan = strtolower($lamaran->loker->perusahaan->nama);
 
                     if (!in_array($namaPerusahaan, $perusahaan)) {
                         $perusahaan[] = $namaPerusahaan;
@@ -103,7 +103,16 @@ class LaporanController extends Controller
                 }
             }
 
-            $namaPerusahaan = implode(', ', $perusahaan);
+            // berdasarkan tracer studi
+            // if ($al->status == 'Bekerja') {
+            //     $keteranganPerusahaan = strtolower($al->keterangan);
+            //     if (!in_array($keteranganPerusahaan, $perusahaan)) {
+            //         $perusahaan[] = $keteranganPerusahaan;
+            //     }
+            // }
+
+            $namaPerusahaan = implode(', ', array_map('ucwords', $perusahaan));
+
             if (!empty($namaPerusahaan)) {
                 $data[] = [
                     'nik' => $al->nik,

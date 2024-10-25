@@ -94,7 +94,26 @@ class AlumniController extends Controller
      */
     public function update(Request $request, Lamaran $lamaran)
     {
-        //
+        $namaFiles = $lamaran->fileLamaran->pluck('nama_file')->toArray();
+
+        foreach ($request->input('files') as $file) {
+            if (!in_array($file, $namaFiles)) {
+                FileLamaran::create([
+                    'id_lamaran' => $lamaran->id_lamaran,
+                    'nama_file' => $file,
+                ]);
+            }
+        }
+
+        foreach ($namaFiles as $namaFile) {
+            if (!in_array($namaFile, $request->input('files'))) {
+                FileLamaran::where('id_lamaran', $lamaran->id_lamaran)
+                    ->where('nama_file', $namaFile)
+                    ->delete();
+            }
+        }
+
+        return redirect()->back()->with(['status' => 'success', 'message' => 'Anda berhasil memperbaharui dokumen lamaran.']);
     }
 
     /**

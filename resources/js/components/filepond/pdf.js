@@ -13,8 +13,15 @@ let csrfToken = document.querySelector('meta[name="csrf-token"]') ?.getAttribute
 
 document.querySelectorAll(".filepond").forEach((inputElement) => {
     const idLoker = inputElement.dataset.id;
+    const existingFileUrlElements = document.querySelectorAll(`#path_file_pdf_${idLoker}`);
+    const existingFileUrls = Array.from(existingFileUrlElements).map(element =>
+        element.getAttribute(`data-path-pdf-${idLoker}`)
+    ).filter(url => url);
+
+    console.log(existingFileUrls);
+
     if (idLoker) {
-        FilePond.create(inputElement, {
+        const filePond = FilePond.create(inputElement, {
             acceptedFileTypes: ["application/pdf"],
             credits: null,
             maxFileSize: "2MB",
@@ -27,6 +34,10 @@ document.querySelectorAll(".filepond").forEach((inputElement) => {
                     },
                 },
             },
+        });
+
+        existingFileUrls.forEach(fileUrl => {
+            filePond.addFile(fileUrl);
         });
     }
 });

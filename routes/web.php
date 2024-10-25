@@ -58,7 +58,7 @@ Route::middleware(['auth', 'role:Admin BKK'])->name('admin.')->group(function ()
 
 Route::middleware(['auth', 'role:Alumni'])->name('alumni.')->group(function () {
     Route::resource('cari-lowongan', App\Http\Controllers\Halaman\CariLowonganController::class)->parameters(['cari-lowongan' => 'loker'])->only('index', 'show');
-    Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class)->only('index', 'store');
+    Route::resource('lamaran', App\Http\Controllers\Lamaran\AlumniController::class)->only('index', 'store', 'update');
     Route::prefix('profil')->name('profil.')->group(function () {
         Route::resource('tentang-saya', App\Http\Controllers\Profil\DeskripsiController::class)->parameters(['tentang-saya' => 'alumni'])->only('edit', 'update', 'destroy');
         Route::resource('riwayat-pendidikan-formal', App\Http\Controllers\Profil\PendidikanFormalController::class)->parameters(['riwayat-pendidikan-formal' => 'pendidikanFormal'])->except('index', 'show');

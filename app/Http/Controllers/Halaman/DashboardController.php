@@ -46,23 +46,46 @@ class DashboardController extends Controller
         ];
 
         $perusahaanData = Perusahaan::all()->map(function ($pr) use ($tahun) {
-            return [
-                'nama' => $pr->nama,
+            return (object) [
+                'nama' => strtolower(trim($pr->nama)),
                 'jumlahPekerja' => Loker::where('id_data_perusahaan', $pr->id_data_perusahaan)
                     ->whereHas('lamaran', fn($q) => $q->where('status', 'Diterima')->whereYear('waktu', $tahun))
                     ->count(),
             ];
-        })->sortByDesc('jumlahPekerja')->take(10)->values()->toArray();
+        })->sortByDesc('jumlahPekerja')->take(10)->values();
 
-        $namaPerusahaanTerbatas = array_column($perusahaanData, 'nama');
-        $jumlahPekerjaTerbatas = array_column($perusahaanData, 'jumlahPekerja');
+        // Data tracer studi berdasarkan alumni yang bekerja
+        // });
+
+        // $tracerStudi = Alumni::where('status', 'Bekerja')->get()->map(function ($al) {
+        //     return (object) [
+        //         'nama' => strtolower(trim($al->keterangan)),
+        //         'jumlahPekerja' => 1,
+        //     ];
+        // });
+
+        // $mergedData = $perusahaanData->concat($tracerStudi)
+        //     ->groupBy('nama')
+        //     ->map(function ($group) {
+        //         return (object) [
+        //             'nama' => ucfirst($group->first()->nama),
+        //             'jumlahPekerja' => $group->sum('jumlahPekerja'),
+        //         ];
+        //     })->sortByDesc('jumlahPekerja')->take(10)->values();
+
+        // $namaPerusahaanTerbatas = $mergedData->pluck('nama')->toArray();
+        // $jumlahPekerjaTerbatas = $mergedData->pluck('jumlahPekerja')->toArray();
+
+        // end data tracer studi berdasarkan alumni yang bekerja
+        $namaPerusahaanTerbatas = $perusahaanData->pluck('nama')->toArray();
+        $jumlahPekerjaTerbatas = $perusahaanData->pluck('jumlahPekerja')->toArray();
 
         $chartDetailAlumniBekerja = (new Chart)
             ->setType('bar')
             ->setWidth('100%')
             ->setHeight(400)
             ->setLabels($namaPerusahaanTerbatas)
-            ->setDataset('Jumlah Alumni Yang Bekerja', 'bar', $jumlahPekerjaTerbatas);
+            ->setDataset('Jumlah Alumni Yang Diterima', 'bar', $jumlahPekerjaTerbatas);
 
         $jurusan = ['AK', 'BR', 'DKV', 'MLOG', 'MP', 'RPL', 'TKJ'];
         $status = ['Bekerja', 'Kuliah', 'Wirausaha', 'Tidak Bekerja'];
@@ -93,6 +116,7 @@ class DashboardController extends Controller
 
         return array_merge($statusCounts, ['chart' => $chart]);
     }
+
 
     public function perusahaan($tahun)
     {

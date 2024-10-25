@@ -52,7 +52,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-12 col-md-9">
-                            <h4>Alumni Yang Bekerja Di Perusahaan Tertentu di Tahun {{ $tahun }}</h4>
+                            <h4>Alumni Bekerja di Perusahaan Berdasarkan Lamaran Tahun {{ $tahun }}</h4>
                         </div>
                         <div class="col-12 col-md-3">
                             <form action="{{ route('dashboard') }}" method="GET" id="periode">

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lamaran extends Model
 {
@@ -26,5 +27,9 @@ class Lamaran extends Model
 
     public function alumni () : BelongsTo {
         return $this->belongsTo(Alumni::class, 'nik');
+    }
+
+    public function fileLamaran () : HasMany {
+        return $this->hasMany(FileLamaran::class, 'id_lamaran');
     }
 }

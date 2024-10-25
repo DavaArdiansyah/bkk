@@ -37,26 +37,32 @@
                         @method('PUT')
                         <div class="form-group mandatory">
                             <div id="data-kegiatan-sekarang" data-kegiatan-sekarang="{{ $alumni->status }}"></div>
-                            <label for="kegiatan-sekarang" class="form-label fw-bold text-secondary">Kegiatan Sekarang</label>
+                            <label for="kegiatan-sekarang" class="form-label fw-bold text-secondary">Kegiatan
+                                Sekarang</label>
                             <select name="kegiatan-sekarang" id="kegiatan-sekarang" class="form-select border-primary">
                                 <option class="d-none" disabled selected>Pilih Status Yang Sesuai Dengan Anda</option>
-                                <option value="Bekerja" {{ old('kegiatan-sekarang', $alumni->status) == 'Bekerja' ? 'selected' : null }}>Bekerja</option>
-                                <option value="Kuliah" {{ old('kegiatan-sekarang', $alumni->status) == 'Kuliah' ? 'selected' : null }}>Kuliah</option>
-                                <option value="Wirausaha" {{ old('kegiatan-sekarang', $alumni->status) == 'Wirausaha' ? 'selected' : null }}>Wirausaha</option>
-                                <option value="Tidak Bekerja" {{ old('kegiatan-sekarang', $alumni->status) == 'Tidak Bekerja' ? 'selected' : null }}>Tidak Bekerja</option>
+                                <option value="Bekerja"
+                                    {{ old('kegiatan-sekarang', $alumni->status) == 'Bekerja' ? 'selected' : null }}>Bekerja
+                                </option>
+                                <option value="Kuliah"
+                                    {{ old('kegiatan-sekarang', $alumni->status) == 'Kuliah' ? 'selected' : null }}>Kuliah
+                                </option>
+                                <option value="Wirausaha"
+                                    {{ old('kegiatan-sekarang', $alumni->status) == 'Wirausaha' ? 'selected' : null }}>
+                                    Wirausaha</option>
+                                <option value="Tidak Bekerja"
+                                    {{ old('kegiatan-sekarang', $alumni->status) == 'Tidak Bekerja' ? 'selected' : null }}>
+                                    Tidak Bekerja</option>
                             </select>
                         </div>
-                        <div class="form-group mandatory">
-                            <div class="keterangan d-none">
-                                <label for="keterangan" class="form-label fw-bold text-secondary">Keterangan</label>
-                                <textarea class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" rows="5" name="keterangan"
-                                    placeholder="Masukkan keterangan kegiatan sekarang...">{{ old('keterangan', isset($alumni->keterangan) ? $alumni->keterangan : null) }}</textarea>
-                                @error('keterangan')
-                                    <span class="invalid-feedback d-block mt-2" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                        <div class="keterangan d-none">
+                            <x-input type="text" name="keterangan" label="Keterangan" placeholder="Keterangan"
+                                value="{{ $alumni->keterangan ?? null }}" class="mandatory" />
+                            @error('keterangan')
+                                <span class="invalid-feedback d-block mt-2" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-save me-2"></i> Simpan
