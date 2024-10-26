@@ -88,26 +88,22 @@ class DataPerusahaanController extends Controller
 
     public function store(StoreRequest $request)
     {
-        try {
-            $perusahaan = Perusahaan::create([
-                'nama' => session('nama'),
-                'bidang_usaha' => session('bidang-usaha'),
-                'no_telepon' => session('no-telepon'),
-                'alamat' => session('alamat'),
-                'nama_file_logo' => session('nama-file-logo'),
-            ]);
+        $user = User::create([
+            'username' => $request->input('username'),
+            'password' => Hash::make($request->input('password')),
+            'role' => 'Perusahaan',
+        ]);
 
-            session()->forget(['nama', 'bidang-usaha', 'no-telepon', 'alamat', 'nama-file-logo']);
+        Perusahaan::create([
+            'username' => $user->username,
+            'nama' => session('nama'),
+            'bidang_usaha' => session('bidang-usaha'),
+            'no_telepon' => session('no-telepon'),
+            'alamat' => session('alamat'),
+            'nama_file_logo' => session('nama-file-logo'),
+        ]);
 
-            User::create([
-                'username' => $request->input('username'),
-                'password' => Hash::make($request->input('password')),
-                'role' => 'Perusahaan',
-                'id_data_perusahaan' => $perusahaan->id_data_perusahaan,
-            ]);
-        } catch (\Exception) {
-            return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'error', 'message' => 'Harap tidak melewati proses yang ada.']);
-        }
+        session()->forget(['nama', 'bidang-usaha', 'no-telepon', 'alamat', 'nama-file-logo']);
 
         return redirect()->route('admin.data-perusahaan.create')->with(['status' => 'success', 'message' => 'Data berhasil ditambahkan.']);
     }
