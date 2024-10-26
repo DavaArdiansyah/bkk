@@ -4,7 +4,7 @@
     $fileRoute = 'profil';
 @endphp
 @section('assets')
-    @vite(['resources/js/components/sweetalert2/master'])
+    @vite(['resources/js/components/sweetalert2'])
 @endsection
 
 @section('content')
