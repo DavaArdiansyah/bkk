@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
                 'nullable',
                 "unique:users,username," . $this->route('user')->username . ',username',
                 function ($attribute, $value, $fail) {
-                    if (!filter_var($value, FILTER_VALIDATE_EMAIL) && !preg_match('/^[0-9]{16}$/', $value)) {
+                    if (!filter_var($value, FILTER_VALIDATE_EMAIL) && !preg_match('/^[0-9]{10}$/', $value)) {
                         $fail('Username harus berupa NIK (16 digit angka) atau alamat email yang valid.');
                     }
                 },
