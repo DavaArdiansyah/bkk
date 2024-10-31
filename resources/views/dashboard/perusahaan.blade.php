@@ -14,26 +14,6 @@
     </nav>
 
     <section class="row">
-        <div class="col-12 col-md-6">
-            <a href="{{ route('perusahaan.info-lowongan.index') }}">
-                <x-statistics title="Total Lowongan" icon="person-fill" data="{{ $data['loker'] }}" />
-            </a>
-        </div>
-        <div class="col-12 col-md-6">
-            <a href="{{ route('perusahaan.info-lowongan.index') }}">
-                <x-statistics title="Lowongan Yang Dipublikasi" icon="person-fill" data="{{ $data['lokerPublikasi'] }}" />
-            </a>
-        </div>
-        <div class="col-md-6 col-12">
-            <a href="{{ route('perusahaan.lamaran.terbaru') }}">
-                <x-statistics title="Total Lamaran" icon="person-fill" data="{{ $data['total-lamaran'] }}" />
-            </a>
-        </div>
-        <div class="col-md-6 col-12">
-            <a href="{{ route('perusahaan.lamaran.terbaru') }}">
-                <x-statistics title="Lamaran Terbaru" icon="person-fill" data="{{ $data['lamaran'] }}" />
-            </a>
-        </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
@@ -57,6 +37,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <a href="{{ route('perusahaan.info-lowongan.index') }}">
+                <x-statistics title="Total Lowongan" icon="person-fill" data="{{ $data['loker'] }}" />
+            </a>
+        </div>
+        <div class="col-12 col-md-6">
+            <a href="{{ route('perusahaan.info-lowongan.index') }}">
+                <x-statistics title="Lowongan Yang Dipublikasi" icon="person-fill" data="{{ $data['lokerPublikasi'] }}" />
+            </a>
+        </div>
+        <div class="col-md-6 col-12">
+            <a href="{{ route('perusahaan.lamaran.terbaru') }}">
+                <x-statistics title="Total Lamaran" icon="person-fill" data="{{ $data['total-lamaran'] }}" />
+            </a>
+        </div>
+        <div class="col-md-6 col-12">
+            <a href="{{ route('perusahaan.lamaran.terbaru') }}">
+                <x-statistics title="Lamaran Terbaru" icon="person-fill" data="{{ $data['lamaran'] }}" />
+            </a>
         </div>
         <div class="col-12">
             <div class="card">
