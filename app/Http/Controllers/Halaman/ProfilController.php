@@ -14,9 +14,11 @@ use App\Models\PendidikanNonFormal;
 use App\Models\Perusahaan;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\FuncCall;
 
 class ProfilController extends Controller
 {
@@ -75,6 +77,7 @@ class ProfilController extends Controller
             $user->alumni->alamat = $this->wilayahController->alamatLengkap($request);
             $user->alumni->kontak = $request->input('kontak');
         } elseif ($user->role == 'Perusahaan') {
+            $user->perusahaan->nama = $request->input('nama');
             $user->perusahaan->alamat = $this->wilayahController->alamatLengkap($request);
             $user->perusahaan->bidang_usaha = $request->input('bidang-usaha');
             $user->perusahaan->no_telepon = $request->input('no-telepon');
@@ -90,7 +93,8 @@ class ProfilController extends Controller
             $user->password = Hash::make($request->input('password-baru'));
         }
 
-        if (!$user->isDirty() && !($user->alumni && $user->alumni->isDirty()) && !($user->perusahaan && $user->perusahaan->isDirty()) && !($user->admin && $user->admin->isDirty())
+        if (
+            !$user->isDirty() && !($user->alumni && $user->alumni->isDirty()) && !($user->perusahaan && $user->perusahaan->isDirty()) && !($user->admin && $user->admin->isDirty())
         ) {
             return redirect()->back()->with(['status' => 'info', 'message' => 'Tidak ada data yang diperbaharui.']);
         }
@@ -122,8 +126,12 @@ class ProfilController extends Controller
             ->with(['status' => 'success', 'message' => 'Data berhasil diperbaharui.']);
     }
 
+    public function updateAvatar(Request $request, User $user)
+    {
+        return $this->avatar($user, $request);
+    }
 
-    public function avatar($data, $request)
+    public function avatar(User $data, Request $request)
     {
         if ($data->role == 'Alumni') {
             if ($data->alumni->nama_file_foto === $request->input('file')) {

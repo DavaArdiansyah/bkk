@@ -17,16 +17,15 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            while (true) {
-                $loker = Loker::where('tanggal_akhir', '<', Carbon::now())
-                    ->where('status', 'Dipublikasi')->get();
-                foreach ($loker as $lk) {
-                    $lk->update(['status' => 'Tidak Dipublikasi']);
-                    Storage::put("public/files/" . $lk->id_lowongan_pekerjaan . $lk->perusahaan->nama . '.txt', 'Waktu Lowongan Sudah Kadaluarsa');
-                }
-                sleep(1);
+            $loker = Loker::where('tanggal_akhir', '<', Carbon::now())->where('status', 'Dipublikasi')->get();
+            foreach ($loker as $lk) {
+                $lk->update(['status' => 'Tidak Dipublikasi']);
+                Storage::put("public/files/" . $lk->id_lowongan_pekerjaan . $lk->perusahaan->nama . '.txt', 'Waktu Lowongan Sudah Kadaluarsa');
             }
-        })->everyMinute();
+            // while (true) {
+            //     sleep(1);
+            // }
+        })->everySecond();
     }
 
     /**

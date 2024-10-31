@@ -29,6 +29,7 @@ Route::get('profil', [App\Http\Controllers\Halaman\ProfilController::class, 'ind
 Route::prefix('profil')->name('profil.')->group(function () {
     Route::get('edit/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'edit'])->name('edit');
     Route::put('update/{user}', [App\Http\Controllers\Halaman\ProfilController::class, 'update'])->name('update');
+    Route::put('update-avatar/{data}', [App\Http\Controllers\Halaman\ProfilController::class, 'avatar'])->name('updateAvatar');
 });
 
 Route::get('/get-kota/{provinsiId}', [App\Http\Controllers\WilayahController::class, 'kota']);

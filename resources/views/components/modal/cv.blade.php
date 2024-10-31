@@ -12,8 +12,7 @@
                        @method('PUT')
                    @endif
                    <div class="modal-body">
-                       <p>JIka Anda Tidak Mengupload File Tambahan Kami Hanya Akan Mengirimkan Data Anda Yang Ada Pada
-                           Bagian Profil</p>
+                       <p>Jika Anda tidak mengunggah file tambahan, kami hanya akan mengirimkan data Anda yang ada di bagian profil.</p>
                        <input type="hidden" name="id-lowongan-pekerjaan" value="{{ $id }}">
                        <input type="file" class="filepond" name="files[]" data-id="{{ $id }}" multiple>
                    </div>

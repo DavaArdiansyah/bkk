@@ -26,7 +26,7 @@
                             <img src="{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : ($admin->jenis_kelamin == 'Laki Laki' ? asset('assets/static/images/faces/2.jpg') : asset('assets/static/images/faces/1.jpg')) }}"
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
-                        <x-modal.avatar id="{{ $admin->nip }}" title="Perbaharui Avatar Anda" action="{{ route('profil.update', $admin->user->username) }}" for="Admin BKK" />
+                        <x-modal.avatar id="{{ $admin->nip }}" title="Perbaharui Avatar Anda" action="{{ route('profil.updateAvatar', $admin->user->username) }}" for="Admin BKK" />
                         <div id="path_file_image" data-path-image="{{ isset($admin->nama_file_foto) ? asset('storage/images/' . $admin->nama_file_foto) : null }}" class="d-none"></div>
                     </div>
                 </div>

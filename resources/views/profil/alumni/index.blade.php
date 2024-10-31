@@ -29,7 +29,7 @@
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
                         <x-modal.avatar id="{{ $alumni->nik }}" title="Perbaharui Foto Profil"
-                            action="{{ route('profil.update', $alumni->user->username) }}" for="Alumni" />
+                            action="{{ route('profil.updateAvatar', $alumni->user->username) }}" for="Alumni" />
                             <div id="path_file_image" data-path-image="{{ isset($alumni->nama_file_foto) ? asset('storage/images/' . $alumni->nama_file_foto) : null }}" class="d-none"></div>
                         {{-- <x-edit-foto id="{{ $alumni->nik }}" /> --}}
                     </div>

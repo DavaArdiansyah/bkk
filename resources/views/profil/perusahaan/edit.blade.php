@@ -37,7 +37,11 @@
                 <div id="data-kelurahan" class="d-none"
                     data-kelurahan="{{ isset($alamat['kelurahan']) ? $alamat['kelurahan'] : null }}"></div>
                 <div class="row">
-                    <div class="mb-3 col-md-6 col-12">
+                    <div class="col-12">
+                        <x-input type="text" name="nama" label="Nama Perusahaan" placeholder="Nama Perusahaan"
+                            class="mandatory" value="{{ $user->perusahaan->nama }}" />
+                    </div>
+                    <div class="col-md-6 col-12">
                         <x-input type="email" name="username" label="Username" placeholder="Username"
                             value="{{ $user->username }}" class="mandatory" required="true" />
                     </div>

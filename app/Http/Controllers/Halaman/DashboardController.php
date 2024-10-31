@@ -117,21 +117,20 @@ class DashboardController extends Controller
         return array_merge($statusCounts, ['chart' => $chart]);
     }
 
-
     public function perusahaan($tahun)
     {
         $perusahaan = Perusahaan::find(Auth::user()->perusahaan->id_data_perusahaan);
 
-        $lokerCount = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->count();
+        $lokerCount = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)->whereYear('waktu', $tahun)->count();
         $lokerPublikasiCount = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)
-            ->where('status', 'Dipublikasi')->count();
+            ->where('status', 'Dipublikasi')->whereYear('waktu', $tahun)->count();
 
         $lokerIds = Loker::where('id_data_perusahaan', $perusahaan->id_data_perusahaan)
             ->pluck('id_lowongan_pekerjaan')->toArray();
 
-        $totalLamaran = Lamaran::whereIn('id_lowongan_pekerjaan', $lokerIds)->count();
+        $totalLamaran = Lamaran::whereIn('id_lowongan_pekerjaan', $lokerIds)->whereYear('waktu', $tahun)->count();
         $lamaranCount = Lamaran::whereIn('status', ['Terkirim'])
-            ->whereIn('id_lowongan_pekerjaan', $lokerIds)
+            ->whereIn('id_lowongan_pekerjaan', $lokerIds)->whereYear('waktu', $tahun)
             ->count();
 
         $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -236,7 +235,7 @@ class DashboardController extends Controller
                         $jumlahDiterimaPerLowongan[$lowongan->jabatan] = Lamaran::where('id_lowongan_pekerjaan', $lowongan->id_lowongan_pekerjaan)
                             ->whereYear('waktu', Carbon::now())
                             ->whereMonth('waktu', $month)
-                            ->where('status', 'Diterima')
+                            ->whereIn('status', ['Terkirim', 'Lolos Ketahap Selanjutnya'])
                             ->count();
                     }
                 }
@@ -248,7 +247,7 @@ class DashboardController extends Controller
                     ->setWidth('100%')
                     ->setHeight(400)
                     ->setLabels($jabatanLowonganList)
-                    ->setDataset('Jumlah Lamaran Diterima', 'bar', array_values($jumlahDiterimaPerLowongan));
+                    ->setDataset('Jumlah Pelamar', 'bar', array_values($jumlahDiterimaPerLowongan));
             }
         }
 

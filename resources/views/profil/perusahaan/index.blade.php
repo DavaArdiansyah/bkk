@@ -26,7 +26,7 @@
                                 class="img-fluid rounded-circle" alt="Avatar">
                         </a>
                         <x-modal.avatar id="{{ $perusahaan->id_data_perusahaan }}" title="Perbaharui Logo Perusahaan"
-                            action="{{ route('profil.update', Auth::user()->username) }}" for="Perusahaan" />
+                            action="{{ route('profil.updateAvatar', Auth::user()->username) }}" for="Perusahaan" />
                         <div id="path_file_image" data-path-image="{{ isset($perusahaan->nama_file_logo) ? asset('storage/images/' . $perusahaan->nama_file_logo) : null }}" class="d-none"></div>
                     </div>
                 </div>

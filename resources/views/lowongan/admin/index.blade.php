@@ -25,9 +25,9 @@
                         <th class="text-start">NAMA PERUSAHAAN</th>
                         <th class="text-start">POSISI</th>
                         <th class="text-start">STATUS PUBLIKASI</th>
-                        {{-- <th class="text-start">BATAS LOWONGAN</th> --}}
                         <th class="text-start">AKSI</th>
                         <th class="text-start">WAKTU PENGAJUAN</th>
+                        <th class="text-start">BATAS LOWONGAN</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,8 @@
                                 </form> --}}
                                 </div>
                             </td>
-                            <td class="text-start">{{$lk->waktu->format('j M Y H:i')}}</td>
+                            <td class="text-start">{{$lk->waktu->format('j M Y')}}</td>
+                            <td class="text-start">{{$lk->tanggal_akhir}}</td>
                             {{-- <td class="text-start">{{$lk->updated_at->format('Y-m-d')}}</td> --}}
                         </tr>
                     @endforeach
